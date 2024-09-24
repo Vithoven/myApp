@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Perfil de Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="text-align: center; margin: 20px;">
+    <img [src]="profileImage" alt="Foto de Perfil" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;" />
+    <br />
+    <ion-button expand="full" color="tertiary" (click)="changeProfilePicture()">Cambiar Foto de Perfil</ion-button>
+  </div>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Nombre</ion-label>
+      <ion-text>{{ nombre }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Apellidos</ion-label>
+      <ion-text>{{ apellidos }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Correo</ion-label>
+      <ion-text>{{ correo }}</ion-text>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full" color="tertiary" routerLink="/home">Volver</ion-button>
+</ion-content>
