@@ -32,6 +32,10 @@ const routes: Routes = [
     path: 'crear',
     loadChildren: () => import('./pages/crear/crear.module').then( m => m.CrearPageModule)
   },
+  {
+    path: 'recover',
+    loadChildren: () => import('./pages/recover/recover.module').then( m => m.RecoverPageModule)
+  },
 ];
 
 @NgModule({
