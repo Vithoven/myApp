@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController } from '@ionic/angular';  // Importar AlertController
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,7 @@ export class HomePage {
 
   async confirmLogout() {
     const alert = await this.alertController.create({
-      header: 'Confirmar Cierre de Sesión',
+      header: 'Confirmar cierre de sesión',
       message: '¿Desea cerrar sesión?',
       buttons: [
         {
