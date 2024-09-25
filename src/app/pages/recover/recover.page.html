@@ -1,13 +1,16 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>recover</ion-title>
+    <ion-title>Recuperar Contraseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">recover</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="floating">Ingresa tu correo</ion-label>
+    <ion-input type="email" required></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" color="primary">Recuperar</ion-button>
+
+  <ion-button expand="full" color="tertiary" routerLink="/login">Volver</ion-button>
 </ion-content>
