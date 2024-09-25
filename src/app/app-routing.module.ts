@@ -28,6 +28,10 @@ const routes: Routes = [
     path: 'scan',
     loadChildren: () => import('./pages/scan/scan.module').then( m => m.ScanPageModule)
   },
+  {
+    path: 'crear',
+    loadChildren: () => import('./pages/crear/crear.module').then( m => m.CrearPageModule)
+  },
 ];
 
 @NgModule({

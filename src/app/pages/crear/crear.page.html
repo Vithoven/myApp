@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Crear cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="onSubmit()">
+    <div class="profile-pic-container">
+      <ion-avatar>
+        <img src="assets/profile-placeholder.png" alt="Foto de perfil" />
+      </ion-avatar>
+      <ion-button expand="block" (click)="uploadPicture()">Subir Foto</ion-button>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Nombres</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Apellidos</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-input type="email" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Repetir Contraseña</ion-label>
+      <ion-input type="password" required></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" color="primary" routerLink="/login">Crear</ion-button>
+  </form>
+  <ion-button expand="full" color="tertiary" routerLink="/home">Volver</ion-button>
+</ion-content>
