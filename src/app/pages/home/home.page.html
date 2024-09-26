@@ -1,21 +1,13 @@
 <!--Header-->
-<ion-header>
-  <ion-toolbar color="dark" class="yellow-toolbar">
-    <ion-title>Menú principal</ion-title>
-    <ion-buttons slot="end">
-      <ion-button [routerLink]="['/user']">
-        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-encabezado [titulo]="'Menú Principal'"></app-encabezado>
 
 <ion-content class="ion-padding ion-text-center">
 
   <!--Logo de app-->
   <div class="ion-padding logo">
-    <img class="lpad rpad" src="assets\img\resgistrapp.png">
+    <img class="lpad rpad" src="assets\icon\logo_registrapp.png">  
   </div>
+  <p>Bienvenido a RegistrAPP!</p>
 
   <!--Opciones de menú principal-->
   <ion-content class="white-content ion-padding">

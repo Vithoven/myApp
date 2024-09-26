@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, importProvidersFrom } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { EncabezadoComponent } from 'src/app/components/encabezado/encabezado.component';
 
 @Component({
   selector: 'app-home',
