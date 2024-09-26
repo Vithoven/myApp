@@ -1,0 +1,33 @@
+ion-content {
+    --background: #012C56;
+    padding: 20px; // Espaciado interno
+}
+
+.container {
+    background-color: white; // Fondo blanco
+    border-radius: 8px; // Bordes redondeados
+    border-color: gray;
+    padding: 20px; // Espaciado interno
+    margin: 40px auto; // Margen automático para centrar
+    max-width: 400px; // Ancho máximo del contenedor
+  }
+
+ion-item {
+    padding-bottom: 20px;
+}
+
+.profile-pic-container {
+    display: flex;
+    align-items: center; // Alinear verticalmente
+    justify-content: center; // Centrar horizontalmente
+    margin-bottom: 20px; // Espacio inferior
+  
+    ion-avatar {
+      margin-right: 10px; // Espacio entre el avatar y el botón
+      --border-radius: 4px;
+    }
+  
+    .upload-button {
+      min-width: 120px; // Ajusta el ancho mínimo del botón si es necesario
+    }
+  }

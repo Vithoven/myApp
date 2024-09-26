@@ -36,34 +36,40 @@
 
 <ion-content class="ion-padding ion-text-center">
 
-  
-
   <!-- Contenedor blanco -->
   <div class="container">
 
-      <!-- Logo -->
+    <!-- Logo -->
     <div class="logo">
       <img class="ion-padding" src="assets/img/resgistrapp.png">
     </div>
 
     <!-- Campos de Inicio de Sesión -->
-    <div class="form flex">
-      <ion-item lines="none" class="">
-        <ion-input fill="outline" placeholder="Ingresa tu correo institucional"></ion-input>
-      </ion-item>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form flex">
+        <ion-item lines="none">
+          <ion-input fill="outline" placeholder="Ingresa tu correo institucional" formControlName="email"></ion-input>
+        </ion-item>
+        <div class="ion-padding-bottom" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          <small *ngIf="loginForm.get('email')?.hasError('required')">El correo es requerido.</small>
+          <small *ngIf="loginForm.get('email')?.hasError('email')">El formato del correo es incorrecto.</small>
+          <small *ngIf="loginForm.get('email')?.hasError('domain')">El correo no está asociado a la institución</small>
+        </div>
 
-      <ion-item lines="none">
-        <ion-input fill="outline" placeholder="Ingresa tu contraseña" type="password"></ion-input>
-      </ion-item>
-    </div>
+        <ion-item lines="none">
+          <ion-input fill="outline" placeholder="Ingresa tu contraseña" type="password" formControlName="password"></ion-input>
+        </ion-item>
+      </div>
 
-    <ion-button color="dark" routerLink="/home" expand="block">Iniciar Sesión</ion-button>
-    <ion-button fill="clear" size="small" routerLink="/recover">Olvidé mi Contraseña</ion-button>
-    <!-- Texto con enlace para crear cuenta -->
-    <div class="contenedor-registro">
-      <span>Usuario nuevo? </span>
-      <ion-button fill="clear" routerLink="/crear" color="tertiary" style="margin-left: 5px;">Registrate</ion-button>
-    </div>
+      <ion-button color="dark" type="submit" expand="block" [disabled]="loginForm.invalid" routerLink="/home" >Iniciar Sesión</ion-button>
+      <ion-button fill="clear" size="small" routerLink="/recover">Olvidé mi Contraseña</ion-button>
+
+      <!-- Texto con enlace para crear cuenta -->
+      <div class="contenedor-registro">
+        <span>Usuario nuevo? </span>
+        <ion-button fill="clear" routerLink="/crear" color="tertiary" style="margin-left: 5px;">Registrate</ion-button>
+      </div>
+    </form>
   </div>
 
 </ion-content>
