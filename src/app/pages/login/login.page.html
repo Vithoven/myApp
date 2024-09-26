@@ -1,23 +1,69 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Iniciar Sesión</ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- 
+<ion-content class="ion-padding ion-text-center"></ion-content>
 
-<ion-content class="ion-padding">
-  <ion-button expand="full" color="tertiary" routerLink="/crear">Crear Cuenta</ion-button>
+  <div class="logo">
+    <img class="lpad rpad" src="assets\img\resgistrapp.png">
+  </div>
+  
+  --Formulario inicio de sesión--
+  <div class="form flex ion-padding" [formGroup]="form">
+    <ion-item lines="none">
+      <ion-input formControlName="email" placeholder="Ingresa tu correo institucional" required ></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Correo institucional</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
+    --Mensaje de error para el email--
+    <div class="msgError" *ngIf="submitted && emailControl.invalid">
+      <p *ngIf="form.get('email')?.hasError('required')">El correo es obligatorio.</p>
+      <p *ngIf="emailControl.hasError('domainInvalid')">Ingresa un correo institucional valido</p>
+    </div>
 
-  <ion-item>
-    <ion-label position="floating">Contraseña</ion-label>
-    <ion-input type="password"></ion-input>
-  </ion-item>
 
-  <ion-button fill="clear" size="small" routerLink="/recover">Recuperar Contraseña</ion-button>
-  <ion-button routerLink="/home" expand="full">Iniciar Sesión</ion-button>
-  <ion-button expand="full" color="tertiary" routerLink="/home">Volver</ion-button>
+    <ion-item lines="none">
+      <ion-input formControlName="password" placeholder="Ingresa tu contraseña" type="password"></ion-input>
+    </ion-item>
+
+    --Mensaje de error para la contraseña--
+    <div class="msgError" *ngIf="submitted && passwordControl.invalid">
+      <p *ngIf="passwordControl.hasError('required')">La contraseña es obligatoria.</p>
+    </div>
+
+    <ion-button color="dark" expand="block" (click)="submitForm()">Iniciar Sesión</ion-button>
+  </div>
+  <ion-button fill="clear">Olvidé mi contraseña</ion-button>
+</ion-content> -->
+
+
+
+<ion-content class="ion-padding ion-text-center">
+
+  
+
+  <!-- Contenedor blanco -->
+  <div class="container">
+
+      <!-- Logo -->
+    <div class="logo">
+      <img class="ion-padding" src="assets/img/resgistrapp.png">
+    </div>
+
+    <!-- Campos de Inicio de Sesión -->
+    <div class="form flex">
+      <ion-item lines="none" class="">
+        <ion-input fill="outline" placeholder="Ingresa tu correo institucional"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-input fill="outline" placeholder="Ingresa tu contraseña" type="password"></ion-input>
+      </ion-item>
+    </div>
+
+    <ion-button color="dark" routerLink="/home" expand="block">Iniciar Sesión</ion-button>
+    <ion-button fill="clear" size="small" routerLink="/recover">Olvidé mi Contraseña</ion-button>
+    <!-- Texto con enlace para crear cuenta -->
+    <div class="contenedor-registro">
+      <span>Usuario nuevo? </span>
+      <ion-button fill="clear" routerLink="/crear" color="tertiary" style="margin-left: 5px;">Registrate</ion-button>
+    </div>
+  </div>
+
 </ion-content>
