@@ -3,7 +3,7 @@
 
   <!-- Contenedor Blanco -->
   <div class="container">
-    <form (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" [formGroup]="createUserForm">
 
       <!-- Espacio para foto de perfil -->
       <div class="profile-pic-container">
@@ -15,23 +15,23 @@
 
       <!-- Campos de registro -->
       <ion-item lines="none">
-        <ion-input fill="outline" type="text" placeholder="Nombres" required></ion-input>
+        <ion-input formControlName="nombres" fill="outline" type="text" placeholder="Nombres" required></ion-input>
       </ion-item>
 
       <ion-item lines="none">
-        <ion-input fill="outline" type="text" placeholder="Apellidos" required></ion-input>
+        <ion-input formControlName="apellidos" fill="outline" type="text" placeholder="Apellidos" required></ion-input>
       </ion-item>
 
       <ion-item lines="none">
-        <ion-input fill="outline" type="email" placeholder="Correo Institucional" required></ion-input>
+        <ion-input formControlName="correo" fill="outline" type="email" placeholder="Correo Institucional" required></ion-input>
       </ion-item>
 
       <ion-item lines="none">
-        <ion-input fill="outline" type="password" placeholder="Contraseña" required></ion-input>
+        <ion-input formControlName="password" fill="outline" type="password" placeholder="Contraseña" required></ion-input>
       </ion-item>
 
       <ion-item lines="none">
-        <ion-input fill="outline" type="password" placeholder="Repetir contraseña" required></ion-input>
+        <ion-input formControlName="confirmPassword" fill="outline" type="password" placeholder="Repetir contraseña" required></ion-input>
       </ion-item>
 
       <ion-button color="dark" expand="block" type="submit">Registrarme</ion-button>
