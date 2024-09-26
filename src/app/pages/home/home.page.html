@@ -1,5 +1,6 @@
+<!--Header-->
 <ion-header>
-  <ion-toolbar class="yellow-toolbar">
+  <ion-toolbar color="dark" class="yellow-toolbar">
     <ion-title>Menú principal</ion-title>
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/user']">
@@ -9,11 +10,21 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="white-content">
-  <ion-list>
-    <ion-item button [routerLink]="['/login']">Iniciar Sesión</ion-item>
-    <ion-item button [routerLink]="['/confi']">Ajustes</ion-item>
-    <ion-item button [routerLink]="['/scan']">Escanear Código QR</ion-item>
-    <ion-item button (click)="confirmLogout()">Cerrar Sesión</ion-item>
-  </ion-list>
+<ion-content class="ion-padding ion-text-center">
+
+  <!--Logo de app-->
+  <div class="ion-padding logo">
+    <img class="lpad rpad" src="assets\img\resgistrapp.png">
+  </div>
+
+  <!--Opciones de menú principal-->
+  <ion-content class="white-content ion-padding">
+    <ion-list style="padding-bottom: 50px;">
+      <ion-item button color="dark" [routerLink]="['/login']">Iniciar Sesión</ion-item>
+      <ion-item button color="dark" [routerLink]="['/confi']">Ajustes</ion-item>
+      <ion-item button color="dark" [routerLink]="['/scan']">Escanear Código QR</ion-item>
+      <ion-item button color="dark" (click)="confirmLogout()">Cerrar Sesión</ion-item>
+    </ion-list>
+  </ion-content>
+
 </ion-content>
