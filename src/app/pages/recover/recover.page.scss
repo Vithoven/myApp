@@ -1,0 +1,26 @@
+ion-content {
+    --background: #012C56;
+    padding: 20px; // Espaciado interno
+}
+
+.container {
+    background-color: white; // Fondo blanco
+    border-radius: 8px; // Bordes redondeados
+    border-color: gray;
+    padding: 20px; // Espaciado interno
+    margin: 80px auto; // Margen automático para centrar
+    max-width: 400px; // Ancho máximo del contenedor
+}
+
+.container img{
+    text-align: center;
+}
+
+.image-container img {
+    width: 70%; // Ajusta el tamaño de la imagen según lo necesites
+    max-width: 200px; // Limitar el tamaño máximo
+}
+
+ion-item {
+    padding-bottom: 20px;
+}

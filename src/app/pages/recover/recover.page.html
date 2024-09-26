@@ -1,16 +1,28 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Recuperar Contraseña</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding ion-text-center" style="background-color: #012C56;"> <!-- Fondo azul -->
 
-<ion-content class="ion-padding">
-  <ion-item>
-    <ion-label position="floating">Ingresa tu correo</ion-label>
-    <ion-input type="email" required></ion-input>
-  </ion-item>
+  <!-- Contenedor blanco -->
+  <div class="container">
+    <div class="image-container">
+      <img src="assets/img/candadofinal.png" alt="Candado">
+      <h2 class="recovery-text">Recupera tu Contraseña</h2>
+    </div>
 
-  <ion-button expand="full" color="primary">Recuperar</ion-button>
+    <form [formGroup]="recoveryForm" (ngSubmit)="onSubmit()">
+      <ion-item lines="none">
+        <ion-input 
+          fill="outline" 
+          color="dark" 
+          type="email" 
+          placeholder="Ingresa tu correo" 
+          formControlName="email" 
+          required>
+        </ion-input>
+      </ion-item>
 
-  <ion-button expand="full" color="tertiary" routerLink="/login">Volver</ion-button>
+      <ion-button color="dark" expand="block" type="submit" [disabled]="!recoveryForm.valid">Recuperar</ion-button>
+    </form>
+
+    <ion-button expand="block" fill="clear" routerLink="/login">Atrás</ion-button>
+  </div>
+
 </ion-content>

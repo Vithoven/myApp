@@ -1,28 +1,33 @@
-<app-encabezado [titulo]="'Mi Cuenta'"></app-encabezado>
+<app-encabezado [titulo]="'Mi Cuenta'" [showBackButton]="true"></app-encabezado>
 
-<ion-content>
+
+<ion-content class="ion-padding">
   <div style="text-align: center; margin: 20px;">
-    <img [src]="profileImage" alt="Foto de Perfil" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;" />
+    <img class="perfil" [src]="profileImage" alt="Foto de Perfil"/>
     <br />
-    <ion-button expand="full" color="tertiary" (click)="changeProfilePicture()">Cambiar Foto de Perfil</ion-button>
+    <ion-button expand="block" color="dark" (click)="changeProfilePicture()">Cambiar Foto de Perfil</ion-button>
   </div>
 
+  <!-- Campos editables -->
   <ion-list>
     <ion-item>
-      <ion-label>Nombre</ion-label>
-      <ion-text>{{ nombre }}</ion-text>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input [(ngModel)]="nombre"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>Apellidos</ion-label>
-      <ion-text>{{ apellidos }}</ion-text>
+      <ion-label position="floating">Apellidos</ion-label>
+      <ion-input [(ngModel)]="apellidos"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>Correo</ion-label>
-      <ion-text>{{ correo }}</ion-text>
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input [(ngModel)]="correo" type="email"></ion-input>
     </ion-item>
   </ion-list>
 
-  <ion-button expand="full" color="tertiary" routerLink="/home">Volver</ion-button>
+  <!-- Botón guardar cambios -->
+  <div style="text-align: center; margin-top: 20px;">
+    <ion-button color="success" (click)="guardarCambios()">Guardar Cambios</ion-button>
+  </div>
 </ion-content>

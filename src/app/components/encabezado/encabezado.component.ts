@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-encabezado',
@@ -7,8 +8,13 @@ import { Component, OnInit, Input, input } from '@angular/core';
 })
 export class EncabezadoComponent  implements OnInit {
   @Input() titulo: string = '';
+  @Input() showBackButton: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  goBack() {
+    this.router.navigate(['/home']); // Vuelve a la página home
+  }
 
   ngOnInit() {}
 

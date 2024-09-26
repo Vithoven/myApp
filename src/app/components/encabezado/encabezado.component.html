@@ -1,6 +1,11 @@
 
 <ion-header>
-  <ion-toolbar class="yellow-toolbar">
+  <ion-toolbar>
+    <ion-buttons slot="start" *ngIf="showBackButton"> <!-- Condición para mostrar el botón -->
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>{{ titulo }}</ion-title>
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/user']">
@@ -10,3 +15,13 @@
   </ion-toolbar>
 </ion-header>
 
+<!-- <ion-header>
+  <ion-toolbar class="yellow-toolbar">
+    <ion-title>{{ titulo }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/user']">
+        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
