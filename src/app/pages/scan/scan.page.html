@@ -1,9 +1,16 @@
 <app-encabezado [titulo]="'Escanear QR'" [showBackButton]="true"></app-encabezado>
 
-<ion-content class="camera-sim">
-  <div class="qr-container">
-    <div class="recording-frame"></div>
-    <img src="assets/qr-code.png" alt="QR Code" class="qr-code" />
-    <div class="recording-frame"></div>
+<!-- Marco de escaneo falso -->
+<ion-content class="camera-sim ion-padding">
+  <div class="qr-container ion-padding">
+    <div class="recording-frame">
+      <h3>Marco de Escaneo</h3>
+    </div>
+  </div>
+
+  <!-- Botónes -->
+  <div class="button-container">
+    <ion-button expand="full" color="dark" (click)="mostrarAlertaExito()">Escanear</ion-button>
+    <ion-button expand="full" color="danger" (click)="mostrarAlertaFallo()">Escaneo Fallido</ion-button>
   </div>
 </ion-content>

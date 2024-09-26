@@ -1,55 +1,45 @@
 .camera-sim {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    position: relative;
-    background-color: #000;
-  }
-  
-  .qr-container {
-    position: relative;
-    width: 80%;
-    height: 80%;
-  }
-  
-  .qr-code {
-    width: 100%;
-    height: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .recording-frame {
-    position: absolute;
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    width: 90%;
-    height: 90%;
-    top: 5%;
-    left: 5%;
-    pointer-events: none;
-  }
-  
-  .recording-frame:before,
-  .recording-frame:after {
-    content: '';
-    position: absolute;
-    border: 2px dashed rgba(255, 0, 0, 0.9);
-  }
-  
-  .recording-frame:before {
-    width: 15px;
-    height: 15px;
-    top: -7px;
-    left: -7px;
-  }
-  
-  .recording-frame:after {
-    width: 15px;
-    height: 15px;
-    bottom: -7px;
-    right: -7px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.qr-container {
+  width: 100%;
+  height: 300px; /* Ajusta la altura según sea necesario */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: 2px dashed #007bff; /* Color del marco */
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+
+.recording-frame {
+  width: 90%; /* Ajusta el tamaño del marco según sea necesario */
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 123, 255, 0.1); /* Color de fondo opcional */
+  border-radius: 10px;
+}
+
+.button-container {
+  display: flex; /* Cambiado para mostrar los botones uno al lado del otro */
+  justify-content: space-between; /* Espacio entre los botones */
+  width: 100%; /* Ajustar al ancho del contenedor */
+  padding: 0 20px; /* Espacio a los lados */
+}
+
+.button {
+  flex: 1; /* Los botones ocuparán el mismo espacio */
+  margin: 0 5px; /* Margen entre los botones */
+}
+
+ion-button {
+  margin-top: 10px; /* Espaciado entre los botones */
+}
