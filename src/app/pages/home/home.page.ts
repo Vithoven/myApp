@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, importProvidersFrom } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { EncabezadoComponent } from 'src/app/components/encabezado/encabezado.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,7 @@ import { EncabezadoComponent } from 'src/app/components/encabezado/encabezado.co
 })
 export class HomePage {
 
-  constructor(private alertController: AlertController) {}
+  constructor(private alertController: AlertController, private router: Router) {}
 
   async confirmLogout() {
     const alert = await this.alertController.create({
@@ -25,6 +26,7 @@ export class HomePage {
           text: 'Sí',
           handler: () => {
             console.log('Sesión cerrada');
+            this.router.navigate(['/login']);
           }
         }
       ]
