@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Seleccionar Asignatura</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <!-- Opción Inglés -->
+    <ion-item button (click)="goToRegister('ingles')">
+      <ion-label>Inglés</ion-label>
+    </ion-item>
+
+    <!-- Opción Arquitectura -->
+    <ion-item button (click)="goToRegister('arquitectura')">
+      <ion-label>Arquitectura</ion-label>
+    </ion-item>
+
+    <!-- Opción Programación de Aplicaciones Móviles -->
+    <ion-item button (click)="goToRegister('programacion')">
+      <ion-label>Programación de Aplicaciones Móviles</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

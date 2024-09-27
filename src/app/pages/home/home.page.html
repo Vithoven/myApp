@@ -1,19 +1,17 @@
-<!--Header-->
 <app-encabezado [titulo]="'Menú Principal'" [showBackButton]="false"></app-encabezado>
 
 <ion-content class="ion-padding ion-text-center">
 
-  <!--Logo de app-->
   <div class="ion-padding logo">
-    <img class="lpad rpad" src="assets\icon\logo_registrapp.png">  
+    <img class="lpad rpad" src="assets/icon/logo_registrapp.png">  
   </div>
   <p>Bienvenido a RegistrAPP!</p>
 
-  <!--Opciones de menú principal-->
   <ion-content class="white-content ion-padding">
     <ion-list style="padding-bottom: 50px;">
       <ion-item button color="dark" [routerLink]="['/confi']">Ajustes</ion-item>
       <ion-item button color="dark" [routerLink]="['/scan']">Escanear Código QR</ion-item>
+      <ion-item button color="dark" [routerLink]="['/select-assistance']">Ver Asistencias</ion-item>
       <ion-item button color="dark" (click)="confirmLogout()">Cerrar Sesión</ion-item>
     </ion-list>
   </ion-content>
