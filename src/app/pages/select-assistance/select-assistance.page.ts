@@ -13,4 +13,8 @@ export class SelectAssistancePage {
   goToRegister(subject: string) {
     this.router.navigate(['/register-assistance', subject]);
   }
+
+  goBack() {
+    this.router.navigate(['/home']);
+  }
 }

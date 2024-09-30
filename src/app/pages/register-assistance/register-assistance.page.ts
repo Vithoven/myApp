@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-assistance',
@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 export class RegisterAssistancePage {
   subjectTitle: string = '';
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.route.params.subscribe(params => {
       const subject = params['subject'];
       this.setSubjectTitle(subject);
@@ -30,5 +30,10 @@ export class RegisterAssistancePage {
       default:
         this.subjectTitle = 'Asignatura';
     }
+  }
+
+  // Función para regresar a la lista de asignaturas
+  goBack() {
+    this.router.navigate(['/select-assistance']);
   }
 }

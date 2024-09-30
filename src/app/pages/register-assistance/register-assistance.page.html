@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>{{ subjectTitle }}</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -15,9 +20,10 @@
       <ion-label>Fecha: 05/09/2024</ion-label>
       <ion-note slot="end" color="success">Asistió</ion-note>
     </ion-item>
+
     <ion-item>
       <ion-label>Fecha: 10/09/2024</ion-label>
-      <ion-note slot="end" color="success">Asistió</ion-note>
+      <ion-note slot="end" color="danger">Ausente</ion-note>
     </ion-item>
   </ion-list>
 </ion-content>

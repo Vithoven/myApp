@@ -8,6 +8,7 @@ const routes: Routes = [
     pathMatch: 'full'
     
   },
+  
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
@@ -44,7 +45,10 @@ const routes: Routes = [
     path: 'register-assistance',
     loadChildren: () => import('./pages/register-assistance/register-assistance.module').then(m => m.RegisterAssistancePageModule)
   },
-  
+  {
+    path: 'register-assistance/:subject',
+    loadChildren: () => import('./pages/register-assistance/register-assistance.module').then(m => m.RegisterAssistancePageModule)
+  },
 ];
 
 @NgModule({
