@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -7,16 +7,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  email: string = '';
-  password: string = '';
+  loginForm: FormGroup;
 
-  constructor(private router: Router) {}
+  constructor(private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email, this.domainValidator]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
-  login() {
-    if (this.email.includes('@duocuc.cl') || this.email.includes('@profesor.duoc.cl')) {
-      console.log('Acceso permitido');
-      this.router.navigate(['/home']);
-      console.log('Acceso denegado: Correo inválido');
+  domainValidator(control: any) {
+    const email = control.value;
+    if (email && !(email.endsWith('@duocuc.cl') || email.endsWith('@profesor.duocuc.cl'))) {
+      return { domain: true };
+    }
+    return null;
+  }
+  onSubmit() {
+    if (this.loginForm.valid) {
+      console.log('Formulario válido, autenticando...');
+    } else {
+      console.log('Formulario no válido');
     }
   }
 }
