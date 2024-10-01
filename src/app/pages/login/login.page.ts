@@ -1,39 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
+  email: string = '';
+  password: string = '';
 
-  //Formgroup de login
-  loginForm: FormGroup;
+  constructor(private router: Router) {}
 
-  constructor(private formBuilder: FormBuilder) { 
-    this.loginForm = this.formBuilder.group({
-      email:['',[Validators.required, Validators.email,this.dominioValidator]],
-      password: ['',[Validators.required]]
-    });
-  }
-
-  //Validador de dominio duocuc
-  dominioValidator(control:any){
-    const email = control.value;
-    if (email && !email.endsWith('@duocuc.cl')){
-      return{domain:true}; //La validación falló
-    }
-    return null; //Validacion correcta
-  }
-
-  onSubmit(){
-    if(this.loginForm.valid){
-      
+  login() {
+    if (this.email.includes('@duocuc.cl') || this.email.includes('@profesor.duoc.cl')) {
+      console.log('Acceso permitido');
+      this.router.navigate(['/home']);
+      console.log('Acceso denegado: Correo inválido');
     }
   }
-
-  ngOnInit() {
-  }
-
 }
