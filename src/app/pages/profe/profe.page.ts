@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profe',
@@ -7,42 +8,30 @@ import { ActionSheetController } from '@ionic/angular';
   styleUrls: ['./profe.page.scss'],
 })
 export class ProfePage {
-  profileImage: string = 'assets/img/default_profile.png';
-  nombre: string = 'Wacoldo'; 
-  apellidos: string = 'Wasida'; 
-  correo: string = 'wa.wasida@profesor.duocuc.cl';
+  nombre = 'Wacoldo';
+  apellidos = 'Wasida';
+  correo = 'wa.wasida@profesor.duocuc.cl';
+  profileImage = 'https://via.placeholder.com/150';
 
-  constructor(private actionSheetCtrl: ActionSheetController) {}
-  async changeProfilePicture() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Cambiar foto de perfil',
-      buttons: [
-        {
-          text: 'Tomar foto',
-          icon: 'camera',
-          handler: () => {
-            console.log('Tomar foto');
-          },
-        },
-        {
-          text: 'Seleccionar desde galería',
-          icon: 'image',
-          handler: () => {
-            console.log('Seleccionar desde galería');
-          },
-        },
-        {
-          text: 'Cancelar',
-          icon: 'close',
-          role: 'cancel',
-        },
-      ],
-    });
+  constructor(private alertController: AlertController, private router: Router) {}
 
-    await actionSheet.present();
+  changeProfilePicture() {
+    this.profileImage = 'https://via.placeholder.com/150/0000FF/808080';
   }
-
-  guardarCambios() {
-    console.log('Cambios guardados');
+  async guardarCambios() {
+    const alert = await this.alertController.create({
+      header: 'Cambios guardados',
+      message: 'Tus cambios han sido guardados exitosamente',
+      buttons: [{
+        text: 'OK',
+        handler: () => {
+          this.router.navigate(['/home-profe']);
+        }
+      }],
+    });
+    await alert.present();
+  }
+  goBack() {
+    this.router.navigate(['/home-profe']);
   }
 }

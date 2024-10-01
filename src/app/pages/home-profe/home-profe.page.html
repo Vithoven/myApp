@@ -1,6 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+    </ion-buttons>
+    <ion-title>Menú Principal</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/profe']">
+        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content class="ion-padding ion-text-center">
-
   <div class="ion-padding logo">
     <img class="lpad rpad" src="assets/icon/logo_registrapp.png">  
   </div>
@@ -9,8 +20,8 @@
   <ion-content class="white-content ion-padding">
     <ion-list style="padding-bottom: 50px;">
       <ion-item button color="dark" [routerLink]="['/confi']">Ajustes</ion-item>
-      <ion-item button color="dark" [routerLink]="['/scan']">Escanear Código QR</ion-item>
-      <ion-item button color="dark" [routerLink]="['/select-assistance']">Ver Asistencias</ion-item>
+      <ion-item button color="dark" [routerLink]="['/scan']">Escanear código QR</ion-item>
+      <ion-item button color="dark" [routerLink]="['/select-assistance']">Ver asistencias</ion-item>
       <ion-item button color="dark" (click)="confirmLogout()">Cerrar Sesión</ion-item>
     </ion-list>
   </ion-content>
