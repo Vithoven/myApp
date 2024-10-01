@@ -13,7 +13,7 @@ export class EncabezadoComponent  implements OnInit {
   constructor(private router: Router) { }
 
   goBack() {
-    this.router.navigate(['/home']); // Vuelve a la página home
+    this.router.navigate(['/home']);
   }
 
   ngOnInit() {}

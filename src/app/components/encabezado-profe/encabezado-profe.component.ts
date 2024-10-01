@@ -1,13 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-encabezado-profe',
+  selector: 'app-encabezado',
   templateUrl: './encabezado-profe.component.html',
   styleUrls: ['./encabezado-profe.component.scss'],
 })
 export class EncabezadoProfeComponent  implements OnInit {
+  @Input() titulo: string = '';
+  @Input() showBackButton: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  goBack() {
+    this.router.navigate(['/home-profe']);
+  }
 
   ngOnInit() {}
 

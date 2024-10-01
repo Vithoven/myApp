@@ -18,8 +18,15 @@ export class LoginPage {
   }
 
   onSubmit() {
+    if (this.loginForm.invalid) {
+      console.log('Formulario inválido');
+      return;
+    }
+    
     const email = this.loginForm.get('email')?.value;
     
+    console.log(`Intentando iniciar sesión con: ${email}`);
+
     if (email.includes('@profesor.duocuc.cl')) {
       this.router.navigate(['/home-profe']);
     } else if (email.includes('@duocuc.cl')) {

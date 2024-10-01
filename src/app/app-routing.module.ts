@@ -59,14 +59,12 @@ const routes: Routes = [
   {
     path: 'profe',
     loadChildren: () => import('./pages/profe/profe.module').then( m => m.ProfePageModule)
-  },  {
+  },
+  {
     path: 'home-profe',
     loadChildren: () => import('./pages/home-profe/home-profe.module').then( m => m.HomeProfePageModule)
   }
-
-
 ];
-
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
