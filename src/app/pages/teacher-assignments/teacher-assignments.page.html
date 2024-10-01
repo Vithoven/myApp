@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Asignaturas del Docente</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -15,7 +20,7 @@
     </ion-item>
 
     <ion-item button (click)="goToRegister('programacion')">
-      <ion-label>Programación de aplicaciones moviles</ion-label>
+      <ion-label>Programación de aplicaciones móviles</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -9,7 +9,15 @@ import { Router } from '@angular/router';
 export class TeacherAssignmentsPage {
   constructor(private router: Router) {}
 
-  goToRegister(subject: string) {
-    this.router.navigate(['/teacher-register', subject]);
+  goBack() {
+    this.router.navigate(['/home-profe']); // Navega a la página de inicio del profesor
+  }
+
+  goToRegister(asignatura: string) {
+    // Lógica para navegar a la página de registro de asignaturas
+    console.log('Navegando a:', asignatura);
+    // Aquí podrías añadir el código para redirigir a la página específica según la asignatura
+    // Por ejemplo:
+    this.router.navigate([`/register/${asignatura}`]); // Asegúrate de que esta ruta sea correcta
   }
 }
