@@ -21,7 +21,7 @@ export class LoginPage {
     const email = this.loginForm.get('email')?.value;
     
     if (email.includes('@profesor.duocuc.cl')) {
-      this.router.navigate(['/teacher-assignments']);
+      this.router.navigate(['/home-profe']);
     } else if (email.includes('@duocuc.cl')) {
       this.router.navigate(['/home']);
     } else {
