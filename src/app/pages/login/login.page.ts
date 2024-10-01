@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -9,24 +10,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginPage {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email, this.domainValidator]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
   }
-  domainValidator(control: any) {
-    const email = control.value;
-    if (email && !(email.endsWith('@duocuc.cl') || email.endsWith('@profesor.duocuc.cl'))) {
-      return { domain: true };
-    }
-    return null;
-  }
+
   onSubmit() {
-    if (this.loginForm.valid) {
-      console.log('Formulario válido, autenticando...');
+    const email = this.loginForm.get('email')?.value;
+    
+    if (email.includes('@profesor.duocuc.cl')) {
+      this.router.navigate(['/teacher-assignments']);
+    } else if (email.includes('@duocuc.cl')) {
+      this.router.navigate(['/home']);
     } else {
-      console.log('Formulario no válido');
+      console.log('Correo no válido');
     }
   }
 }
