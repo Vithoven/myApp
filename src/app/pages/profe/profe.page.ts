@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profe',
@@ -6,13 +7,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profe.page.scss'],
 })
 export class ProfePage {
-  nombre = 'Wacoldo';
-  apellidos = 'Alcachofa';
-  correo = 'wa.alcachofa@profesor.duocuc.cl';
-  profileImage = 'https://via.placeholder.com/150';
-  constructor() { }
+  profileImage: string = 'assets/img/default_profile.png';
+  nombre: string = 'Wacoldo'; 
+  apellidos: string = 'Wasida'; 
+  correo: string = 'wa.wasida@profesor.duocuc.cl';
 
-  ngOnInit() {
+  constructor(private actionSheetCtrl: ActionSheetController) {}
+  async changeProfilePicture() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Cambiar foto de perfil',
+      buttons: [
+        {
+          text: 'Tomar foto',
+          icon: 'camera',
+          handler: () => {
+            console.log('Tomar foto');
+          },
+        },
+        {
+          text: 'Seleccionar desde galería',
+          icon: 'image',
+          handler: () => {
+            console.log('Seleccionar desde galería');
+          },
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+        },
+      ],
+    });
+
+    await actionSheet.present();
   }
 
+  guardarCambios() {
+    console.log('Cambios guardados');
+  }
 }
