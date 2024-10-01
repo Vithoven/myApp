@@ -55,11 +55,11 @@ const routes: Routes = [
   {
     path: 'teacher-register/:subject',
     loadChildren: () => import('./pages/teacher-register/teacher-register.module').then(m => m.TeacherRegisterPageModule)
-  },  {
+  },
+  {
     path: 'profe',
     loadChildren: () => import('./pages/profe/profe.module').then( m => m.ProfePageModule)
-  },
-
+  }
 
 ];
 

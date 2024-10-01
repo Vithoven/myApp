@@ -7,8 +7,6 @@ import { Router } from '@angular/router';
   templateUrl: './user.page.html',
   styleUrls: ['./user.page.scss'],
 })
-
-/* Datos por defecto */
 export class UserPage {
   nombre = 'Jimenito';
   apellidos = 'Alcachofa';
@@ -21,7 +19,6 @@ export class UserPage {
     this.profileImage = 'https://via.placeholder.com/150/0000FF/808080';
   }
 
-  /* Funcion guardar cambios */
   async guardarCambios() {
     const alert = await this.alertController.create({
       header: 'Cambios guardados',
@@ -29,7 +26,7 @@ export class UserPage {
       buttons: [{
         text: 'OK',
         handler: () => {
-          this.router.navigate(['/home']); // Redirigir a la página de inicio
+          this.router.navigate(['/home']);
         }
       }],
     });

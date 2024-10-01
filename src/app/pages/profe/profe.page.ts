@@ -5,8 +5,11 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './profe.page.html',
   styleUrls: ['./profe.page.scss'],
 })
-export class ProfePage implements OnInit {
-
+export class ProfePage {
+  nombre = 'Wacoldo';
+  apellidos = 'Alcachofa';
+  correo = 'wa.alcachofa@profesor.duocuc.cl';
+  profileImage = 'https://via.placeholder.com/150';
   constructor() { }
 
   ngOnInit() {

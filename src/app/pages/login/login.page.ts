@@ -15,7 +15,6 @@ export class LoginPage {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
-
   domainValidator(control: any) {
     const email = control.value;
     if (email && !(email.endsWith('@duocuc.cl') || email.endsWith('@profesor.duocuc.cl'))) {
