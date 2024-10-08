@@ -1,19 +1,8 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-    </ion-buttons>
-    <ion-title>Menú Principal</ion-title>
-    <ion-buttons slot="end">
-      <ion-button [routerLink]="['/profe']">
-        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-encabezado-profe [titulo]="'Menú Principal'" [showBackButton]="false"></app-encabezado-profe>
 
 <ion-content class="ion-padding ion-text-center">
   <div class="ion-padding logo">
-    <img class="lpad rpad" src="assets/icon/logo_registrapp.png">  
+    <img class="lpad rpad" src="assets/icon/logo_registrapp.png" alt="logo_registrapp">  
   </div>
   <p>Bienvenido a RegistrAPP, profesor!</p>
 

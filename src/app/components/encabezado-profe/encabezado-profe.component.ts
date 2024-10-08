@@ -2,7 +2,7 @@ import { Component, OnInit, Input, input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-encabezado',
+  selector: 'app-encabezado-profe',
   templateUrl: './encabezado-profe.component.html',
   styleUrls: ['./encabezado-profe.component.scss'],
 })
