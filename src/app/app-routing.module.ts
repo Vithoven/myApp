@@ -66,6 +66,10 @@ const routes: Routes = [
   },  {
     path: 'asignaturas-profesor-qr',
     loadChildren: () => import('./pages/asignaturas-profesor-qr/asignaturas-profesor-qr.module').then( m => m.AsignaturasProfesorQrPageModule)
+  },
+  {
+    path: 'generar-qr-asistencia',
+    loadChildren: () => import('./pages/generar-qr-asistencia/generar-qr-asistencia.module').then( m => m.GenerarQrAsistenciaPageModule)
   }
 
 ];

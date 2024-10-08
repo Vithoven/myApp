@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { IonicModule } from '@ionic/angular';
 
-import { AsignaturasProfesorQrPageRoutingModule } from './asignaturas-profesor-qr-routing.module';
+import { GenerarQrAsistenciaPageRoutingModule } from './generar-qr-asistencia-routing.module';
 
-import { AsignaturasProfesorQrPage } from './asignaturas-profesor-qr.page';
+import { GenerarQrAsistenciaPage } from './generar-qr-asistencia.page';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { AsignaturasProfesorQrPage } from './asignaturas-profesor-qr.page';
     ComponentsModule,
     FormsModule,
     IonicModule,
-    AsignaturasProfesorQrPageRoutingModule
+    GenerarQrAsistenciaPageRoutingModule
   ],
-  declarations: [AsignaturasProfesorQrPage]
+  declarations: [GenerarQrAsistenciaPage]
 })
-export class AsignaturasProfesorQrPageModule {}
+export class GenerarQrAsistenciaPageModule {}

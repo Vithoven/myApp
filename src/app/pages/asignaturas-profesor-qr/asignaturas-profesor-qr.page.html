@@ -1,13 +1,18 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>asignaturas-profesor-qr</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-encabezado-profe [titulo]="'Asignaturas del Profesor'" [showBackButton]="false"></app-encabezado-profe>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">asignaturas-profesor-qr</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item button (click)="goToQR('Programación orientada a objetos - 001D')">
+      <ion-label>Programación orientada a objetos - 001D</ion-label>
+    </ion-item>
+
+    <ion-item button (click)="goToQR('GitHub - 001D')">
+      <ion-label>GitHub - 001D</ion-label>
+    </ion-item>
+
+    <ion-item button (click)="goToQR('Programación de aplicaciones móviles - 001D')">
+      <ion-label>Programación de aplicaciones móviles - 001D</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

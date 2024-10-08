@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-asignaturas-profesor-qr',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AsignaturasProfesorQrPage implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
+
+  goToQR(asignatura: string) {
+    this.router.navigate(['/generar-qr-asistencia'], { queryParams: { asignatura } });
+  }
 
   ngOnInit() {
   }
