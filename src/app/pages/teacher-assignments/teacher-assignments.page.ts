@@ -18,6 +18,6 @@ export class TeacherAssignmentsPage {
     console.log('Navegando a:', asignatura);
     // Aquí podrías añadir el código para redirigir a la página específica según la asignatura
     // Por ejemplo:
-    this.router.navigate([`/register/${asignatura}`]); // Asegúrate de que esta ruta sea correcta
+    this.router.navigate([`/teacher-register/${asignatura}`]); // Asegúrate de que esta ruta sea correcta
   }
 }

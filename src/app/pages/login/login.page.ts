@@ -27,7 +27,7 @@ export class LoginPage {
     
     console.log(`Intentando iniciar sesión con: ${email}`);
 
-    if (email.includes('@profesor.duocuc.cl')) {
+    if (email.includes('@docente.duocuc.cl')) {
       this.router.navigate(['/home-profe']);
     } else if (email.includes('@duocuc.cl')) {
       this.router.navigate(['/home']);
