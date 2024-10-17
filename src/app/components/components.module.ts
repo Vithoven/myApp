@@ -18,6 +18,7 @@ import { EncabezadoProfeComponent } from './encabezado-profe/encabezado-profe.co
   exports: [
     EncabezadoComponent,
     EncabezadoProfeComponent,
+
   ]
 })
 export class ComponentsModule { }

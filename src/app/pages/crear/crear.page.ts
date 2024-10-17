@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -14,7 +14,7 @@ export class CrearPage {
     this.createUserForm = this.formBuilder.group({
       nombres: ['', [Validators.required, Validators.minLength(3)]],
       apellidos: ['', [Validators.required, Validators.minLength(3)]],
-      correo: ['', [Validators.required, Validators.email]],
+      correo: ['', [Validators.required, Validators.email, this.emailDomainValidator]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
     }, {
@@ -22,6 +22,16 @@ export class CrearPage {
     });
   }
 
+  // Validador personalizado para el dominio de correo
+  emailDomainValidator(control: AbstractControl): ValidationErrors | null {
+    const email = control.value as string;
+    if (email && email.indexOf('@duocuc.cl') === -1) {
+      return { emailDomain: true };
+    }
+    return null;
+  }
+
+  // Validador para comparar contraseñas
   matchPasswords(password: string, confirmPassword: string) {
     return (formGroup: FormGroup) => {
       const passControl = formGroup.controls[password];
@@ -39,6 +49,7 @@ export class CrearPage {
     };
   }
 
+  // Método para enviar el formulario
   async onSubmit() {
     if (this.createUserForm.invalid) {
       const alert = await this.alertController.create({
@@ -58,7 +69,7 @@ export class CrearPage {
     await alert.present();
   }
 
-  uploadPicture() {
+  subirFoto() {
     console.log('Subir foto de perfil');
   }
 }

@@ -1,10 +1,16 @@
 <ion-content class="ion-padding ion-text-center">
+  <!-- Contenedor principal -->
   <div class="container">
+    <!-- Logo de la aplicación -->
     <div class="logo">
       <img class="ion-padding" src="assets/img/resgistrapp.png" title="logo">
     </div>
+
+    <!-- Formulario de inicio de sesión -->
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Contenedor de los campos de formulario -->
       <div class="form flex">
+        <!-- Campo de correo -->
         <ion-item lines="none">
           <ion-input 
             fill="outline" 
@@ -12,11 +18,14 @@
             formControlName="email">
           </ion-input>
         </ion-item>
+
+        <!-- Mensajes de error para el campo de correo -->
         <div class="ion-padding-bottom" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
           <small *ngIf="loginForm.get('email')?.hasError('required')">El correo es requerido.</small>
           <small *ngIf="loginForm.get('email')?.hasError('email')">El formato del correo es incorrecto.</small>
         </div>
 
+        <!-- Campo de contraseña -->
         <ion-item lines="none">
           <ion-input 
             fill="outline" 
@@ -25,17 +34,26 @@
             formControlName="password">
           </ion-input>
         </ion-item>
+
+        <!-- Mensajes de error para el campo de contraseña -->
         <div class="ion-padding-bottom" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
           <small *ngIf="loginForm.get('password')?.hasError('required')">La contraseña es requerida.</small>
         </div>
       </div>
 
+      <!-- Botón de inicio de sesión -->
       <ion-button color="dark" type="submit" expand="block" [disabled]="loginForm.invalid">Iniciar Sesión</ion-button>
+
+      <!-- Enlace para recuperar contraseña -->
       <ion-button fill="clear" size="small" routerLink="/recover">Olvidé mi Contraseña</ion-button>
+
+      <!-- Contenedor para el enlace de registro -->
       <div class="contenedor-registro">
         <span>¿Usuario nuevo? </span>
+        <!-- Enlace para registrar un nuevo usuario -->
         <ion-button fill="clear" routerLink="/crear" color="tertiary" style="margin-left: 5px;">Regístrate</ion-button>
       </div>
     </form>
   </div>
 </ion-content>
+
