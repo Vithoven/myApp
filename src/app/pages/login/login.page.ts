@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -8,14 +10,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  loginForm: FormGroup;
+  loginForm = new FormGroup({
+    uemail: new FormControl('', [Validators.required, Validators.email]),
+    upassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+  });
 
   constructor(private fb: FormBuilder, private router: Router) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
   }
+
+firebaseSvc = inject(FirebaseService);
 
   onSubmit() {
     if (this.loginForm.invalid) {
@@ -23,16 +26,10 @@ export class LoginPage {
       return;
     }
     
-    const email = this.loginForm.get('email')?.value;
-    
-    console.log(`Intentando iniciar sesión con: ${email}`);
-
-    if (email.includes('@docente.duocuc.cl')) {
-      this.router.navigate(['/home-profe']);
-    } else if (email.includes('@duocuc.cl')) {
-      this.router.navigate(['/home']);
-    } else {
-      console.log('Correo no válido');
+    if (this.loginForm.valid){
+      this.firebaseSvc.signIn(this.loginForm.value as User).then(res => {
+        console.log(res);
+      })
     }
   }
 }
