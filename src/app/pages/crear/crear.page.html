@@ -15,27 +15,27 @@
 
       <!-- Campos de registro -->
       <ion-item lines="none">
-        <ion-input formControlName="nombres" fill="outline" type="text" placeholder="Nombres" required></ion-input>
+        <ion-input formControlName="uname" fill="outline" type="text" placeholder="Nombres" required></ion-input>
       </ion-item>
 
         <!--Mensaje de error Nombre-->
-        <div *ngIf="createUserForm.get('nombres')?.invalid && (createUserForm.get('nombres')?.dirty || createUserForm.get('nombres')?.touched)">
-          <small class="msj-error" *ngIf="createUserForm.get('nombres')?.hasError('required')">El nombre es requerido.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('nombres')?.hasError('minlength')">El nombre debe tener al menos 3 caracteres.</small>
+        <div *ngIf="createUserForm.get('uname')?.invalid && (createUserForm.get('uname')?.dirty || createUserForm.get('uname')?.touched)">
+          <small class="msj-error" *ngIf="createUserForm.get('uname')?.hasError('required')">El nombre es requerido.</small>
+          <small class="msj-error" *ngIf="createUserForm.get('uname')?.hasError('minlength')">El nombre debe tener al menos 3 caracteres.</small>
         </div>
       
       <ion-item lines="none">
-        <ion-input formControlName="apellidos" fill="outline" type="text" placeholder="Apellidos" required></ion-input>
+        <ion-input formControlName="ulaname" fill="outline" type="text" placeholder="Apellidos" required></ion-input>
       </ion-item>
 
         <!--Mensaje de error Apellidos-->
-        <div *ngIf="createUserForm.get('apellidos')?.invalid && (createUserForm.get('apellidos')?.dirty || createUserForm.get('apellidos')?.touched)">
-          <small class="msj-error" *ngIf="createUserForm.get('apellidos')?.hasError('required')">El Apellido es requerido.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('apellidos')?.hasError('minlength')">El Apellido debe tener al menos 3 caracteres.</small>
+        <div *ngIf="createUserForm.get('ulaname')?.invalid && (createUserForm.get('ulaname')?.dirty || createUserForm.get('ulaname')?.touched)">
+          <small class="msj-error" *ngIf="createUserForm.get('ulaname')?.hasError('required')">El Apellido es requerido.</small>
+          <small class="msj-error" *ngIf="createUserForm.get('ulaname')?.hasError('minlength')">El Apellido debe tener al menos 3 caracteres.</small>
         </div>
 
       <ion-item lines="none">
-        <ion-input formControlName="correo" fill="outline" type="email" placeholder="Correo Institucional" required></ion-input>
+        <ion-input formControlName="uemail" fill="outline" type="email" placeholder="Correo Institucional" required></ion-input>
       </ion-item>
 
         <!--Mensaje de error Correo-->
