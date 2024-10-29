@@ -1,7 +1,7 @@
 import { User } from './../models/user.model';
 import { AngularFireAuth} from '@angular/fire/compat/auth';
 import { Injectable, inject } from '@angular/core';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile} from '@firebase/auth'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from '@firebase/auth'
 
 @Injectable({
   providedIn: 'root'
