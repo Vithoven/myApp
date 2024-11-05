@@ -30,6 +30,7 @@ firebaseSvc = inject(FirebaseService);
       this.firebaseSvc.signIn(this.loginForm.value as User).then(res => {
         console.log(res);
         this.router.navigate(['/home']);
+        
       })
     }
   }
