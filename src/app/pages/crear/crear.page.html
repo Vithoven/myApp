@@ -39,20 +39,20 @@
       </ion-item>
 
         <!--Mensaje de error Correo-->
-        <div *ngIf="createUserForm.get('correo')?.invalid && (createUserForm.get('correo')?.dirty || createUserForm.get('correo')?.touched)">
-          <small class="msj-error" *ngIf="createUserForm.get('correo')?.hasError('required')">El Correo es requerido.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('correo')?.hasError('email')">El formato del Correo es incorrecto.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('correo')?.errors?.['emailDomain']">Debe usar un correo que termine en &#64;duocuc.cl.</small>
+        <div *ngIf="createUserForm.get('uemail')?.invalid && (createUserForm.get('uemail')?.dirty || createUserForm.get('correo')?.touched)">
+          <small class="msj-error" *ngIf="createUserForm.get('uemail')?.hasError('required')">El Correo es requerido.</small>
+          <small class="msj-error" *ngIf="createUserForm.get('uemail')?.hasError('email')">El formato del Correo es incorrecto.</small>
+          <small class="msj-error" *ngIf="createUserForm.get('uemail')?.errors?.['emailDomain']">Debe usar un correo que termine en &#64;duocuc.cl.</small>
         </div>
 
       <ion-item lines="none">
-        <ion-input formControlName="password" fill="outline" type="password" placeholder="Contraseña" required></ion-input>
+        <ion-input formControlName="upassword" fill="outline" type="password" placeholder="Contraseña" required></ion-input>
       </ion-item>
 
         <!--Mensaje de error Contrase a-->
-        <div *ngIf="createUserForm.get('password')?.invalid && (createUserForm.get('password')?.dirty || createUserForm.get('password')?.touched)">
-          <small class="msj-error" *ngIf="createUserForm.get('password')?.hasError('required')">La Contraseña es requerida.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('password')?.hasError('minlength')">La Contraseña debe tener al menos 6 caracteres.</small>
+        <div *ngIf="createUserForm.get('upassword')?.invalid && (createUserForm.get('upassword')?.dirty || createUserForm.get('password')?.touched)">
+          <small class="msj-error" *ngIf="createUserForm.get('upassword')?.hasError('required')">La Contraseña es requerida.</small>
+          <small class="msj-error" *ngIf="createUserForm.get('upassword')?.hasError('minlength')">La Contraseña debe tener al menos 6 caracteres.</small>
         </div>
 
       <ion-item lines="none">
