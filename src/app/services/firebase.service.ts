@@ -1,26 +1,29 @@
 import { User } from './../models/user.model';
 import { AngularFireAuth} from '@angular/fire/compat/auth';
 import { Injectable, inject } from '@angular/core';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from '@firebase/auth'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,  } from '@firebase/auth'
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
-  auth = inject (AngularFireAuth)
+ private auth = inject (AngularFireAuth)
 
 //======AUTENTICACION=========//
 
-//====ACCEDER A CUENTA=======//
-  signIn(user: User){
-    return signInWithEmailAndPassword(getAuth(), user.uemail, user.upassword)
-  }
+  //====ACCEDER A CUENTA=======//
+    async signIn(user: User){
+      const userresp = await this.auth.signInWithEmailAndPassword(user.uemail, user.upassword);
+      return userresp;
+    }
 
-//====CREAR CUENTA DE USUARIO=======//
-  register(user: User){
-    return createUserWithEmailAndPassword(getAuth(), user.uemail, user.upassword)
-  }
+  //====CREAR CUENTA DE USUARIO=======//
+    async register(user: User){
+      const userreg = await this.auth.createUserWithEmailAndPassword(user.uemail, user.upassword);
+      userreg
+      return userreg;
+    }
 
   constructor() { }
 }
