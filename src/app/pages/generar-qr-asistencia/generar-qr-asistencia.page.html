@@ -3,7 +3,7 @@
 <ion-content class="ion-padding">
   <div class="qr-container ion-text-center">
     <div class="qr-code">
-      <img [src]="qrCodeImage" alt="Código QR generado" />
+      <qr-code [value]="qrCodeValue" size="200" errorCorrectionLevel="M"></qr-code>
     </div>
     <p>Escanee este código para registrar la asistencia a <strong>{{ asignatura }}</strong></p>
   </div>
