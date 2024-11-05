@@ -13,7 +13,13 @@ export class ScanPage implements OnInit {
   ngOnInit() {
   }
 
-  /* Alerta de escaneo fallido (Temporal) */
+  // Función para manejar el resultado del escaneo
+  onScanSuccess(result: string) {
+    console.log('Código QR escaneado:', result); // Aquí se imprime el resultado del escaneo
+    this.mostrarAlertaExito(); // Llamar a la alerta de éxito
+  }
+
+  // Alerta de escaneo fallido
   async mostrarAlertaFallo() {
     const alert = await this.alertController.create({
       header: 'Escaneo Fallido',
@@ -24,7 +30,7 @@ export class ScanPage implements OnInit {
     await alert.present();
   }
 
-  /* Alerta de escaneo exitoso */
+  // Alerta de escaneo exitoso
   async mostrarAlertaExito() {
     const alert = await this.alertController.create({
       header: 'Escaneo Exitoso',
