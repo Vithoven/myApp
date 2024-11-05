@@ -2,7 +2,8 @@
 
 <ion-content class="camera-sim ion-padding">
   <div class="qr-container ion-padding">
-    <zxing-scanner (scanSuccess)="onScanSuccess($event)" [start]="true"></zxing-scanner>
+    <!-- Scanner del ZXing -->
+    <zxing-scanner (scanSuccess)="onScanSuccess($event)" [start]="isScanning"></zxing-scanner>
     <div class="recording-frame">
       <h3>Marco de Escaneo</h3>
     </div>
@@ -11,5 +12,6 @@
   <div class="button-container">
     <ion-button expand="full" color="dark" (click)="mostrarAlertaExito()">Escanear</ion-button>
     <ion-button expand="full" color="danger" (click)="mostrarAlertaFallo()">Escaneo Fallido</ion-button>
+    <ion-button expand="full" color="light" (click)="cancelarEscaneo()">Cancelar Escaneo</ion-button>
   </div>
 </ion-content>

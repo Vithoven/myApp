@@ -7,16 +7,23 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./scan.page.scss'],
 })
 export class ScanPage implements OnInit {
+  isScanning: boolean = true; // Variable para controlar el estado del escaneo
 
   constructor(private alertController: AlertController) { }
 
   ngOnInit() {
   }
 
-  // Función para manejar el resultado del escaneo
+  // Función que se llama cuando el escaneo es exitoso
   onScanSuccess(result: string) {
-    console.log('Código QR escaneado:', result); // Aquí se imprime el resultado del escaneo
-    this.mostrarAlertaExito(); // Llamar a la alerta de éxito
+    console.log('Código QR escaneado:', result);
+    this.mostrarAlertaExito();
+  }
+
+  // Función para cancelar el escaneo
+  cancelarEscaneo() {
+    this.isScanning = false; // Detenemos el escaneo
+    console.log('Escaneo cancelado');
   }
 
   // Alerta de escaneo fallido
