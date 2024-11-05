@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { User } from '../../models/user.model';
-import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-login',
@@ -24,13 +23,13 @@ firebaseSvc = inject(FirebaseService);
   onSubmit() {
     if (this.loginForm.invalid) {
       console.log('Formulario inválido');
-      
       return;
     }
     
     if (this.loginForm.valid){
       this.firebaseSvc.signIn(this.loginForm.value as User).then(res => {
         console.log(res);
+        this.router.navigate(['/home']);
       })
     }
   }
