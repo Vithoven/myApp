@@ -1,29 +1,60 @@
 import { inject, Injectable } from '@angular/core';
-import { ToastController, ToastOptions, LoadingController } from '@ionic/angular';
+import { NavigationExtras, Router } from '@angular/router';
+import { ToastController,ToastOptions, LoadingController, AlertController,AlertOptions, NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
 
-  toastCtrl = inject(ToastController);
-  loadingCtrl = inject(LoadingController);
+  //=====DEPENDENCIAS=====//
+  private toastCtrl = inject(ToastController);
+  private loadingCtrl = inject(LoadingController);
+  private alertCtrl = inject(AlertController);
+  private navCtrl = inject(NavController);
+  private router = inject(Router);
 
 
-  //=====TOAST=====//
-  async presentToast(opts?: ToastOptions){
-    const toast = await this.toastCtrl.create(opts)
-    toast.present();
-  }
-  
-  //=====LOADING=====//
-  async presentLoading(texto: string){
-    const loading = await this.loadingCtrl.create({
-      message: 'Cargando...',
-      spinner: 'crescent',
-      duration: 0,
-      translucent: true
+  presentToast(opts:ToastOptions){
+    this.toastCtrl.create(opts).then(toast => {
+      toast.present();
     });
-    await loading.present();
+  }
+
+  presentLoading() {
+    return this.loadingCtrl.create({
+      spinner: 'crescent',
+      message: 'Cargando...',
+    });
+  }
+
+  async presentAlert(opts?: AlertOptions) {
+    const alert = await this.alertCtrl.create(opts);
+    alert.present();
+    return alert;
+  }
+
+  navigateForwardto(route:string, extras?:NavigationExtras){
+    this.navCtrl.navigateForward(route, extras);
+  }
+
+  navigateBack(){
+    this.navCtrl.back();
+  }
+
+  navigateRoot(route:string, extras?:NavigationExtras){
+    this.navCtrl.navigateRoot(route, extras);
+  }
+
+  saveInLocalStorage(key:string, value:any){
+    return localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  getFromLocalStorage(key:string){
+    return JSON.parse(localStorage.getItem(key)!);
+  }
+
+  retrieveRouterEvents() {
+    return this.router.events;
   }
 }

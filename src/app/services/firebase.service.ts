@@ -1,14 +1,19 @@
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from './../models/user.model';
 import { AngularFireAuth} from '@angular/fire/compat/auth';
 import { Injectable, inject } from '@angular/core';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,  } from '@firebase/auth'
+import { UtilsService } from './utils.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
- private auth = inject (AngularFireAuth)
+// Inyecciones de dependencias
+private ngFireAuth = inject(AngularFireAuth);
+private utils = inject(UtilsService);
+private ngFireStore = inject(AngularFirestore)
 
 //======AUTENTICACION=========//
 
