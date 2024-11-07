@@ -1,37 +1,51 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { User } from '../../models/user.model';
+import { UtilsService } from '../../services/utils.service';
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
+  // DEPENDENCIAS
+  private utils = inject(UtilsService);
+  private firebaseSvc = inject(FirebaseService);
+
+  //FORMULARIO LOGIN
   loginForm = new FormGroup({
     uemail: new FormControl('', [Validators.required, Validators.email]),
-    upassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+    upassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
 
   constructor(private fb: FormBuilder, private router: Router) {
   }
 
-firebaseSvc = inject(FirebaseService);
+ngOnInit() { }
 
-  onSubmit() {
-    if (this.loginForm.invalid) {
-      console.log('Formulario inválido');
-      return;
+// METODO INICIAR SESION
+async iniciarSesion() {
+  const { uemail, upassword } = this.loginForm.value;
+  const loading = await this.utils.presentLoading();
+  loading.present();
+  try {
+    const user = await this.firebaseSvc.signIn(uemail!, upassword!);
+    if (user) {
+      this.utils.navigateRoot('/tabs');
     }
-    
-    if (this.loginForm.valid){
-      this.firebaseSvc.signIn(this.loginForm.value as User).then(res => {
-        console.log(res);
-        this.router.navigate(['/home']);
-        
-      })
-    }
+  } catch (error) {
+    console.log(error);
+    this.utils.presentToast({
+      icon: 'close-circle-sharp',
+      message: 'Email o Contraseña Incorrectos',
+      color: 'danger',
+      duration: 2500
+    });
+  } finally {
+    loading.dismiss();
   }
+}
 }
