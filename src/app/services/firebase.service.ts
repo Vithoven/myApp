@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { getAuth, EmailAuthProvider } from '@angular/fire/auth';
+import { getAuth, EmailAuthProvider, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getDoc, setDoc, doc } from "@angular/fire/firestore";
 import { User } from '../models/user.model';

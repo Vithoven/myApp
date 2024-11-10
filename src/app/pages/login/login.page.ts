@@ -34,7 +34,8 @@ async iniciarSesion() {
   try {
     const user = await this.firebaseSvc.signIn(uemail!, upassword!);
     if (user) {
-      this.utils.navigateRoot('/tabs');
+      const route = uemail!.includes('profesor.duocuc.cl') ? '/home-profe' : '/home';
+      this.utils.navigateRoot(route);
     }
   } catch (error) {
     console.log(error);
