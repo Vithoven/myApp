@@ -3,16 +3,10 @@
 
   <!-- Contenedor Blanco -->
   <div class="container">
-    <form (ngSubmit)="onSubmit()" [formGroup]="createUserForm">
-
-      <!-- Selección de foto de perfil del usuario -->
-      <div class="profile-pic-container">
-        <ion-avatar>
-          <img src="assets/placeholders/perfil_placeholder.jpg" alt="Foto de perfil" />
-        </ion-avatar>
-        <ion-button expand="block" (click)="subirFoto()" class="upload-button">Seleccionar Foto</ion-button>
-      </div>
-
+    <form (ngSubmit)="signUp()" [formGroup]="createUserForm">
+      <!-- Titulo -->
+      <h2 class="ion-text-center">Creación de Usuario</h2>
+      
       <!-- Campos de registro -->
       <ion-item lines="none">
         <ion-input formControlName="uname" fill="outline" type="text" placeholder="Nombres" required></ion-input>
@@ -49,7 +43,7 @@
         <ion-input formControlName="upassword" fill="outline" type="password" placeholder="Contraseña" required></ion-input>
       </ion-item>
 
-        <!--Mensaje de error Contrase a-->
+        <!--Mensaje de error Contraseña-->
         <div *ngIf="createUserForm.get('upassword')?.invalid && (createUserForm.get('upassword')?.dirty || createUserForm.get('password')?.touched)">
           <small class="msj-error" *ngIf="createUserForm.get('upassword')?.hasError('required')">La Contraseña es requerida.</small>
           <small class="msj-error" *ngIf="createUserForm.get('upassword')?.hasError('minlength')">La Contraseña debe tener al menos 6 caracteres.</small>
@@ -59,13 +53,7 @@
         <ion-input formControlName="confirmPassword" fill="outline" type="password" placeholder="Repetir contraseña" required></ion-input>
       </ion-item>
 
-        <!--Mensaje de error Confirmación de Contrase a-->
-        <div *ngIf="createUserForm.get('confirmPassword')?.invalid && (createUserForm.get('confirmPassword')?.dirty || createUserForm.get('confirmPassword')?.touched)">
-          <small class="msj-error" *ngIf="createUserForm.get('confirmPassword')?.hasError('required')">La confirmación de Contraseña es requerida.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('confirmPassword')?.hasError('mustMatch')">Las contraseñas no coinciden.</small>
-        </div>
-
-      <ion-button color="dark" expand="block" type="submit">Registrarme</ion-button>
+      <ion-button color="dark" expand="block" type="submit" [disabled]="createUserForm.invalid">Registrarme</ion-button>
     </form>
     <ion-button expand="block" fill="clear"  routerLink="/login">Atrás</ion-button>
   </div>
