@@ -11,8 +11,7 @@ export class ScanPage implements OnInit {
 
   constructor(private alertController: AlertController) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onScanSuccess(result: string) {
     console.log('Código QR escaneado:', result);
@@ -30,7 +29,6 @@ export class ScanPage implements OnInit {
       message: 'Muy lejos de la ubicación del Código QR.',
       buttons: ['OK'],
     });
-
     await alert.present();
   }
 
@@ -40,7 +38,6 @@ export class ScanPage implements OnInit {
       message: 'Escaneo exitoso. Asistencia registrada.',
       buttons: ['OK'],
     });
-
     await alert.present();
   }
 }

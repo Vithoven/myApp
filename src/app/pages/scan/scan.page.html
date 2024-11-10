@@ -2,9 +2,12 @@
 
 <ion-content class="camera-sim ion-padding">
   <div class="qr-container ion-padding">
-    <zxing-scanner (scanSuccess)="onScanSuccess($event)" [start]="isScanning"></zxing-scanner>
     <div class="recording-frame">
-      <h3>Marco de Escaneo</h3>
+      <zxing-scanner 
+        (scanSuccess)="onScanSuccess($event)" 
+        [start]="isScanning">
+      </zxing-scanner>
+      <h3>Apunte con la cámara al código QR</h3>
     </div>
   </div>
   <div class="button-container">
