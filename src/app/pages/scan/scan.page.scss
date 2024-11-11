@@ -11,10 +11,10 @@
 
 .recording-frame {
   position: relative;
-  width: 70%; /* Ajusta el tamaño a tu preferencia */
-  max-width: 400px;
-  height: 40vh; /* Puedes cambiar este valor para la altura deseada */
-  max-height: 300px;
+  width: 90%; /* Ajustado para hacer el cuadro un tercio más grande */
+  max-width: 500px;
+  height: 55vh; /* Incrementado para agrandar el área */
+  max-height: 400px;
   border: 2px solid #333;
   display: flex;
   align-items: center;
@@ -34,11 +34,11 @@ zxing-scanner {
 .button-container {
   display: flex;
   flex-direction: column;
-  gap: 4px; /* Reducido para acercar los botones entre sí */
+  gap: 4px;
   padding: 0 20px;
-  margin-top: -150px; /* Ajustado para acercar los botones al cuadro */
+  margin-top: -120px; /* Ajustado para mantener los botones cerca del cuadro */
 }
 
 ion-button {
-  --margin-bottom: 4px; /* Ajustado para reducir espacio entre botones */
+  --margin-bottom: 4px;
 }
