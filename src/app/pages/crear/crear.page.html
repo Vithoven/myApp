@@ -8,50 +8,76 @@
       <h2 class="ion-text-center">Creación de Usuario</h2>
       
       <!-- Campos de registro -->
-      <ion-item lines="none">
-        <ion-input formControlName="uname" fill="outline" type="text" placeholder="Nombres" required></ion-input>
-      </ion-item>
+        <!-- Nombre -->
+        <app-custom-input
+          [control]="createUserForm.controls.uname"
+          label="Nombre"
+          icon="person"
+          placeholder="Ingrese su nombre"
+          type="text"
+        ></app-custom-input>
 
-        <!--Mensaje de error Nombre-->
-        <div *ngIf="createUserForm.get('uname')?.invalid && (createUserForm.get('uname')?.dirty || createUserForm.get('uname')?.touched)">
-          <small class="msj-error" *ngIf="createUserForm.get('uname')?.hasError('required')">El nombre es requerido.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('uname')?.hasError('minlength')">El nombre debe tener al menos 3 caracteres.</small>
-        </div>
-      
-      <ion-item lines="none">
-        <ion-input formControlName="ulaname" fill="outline" type="text" placeholder="Apellidos" required></ion-input>
-      </ion-item>
+          <!--Mensaje de error Nombre-->
+          <div *ngIf="createUserForm.get('uname')?.invalid && (createUserForm.get('uname')?.dirty || createUserForm.get('uname')?.touched)">
+            <small class="msj-error" *ngIf="createUserForm.get('uname')?.hasError('required')">El nombre es requerido.</small>
+            <small class="msj-error" *ngIf="createUserForm.get('uname')?.hasError('minlength')">El nombre debe tener al menos 3 caracteres.</small>
+          </div>
+          
+        <!--Apellido-->
+        <app-custom-input
+          [control]="createUserForm.controls.ulaname"
+          label="Apellidos"
+          icon="person"
+          placeholder="Ingrese su/sus apellidos"
+          type="text"
+        ></app-custom-input>
 
-        <!--Mensaje de error Apellidos-->
-        <div *ngIf="createUserForm.get('ulaname')?.invalid && (createUserForm.get('ulaname')?.dirty || createUserForm.get('ulaname')?.touched)">
-          <small class="msj-error" *ngIf="createUserForm.get('ulaname')?.hasError('required')">El Apellido es requerido.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('ulaname')?.hasError('minlength')">El Apellido debe tener al menos 3 caracteres.</small>
-        </div>
+          <!--Mensaje de error Apellidos-->
+          <div *ngIf="createUserForm.get('ulaname')?.invalid && (createUserForm.get('ulaname')?.dirty || createUserForm.get('ulaname')?.touched)">
+            <small class="msj-error" *ngIf="createUserForm.get('ulaname')?.hasError('required')">El Apellido es requerido.</small>
+            <small class="msj-error" *ngIf="createUserForm.get('ulaname')?.hasError('minlength')">El Apellido debe tener al menos 3 caracteres.</small>
+          </div>
 
-      <ion-item lines="none">
-        <ion-input formControlName="uemail" fill="outline" type="email" placeholder="Correo Institucional" required></ion-input>
-      </ion-item>
+        <!-- Correo -->
+        <app-custom-input
+          [control]="createUserForm.controls.uemail"
+          label="Email"
+          icon="mail"
+          placeholder="Ingrese correo institucional"
+          type="email"
+        ></app-custom-input>
 
-        <!--Mensaje de error Correo-->
-        <div *ngIf="createUserForm.get('uemail')?.invalid && (createUserForm.get('uemail')?.dirty || createUserForm.get('correo')?.touched)">
-          <small class="msj-error" *ngIf="createUserForm.get('uemail')?.hasError('required')">El Correo es requerido.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('uemail')?.hasError('email')">El formato del Correo es incorrecto.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('uemail')?.errors?.['emailDomain']">Debe usar un correo que termine en &#64;duocuc.cl.</small>
-        </div>
+          <!--Mensaje de error Correo-->
+          <div *ngIf="createUserForm.get('uemail')?.invalid && (createUserForm.get('uemail')?.dirty || createUserForm.get('correo')?.touched)">
+            <small class="msj-error" *ngIf="createUserForm.get('uemail')?.hasError('required')">El Correo es requerido.</small>
+            <small class="msj-error" *ngIf="createUserForm.get('uemail')?.hasError('email')">El formato del Correo es incorrecto.</small>
+            <small class="msj-error" *ngIf="createUserForm.get('uemail')?.errors?.['emailDomain']">Debe usar un correo que termine en &#64;duocuc.cl.</small>
+          </div>
+        
+        <!-- Contraseña -->
+        <app-custom-input
+          [control]="createUserForm.controls.upassword"
+          label="Contraseña"
+          icon="lock-closed"
+          placeholder="Ingrese su contraseña"
+          type="password"
+        ></app-custom-input>
 
-      <ion-item lines="none">
-        <ion-input formControlName="upassword" fill="outline" type="password" placeholder="Contraseña" required></ion-input>
-      </ion-item>
-
-        <!--Mensaje de error Contraseña-->
-        <div *ngIf="createUserForm.get('upassword')?.invalid && (createUserForm.get('upassword')?.dirty || createUserForm.get('password')?.touched)">
-          <small class="msj-error" *ngIf="createUserForm.get('upassword')?.hasError('required')">La Contraseña es requerida.</small>
-          <small class="msj-error" *ngIf="createUserForm.get('upassword')?.hasError('minlength')">La Contraseña debe tener al menos 6 caracteres.</small>
-        </div>
-
-      <ion-item lines="none">
-        <ion-input formControlName="confirmPassword" fill="outline" type="password" placeholder="Repetir contraseña" required></ion-input>
-      </ion-item>
+          <!--Mensaje de error Contraseña-->
+          <div *ngIf="createUserForm.get('upassword')?.invalid && (createUserForm.get('upassword')?.dirty || createUserForm.get('password')?.touched)">
+            <small class="msj-error" *ngIf="createUserForm.get('upassword')?.hasError('required')">La Contraseña es requerida.</small>
+            <small class="msj-error" *ngIf="createUserForm.get('upassword')?.hasError('minlength')">La Contraseña debe tener al menos 6 caracteres.</small>
+          </div>
+        
+        <!-- Repetir Contraseña -->
+        <app-custom-input
+          [control]="createUserForm.controls.password2"
+          label="Confirmar contraseña"
+          icon="lock-closed"
+          placeholder="Vuelva a ingresar su contraseña"
+          type="password"
+          [onChange]="validarContraseniasIguales()"
+        ></app-custom-input>
 
       <ion-button color="dark" expand="block" type="submit" [disabled]="createUserForm.invalid">Registrarme</ion-button>
     </form>
