@@ -27,9 +27,9 @@ private ngFirestore = inject(AngularFirestore)
   }
 
   //====CREAR CUENTA DE USUARIO=======//
-  signUp(email:string, password:string, name:string, lastName:string){
-    const user = this.ngFireAuth.createUserWithEmailAndPassword(email, password);
-    user.then( userRef => { this.setDocument(`usuarios/${userRef.user?.uid}`, {name, lastName, email, uid: userRef.user?.uid}) });
+  signUp(uemail:string, upassword:string, uname:string, ulaname:string){
+    const user = this.ngFireAuth.createUserWithEmailAndPassword(uemail, upassword);
+    user.then( userRef => { this.setDocument(`usuarios/${userRef.user?.uid}`, {uname, ulaname, uemail, upassword, uid: userRef.user?.uid}) });
     return user;
   }
 
