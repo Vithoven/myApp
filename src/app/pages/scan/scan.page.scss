@@ -34,11 +34,11 @@ zxing-scanner {
 .button-container {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Espacio entre los botones */
-  padding: 0 20px; /* Margen a los lados */
-  margin-top: -140px; /* Reduce aún más el espacio superior */
+  gap: 4px; /* Reducido para acercar los botones entre sí */
+  padding: 0 20px;
+  margin-top: -150px; /* Ajustado para acercar los botones al cuadro */
 }
 
 ion-button {
-  --margin-bottom: 8px; /* Espacio en la parte inferior de los botones */
+  --margin-bottom: 4px; /* Ajustado para reducir espacio entre botones */
 }
