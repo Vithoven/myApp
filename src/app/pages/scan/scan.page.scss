@@ -1,44 +1,45 @@
 .camera-sim {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  height: 100%;
 }
 
 .qr-container {
-  position: relative;
   width: 100%;
-  height: 100%;
+  height: 300px; /* Ajusta la altura según sea necesario */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: 2px dashed #007bff; /* Color del marco */
+  margin-bottom: 20px;
+  margin-top: 50px;
 }
 
 .recording-frame {
-  position: relative;
-  width: 90%; /* Ajustado para hacer el cuadro un tercio más grande */
-  max-width: 500px;
-  height: 55vh; /* Incrementado para agrandar el área */
-  max-height: 400px;
-  border: 2px solid #333;
+  width: 90%; /* Ajusta el tamaño del marco según sea necesario */
+  height: 90%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin: 0 auto;
-}
-
-zxing-scanner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  align-items: center;
+  background-color: rgba(0, 123, 255, 0.1); /* Color de fondo opcional */
+  border-radius: 10px;
 }
 
 .button-container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 0 20px;
-  margin-top: -120px; /* Ajustado para mantener los botones cerca del cuadro */
+  display: flex; /* Cambiado para mostrar los botones uno al lado del otro */
+  justify-content: space-between; /* Espacio entre los botones */
+  width: 100%; /* Ajustar al ancho del contenedor */
+  padding: 0 20px; /* Espacio a los lados */
+}
+
+.button {
+  flex: 1; /* Los botones ocuparán el mismo espacio */
+  margin: 0 5px; /* Margen entre los botones */
 }
 
 ion-button {
-  --margin-bottom: 4px;
+  margin-top: 10px; /* Espaciado entre los botones */
 }
