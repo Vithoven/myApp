@@ -1,3 +1,4 @@
+import { SlicePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 
@@ -7,21 +8,25 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./scan.page.scss'],
 })
 export class ScanPage implements OnInit {
+    isScanning: boolean = true;
 
   constructor(private alertController: AlertController) { }
 
   ngOnInit() {
   }
 
-  /* Alerta de escaneo fallido (Temporal) */
-  async mostrarAlertaFallo() {
-    const alert = await this.alertController.create({
-      header: 'Escaneo Fallido',
-      message: 'Muy lejos de la ubicación del Código QR.',
-      buttons: ['OK'],
-    });
+  /*Escaneo exitoso*/
+  async scanSuccess(result:string){
+    console.log('escaneo exitoso', result);
+    this.mostrarAlertaExito
+  }
 
-    await alert.present();
+
+
+  /*Cancelar escaneo*/
+  async scanCancel(){
+    this.isScanning = false;
+    console.log('escaneo cancelado')
   }
 
   /* Alerta de escaneo exitoso */
@@ -32,6 +37,16 @@ export class ScanPage implements OnInit {
       buttons: ['OK'],
     });
 
+    await alert.present();
+  }
+
+  /*Alerta escaneo fallido*/
+  async mostrarAlertaFallo(){
+    const alert =await this.alertController.create({
+      header: 'Escaneo fallido',
+      message: 'Fuera de rango',
+      buttons: ['OK']
+    })
     await alert.present();
   }
 }
