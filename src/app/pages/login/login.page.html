@@ -7,17 +7,18 @@
     </div>
 
     <!-- Formulario de inicio de sesión -->
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
       <!-- Contenedor de los campos de formulario -->
       <div class="form flex">
+        
         <!-- Campo de correo -->
-        <ion-item lines="none">
-          <ion-input 
-            fill="outline" 
-            placeholder="Ingresa tu correo institucional" 
-            formControlName="email">
-          </ion-input>
-        </ion-item>
+        <app-custom-input
+        icon="mail"
+        label="Correo Electrónico"
+        type="email"
+        [control]="loginForm.controls.uemail"
+        placeholder="Correo institucional"
+        ></app-custom-input>
 
         <!-- Mensajes de error para el campo de correo -->
         <div class="ion-padding-bottom" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
@@ -26,14 +27,13 @@
         </div>
 
         <!-- Campo de contraseña -->
-        <ion-item lines="none">
-          <ion-input 
-            fill="outline" 
-            placeholder="Ingresa tu contraseña" 
-            type="password" 
-            formControlName="password">
-          </ion-input>
-        </ion-item>
+        <app-custom-input
+        icon="lock-closed"
+        label="Contraseña"
+        type="password"
+        [control]="loginForm.controls.upassword"
+        placeholder="Contraseña"
+        ></app-custom-input>
 
         <!-- Mensajes de error para el campo de contraseña -->
         <div class="ion-padding-bottom" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
@@ -51,7 +51,7 @@
       <div class="contenedor-registro">
         <span>¿Usuario nuevo? </span>
         <!-- Enlace para registrar un nuevo usuario -->
-        <ion-button fill="clear" routerLink="/crear" color="tertiary" style="margin-left: 5px;">Regístrate</ion-button>
+        <ion-button fill="clear" routerLink="/crear" color="tertiary">Regístrate</ion-button>
       </div>
     </form>
   </div>
