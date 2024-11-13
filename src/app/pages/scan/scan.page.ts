@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { Geolocation } from '@capacitor/geolocation';
 import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { UtilsService } from 'src/app/services/utils.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-scan',
@@ -8,9 +12,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./scan.page.scss'],
 })
 export class ScanPage implements OnInit {
-  isScanning: boolean = true;
-  scannedResult: string = '';
-  isScanned: boolean = false;
+
+  private allowedRange = 10; // Rango permitido en metros
+  isSupported = false;
+  barcodes: Barcode[] = [];
+  studentData: any; // Reemplazar el valor inicial con datos del estudiante logueado
+  scannedQrData: any;
+
 
   constructor(
     private alertController: AlertController,
