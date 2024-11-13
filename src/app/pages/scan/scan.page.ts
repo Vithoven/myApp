@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scan',
@@ -12,10 +11,7 @@ export class ScanPage implements OnInit {
   scannedResult: string = '';
   isScanned: boolean = false;
 
-  constructor(
-    private alertController: AlertController,
-    private router: Router
-  ) {}
+  constructor(private alertController: AlertController) { }
 
   ngOnInit() {}
 
@@ -29,38 +25,17 @@ export class ScanPage implements OnInit {
     }
   }
 
-  cancelarEscaneo() {
-    this.isScanning = false;
-    console.log('Escaneo cancelado');
-  }
-
   async mostrarAlertaExito(codigoQR: string) {
     const alert = await this.alertController.create({
       header: 'Escaneo Exitoso',
       message: `Escaneo exitoso. El código QR es: ${codigoQR}`,
-      buttons: [
-        {
-          text: 'OK',
-          handler: () => {
-            this.router.navigate(['/register-assistance', { subject: 'ingles' }]);
-          },
-        },
-      ],
-    });
-    await alert.present();
-  }
-  onScanError(error: any) {
-    console.log('Error en escaneo:', error);
-
-    this.mostrarAlertaError('Escaneo fallido. Intente nuevamente.');
-  }
-
-  async mostrarAlertaError(message: string) {
-    const alert = await this.alertController.create({
-      header: 'Error en Escaneo',
-      message: message,
       buttons: ['OK'],
     });
     await alert.present();
+  }
+
+  cancelarEscaneo() {
+    this.isScanning = false;
+    console.log('Escaneo cancelado');
   }
 }
