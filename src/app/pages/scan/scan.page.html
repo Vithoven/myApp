@@ -5,7 +5,6 @@
     <div class="recording-frame">
       <zxing-scanner 
         (scanSuccess)="onScanSuccess($event)" 
-        (scanError)="onScanError($event)"
         [start]="isScanning">
       </zxing-scanner>
       <h3>Apunte con la cámara al código QR</h3>
