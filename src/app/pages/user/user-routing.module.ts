@@ -7,10 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: UserPage
-  },  {
-    path: 'modify',
-    loadChildren: () => import('./modify/modify.module').then( m => m.ModifyPageModule)
-  }
+  },
 
 ];
 
