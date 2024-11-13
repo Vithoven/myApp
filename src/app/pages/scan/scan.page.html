@@ -3,14 +3,15 @@
 <ion-content class="camera-sim ion-padding">
   <div class="qr-container ion-padding">
     <div class="recording-frame">
-      <zxing-scanner 
-        (scanSuccess)="onScanSuccess($event)" 
-        [start]="isScanning">
-      </zxing-scanner>
-      <h3>Apunte con la cámara al código QR</h3>
+      <h3>Marco de Escaneo</h3>
+      <!-- Componente de generación de QR -->
+      <ngx-qrcode [qrc-value]="generatedQRCode"></ngx-qrcode>
     </div>
   </div>
   <div class="button-container">
-    <ion-button expand="full" color="dark" (click)="mostrarAlertaExito()">Escanear</ion-button>
+    <!-- Botones de escaneo y control -->
+    <ion-button expand="full" color="dark" (click)="startScanning()">Escanear</ion-button>
+    <ion-button expand="full" color="danger" (click)="mostrarAlertaFallo()">Escaneo Fallido</ion-button>
+    <ion-button expand="full" color="light" (click)="cancelarEscaneo()">Cancelar Escaneo</ion-button>
   </div>
 </ion-content>
