@@ -142,5 +142,44 @@ export class ScanPage implements OnInit {
     }
   }
 
-  
+  async saveAttendance(sectionId: string, classDate: string) {
+    try {
+      // Definir la ruta a la subcolección de asistencia de la sección
+      const attendancePath = `sections/${sectionId}/attendance`;
+
+      // Usa la fecha de la clase como ID de documento
+      await this.firestore
+        .collection(attendancePath)
+        .doc(classDate)
+        .set(
+          {
+            [this.studentData.email]: {
+              ...this.studentData,
+              timestamp: new Date(), // Opcional: marca la hora de escaneo
+            }
+          },
+          { merge: true } // Combina con el documento existente si ya existe
+        );
+
+      console.log('Asistencia registrada con éxito.');
+      await this.presentAlert('Éxito', 'Asistencia registrada.');
+    } catch (error) {
+      console.error('Error al guardar la asistencia:', error);
+      await this.presentAlert('Error', 'No se pudo registrar la asistencia.');
+    }
+  }
+
+  async requestPermissions(): Promise<boolean> {
+    const { camera } = await BarcodeScanner.requestPermissions();
+    return camera === 'granted' || camera === 'limited';
+  }
+
+  async presentAlert(header: string, message: string): Promise<void> {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
 }
