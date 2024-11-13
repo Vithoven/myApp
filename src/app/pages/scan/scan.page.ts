@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { Router } from '@angular/router';  // Asegúrate de importar el Router
 
 @Component({
   selector: 'app-scan',
@@ -8,72 +8,63 @@ import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
   styleUrls: ['./scan.page.scss'],
 })
 export class ScanPage implements OnInit {
-  isScanning: boolean = true; 
-  qrData: string = 'RegistroAsistencia123'; // El texto o dato que deseas incluir en el QR
-  generatedQRCode: string | null = null;
-  scannedBarcodes: Barcode[] = [];
+  isScanning: boolean = true;
+  scannedResult: string = '';
+  isScanned: boolean = false;
 
-  constructor(private alertController: AlertController) {}
+  constructor(
+    private alertController: AlertController,
+    private router: Router  // Inyecta el Router
+  ) {}
 
-  ngOnInit() {
-    this.generatedQRCode = this.qrData; // Genera el código QR al iniciar
+  ngOnInit() {}
+
+  onScanSuccess(result: string) {
+    if (!this.isScanned) {
+      console.log('Código QR escaneado:', result);
+      this.scannedResult = result;
+      this.isScanned = true;
+      this.isScanning = false; 
+      this.mostrarAlertaExito(result);  // Llamada para mostrar alerta de éxito
+    }
   }
 
-  // Escaneo exitoso
-  async onScanSuccess(result: Barcode[]) {
-    this.scannedBarcodes = result;
-    console.log('Código QR escaneado:', result[0]?.rawValue);
-    this.mostrarAlertaExito();
-  }
-
-  // Cancelar escaneo
   cancelarEscaneo() {
     this.isScanning = false;
     console.log('Escaneo cancelado');
   }
 
-  // Solicitar permisos y escanear
-  async startScanning() {
-    const granted = await this.requestPermissions();
-    if (!granted) {
-      this.presentAlert();
-      return;
-    }
-    const { barcodes } = await BarcodeScanner.scan();
-    this.onScanSuccess(barcodes);
-  }
-
-  // Solicitud de permisos
-  async requestPermissions(): Promise<boolean> {
-    const { camera } = await BarcodeScanner.requestPermissions();
-    return camera === 'granted' || camera === 'limited';
-  }
-
-  // Alerta de fallo en escaneo
-  async mostrarAlertaFallo() {
-    const alert = await this.alertController.create({
-      header: 'Escaneo Fallido',
-      message: 'Muy lejos de la ubicación del Código QR.',
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
-
-  // Alerta de éxito en escaneo
-  async mostrarAlertaExito() {
+  // Mostrar alerta de escaneo exitoso y redirigir
+  async mostrarAlertaExito(codigoQR: string) {
     const alert = await this.alertController.create({
       header: 'Escaneo Exitoso',
-      message: `Código escaneado: ${this.scannedBarcodes[0]?.rawValue || 'Desconocido'}`,
-      buttons: ['OK'],
+      message: `Escaneo exitoso. El código QR es: ${codigoQR}`,
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            // Aquí se pasa el parámetro 'subject' a la ruta
+            this.router.navigate(['/register-assistance', { subject: 'ingles' }]);  // Cambia 'ingles' por el valor adecuado
+          },
+        },
+      ],
     });
     await alert.present();
   }
 
-  // Alerta de permiso denegado
-  async presentAlert(): Promise<void> {
+  // Función para manejar errores de escaneo
+  onScanError(error: any) {
+    console.log('Error en escaneo:', error);  // Imprimir el error en consola
+
+    // Mostrar alerta de error
+    this.mostrarAlertaError('Escaneo fallido. Intente nuevamente.');
+  }
+
+  // Mostrar alerta de error
+  async mostrarAlertaError(message: string) {
     const alert = await this.alertController.create({
-      header: 'Permiso denegado',
-      message: 'Para usar la aplicación autorizar los permisos de cámara',
+      header: 'Error en Escaneo',
+      message: message,
       buttons: ['OK'],
     });
     await alert.present();
