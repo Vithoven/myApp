@@ -9,6 +9,7 @@ import { AngularFireModule } from "@angular/fire/compat";
 import { firebaseConfig } from 'src/environments/firebaseconfig';
 import{AngularFireStorageModule} from '@angular/fire/compat/storage';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +20,8 @@ import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
     ReactiveFormsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireStorageModule,
-    AngularFirestoreModule],
+    AngularFirestoreModule,
+    ZXingScannerModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

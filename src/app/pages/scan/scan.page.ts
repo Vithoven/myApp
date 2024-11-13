@@ -107,42 +107,42 @@ export class ScanPage implements OnInit {
   }
 
   //=====ESCANEO======//
-  async scan(): Promise<any> {
-    const granted = await this.requestPermissions();
-    if (!granted) {
-      this.presentAlert('Permiso denegado', 'Para usar la aplicación autorizar los permisos de cámara');
-      return null; // Si no se obtiene permiso, retornamos null
-    }
-  
-    const { barcodes } = await BarcodeScanner.scan();
-    if (barcodes.length > 0) {
-      try {
-        const qrData = JSON.parse(barcodes[0].displayValue); // Asume que el QR contiene datos en formato JSON
-        const { sectionId, classDate, profeLatitude, profeLongitude } = qrData;
-  
-        // Verifica que la fecha de la clase sea válida
-        const currentDate = new Date();
-        const classDateParts = classDate.split('-'); // '13-11-2024' -> ['13', '11', '2024']
-        const classDateObj = new Date(Number(classDateParts[2]), Number(classDateParts[1]) - 1, Number(classDateParts[0]));
-  
-        if (classDateObj.toDateString() !== currentDate.toDateString()) {
-          console.log("La clase no está programada para hoy.");
-          await this.presentAlert('Fecha inválida', 'El código QR no corresponde a la clase de hoy.');
-          return null; // Si la fecha no es válida, retornamos null
-        }
-  
-        // Almacena los datos escaneados en scannedQrData y retorna los datos
-        return { sectionId, classDate, profeLatitude, profeLongitude };
-      } catch (error) {
-        console.error("Error al procesar el código QR:", error);
-        await this.presentAlert('Error', 'El código QR escaneado es inválido.');
-        return null; // Si hay un error, retornamos null
-      }
-    } else {
-      console.log("No se pudo escanear el QR.");
-      return null; // Si no se escaneó ningún código, retornamos null
-    }
+async scan(): Promise<any> {
+  const granted = await this.requestPermissions();
+  if (!granted) {
+    this.presentAlert('Permiso denegado', 'Para usar la aplicación autorizar los permisos de cámara');
+    return null; // Si no se obtiene permiso, retornamos null
   }
+
+  const { barcodes } = await BarcodeScanner.scan();
+  if (barcodes.length > 0) {
+    try {
+      const qrData = JSON.parse(barcodes[0].displayValue); // Asume que el QR contiene datos en formato JSON
+      const { id, asignatura, seccion, fecha } = qrData;
+
+      // Verifica que la fecha de la clase sea válida
+      const currentDate = new Date();
+      const fechaParts = fecha.split('-'); // '13-11-2024' -> ['13', '11', '2024']
+      const fechaObj = new Date(Number(fechaParts[2]), Number(fechaParts[1]) - 1, Number(fechaParts[0]));
+
+      if (fechaObj.toDateString() !== currentDate.toDateString()) {
+        console.log("La clase no está programada para hoy.");
+        await this.presentAlert('Fecha inválida', 'El código QR no corresponde a la clase de hoy.');
+        return null; // Si la fecha no es válida, retornamos null
+      }
+
+      // Almacena los datos escaneados en scannedQrData y retorna los datos
+      return { id, asignatura, seccion, fecha };
+    } catch (error) {
+      console.error("Error al procesar el código QR:", error);
+      await this.presentAlert('Error', 'El código QR escaneado es inválido.');
+      return null; // Si hay un error, retornamos null
+    }
+  } else {
+    console.log("No se pudo escanear el QR.");
+    return null; // Si no se escaneó ningún código, retornamos null
+  }
+}
 
   async saveAttendance(sectionId: string, classDate: string) {
     try {
