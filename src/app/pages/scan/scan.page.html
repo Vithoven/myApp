@@ -1,24 +1,15 @@
 <app-encabezado [titulo]="'Escanear QR'" [showBackButton]="true"></app-encabezado>
 
-<ion-content class="camera-sim ion-padding">
-  <div class="qr-container ion-padding">
-    <div class="recording-frame">
-      <zxing-scanner 
-        (scanSuccess)="onScanSuccess($event)" 
-        (scanError)="onScanError($event)"
-        [start]="isScanning">
-      </zxing-scanner>
-      <h3>Apunte con la cámara al código QR</h3>
-    </div>
-  </div>
-
-  <div class="notification-container">
-    <ion-text color="dark">
-      <h4>Acerque la cámara al código QR</h4>
-    </ion-text>
-  </div>
-
-  <div *ngIf="scannedResult">
-    <p>Resultado escaneado: {{ scannedResult }}</p>
-  </div>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let barcode of barcodes">
+      <ion-label position="stacked">{{ barcode.format }}</ion-label>
+      <ion-input type="text" [value]="barcode.rawValue"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="scan()" [disabled]="!isSupported">
+      <ion-icon name="scan"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
