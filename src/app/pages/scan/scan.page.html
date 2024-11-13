@@ -1,16 +1,24 @@
 <app-encabezado [titulo]="'Escanear QR'" [showBackButton]="true"></app-encabezado>
 
-<!-- Marco de escaneo falso -->
 <ion-content class="camera-sim ion-padding">
   <div class="qr-container ion-padding">
     <div class="recording-frame">
-      <h3>Marco de Escaneo</h3>
+      <zxing-scanner 
+        (scanSuccess)="onScanSuccess($event)" 
+        (scanError)="onScanError($event)"
+        [start]="isScanning">
+      </zxing-scanner>
+      <h3>Apunte con la cámara al código QR</h3>
     </div>
   </div>
 
-  <!-- Botónes -->
-  <div class="button-container">
-    <ion-button expand="full" color="dark" (click)="mostrarAlertaExito()">Escanear</ion-button>
-    <ion-button expand="full" color="danger" (click)="mostrarAlertaFallo()">Escaneo Fallido</ion-button>
+  <div class="notification-container">
+    <ion-text color="dark">
+      <h4>Acerque la cámara al código QR</h4>
+    </ion-text>
+  </div>
+
+  <div *ngIf="scannedResult">
+    <p>Resultado escaneado: {{ scannedResult }}</p>
   </div>
 </ion-content>

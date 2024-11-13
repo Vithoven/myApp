@@ -1,6 +1,6 @@
-import { SlicePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scan',
@@ -8,45 +8,59 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./scan.page.scss'],
 })
 export class ScanPage implements OnInit {
-    isScanning: boolean = true;
+  isScanning: boolean = true;
+  scannedResult: string = '';
+  isScanned: boolean = false;
 
-  constructor(private alertController: AlertController) { }
+  constructor(
+    private alertController: AlertController,
+    private router: Router
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  onScanSuccess(result: string) {
+    if (!this.isScanned) {
+      console.log('Código QR escaneado:', result);
+      this.scannedResult = result;
+      this.isScanned = true;
+      this.isScanning = false; 
+      this.mostrarAlertaExito(result);
+    }
   }
 
-  /*Escaneo exitoso*/
-  async scanSuccess(result:string){
-    console.log('escaneo exitoso', result);
-    this.mostrarAlertaExito
-  }
-
-
-
-  /*Cancelar escaneo*/
-  async scanCancel(){
+  cancelarEscaneo() {
     this.isScanning = false;
-    console.log('escaneo cancelado')
+    console.log('Escaneo cancelado');
   }
 
-  /* Alerta de escaneo exitoso */
-  async mostrarAlertaExito() {
+  async mostrarAlertaExito(codigoQR: string) {
     const alert = await this.alertController.create({
       header: 'Escaneo Exitoso',
-      message: 'Escaneo exitoso. Asistencia registrada.',
-      buttons: ['OK'],
+      message: `Escaneo exitoso. El código QR es: ${codigoQR}`,
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.router.navigate(['/register-assistance', { subject: 'ingles' }]);
+          },
+        },
+      ],
     });
-
     await alert.present();
   }
+  onScanError(error: any) {
+    console.log('Error en escaneo:', error);
 
-  /*Alerta escaneo fallido*/
-  async mostrarAlertaFallo(){
-    const alert =await this.alertController.create({
-      header: 'Escaneo fallido',
-      message: 'Fuera de rango',
-      buttons: ['OK']
-    })
+    this.mostrarAlertaError('Escaneo fallido. Intente nuevamente.');
+  }
+
+  async mostrarAlertaError(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Error en Escaneo',
+      message: message,
+      buttons: ['OK'],
+    });
     await alert.present();
   }
 }
