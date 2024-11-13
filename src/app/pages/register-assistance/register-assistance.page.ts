@@ -10,14 +10,12 @@ export class RegisterAssistancePage {
   subjectTitle: string = '';
 
   constructor(private route: ActivatedRoute, private router: Router) {
-    // Obtener el parámetro 'subject' de la URL
     this.route.params.subscribe(params => {
       const subject = params['subject'];
-      this.setSubjectTitle(subject);  // Establecer el título basado en el parámetro
+      this.setSubjectTitle(subject);
     });
   }
 
-  // Establecer el título de la asignatura
   setSubjectTitle(subject: string) {
     switch (subject) {
       case 'ingles':
@@ -34,7 +32,6 @@ export class RegisterAssistancePage {
     }
   }
 
-  // Función para regresar a la lista de asignaturas
   goBack() {
     this.router.navigate(['/select-assistance']);
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';  // Asegúrate de importar el Router
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scan',
@@ -14,7 +14,7 @@ export class ScanPage implements OnInit {
 
   constructor(
     private alertController: AlertController,
-    private router: Router  // Inyecta el Router
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -25,7 +25,7 @@ export class ScanPage implements OnInit {
       this.scannedResult = result;
       this.isScanned = true;
       this.isScanning = false; 
-      this.mostrarAlertaExito(result);  // Llamada para mostrar alerta de éxito
+      this.mostrarAlertaExito(result);
     }
   }
 
@@ -34,7 +34,6 @@ export class ScanPage implements OnInit {
     console.log('Escaneo cancelado');
   }
 
-  // Mostrar alerta de escaneo exitoso y redirigir
   async mostrarAlertaExito(codigoQR: string) {
     const alert = await this.alertController.create({
       header: 'Escaneo Exitoso',
@@ -43,24 +42,19 @@ export class ScanPage implements OnInit {
         {
           text: 'OK',
           handler: () => {
-            // Aquí se pasa el parámetro 'subject' a la ruta
-            this.router.navigate(['/register-assistance', { subject: 'ingles' }]);  // Cambia 'ingles' por el valor adecuado
+            this.router.navigate(['/register-assistance', { subject: 'ingles' }]);
           },
         },
       ],
     });
     await alert.present();
   }
-
-  // Función para manejar errores de escaneo
   onScanError(error: any) {
-    console.log('Error en escaneo:', error);  // Imprimir el error en consola
+    console.log('Error en escaneo:', error);
 
-    // Mostrar alerta de error
     this.mostrarAlertaError('Escaneo fallido. Intente nuevamente.');
   }
 
-  // Mostrar alerta de error
   async mostrarAlertaError(message: string) {
     const alert = await this.alertController.create({
       header: 'Error en Escaneo',
