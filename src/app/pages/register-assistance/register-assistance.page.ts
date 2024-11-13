@@ -32,7 +32,6 @@ export class RegisterAssistancePage {
     }
   }
 
-  // Función para regresar a la lista de asignaturas
   goBack() {
     this.router.navigate(['/select-assistance']);
   }
