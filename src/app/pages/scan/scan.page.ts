@@ -44,33 +44,103 @@ export class ScanPage implements OnInit {
     return { studentLatitude, studentLongitude };
   }
 
-  async mostrarAlertaExito(codigoQR: string) {
-    const alert = await this.alertController.create({
-      header: 'Escaneo Exitoso',
-      message: `Escaneo exitoso. El código QR es: ${codigoQR}`,
-      buttons: [
-        {
-          text: 'OK',
-          handler: () => {
-            this.router.navigate(['/register-assistance', { subject: 'ingles' }]);
-          },
-        },
-      ],
-    });
-    await alert.present();
-  }
-  onScanError(error: any) {
-    console.log('Error en escaneo:', error);
-
-    this.mostrarAlertaError('Escaneo fallido. Intente nuevamente.');
+  goBack() {
+    this.navCtrl.back();
   }
 
-  async mostrarAlertaError(message: string) {
-    const alert = await this.alertController.create({
-      header: 'Error en Escaneo',
-      message: message,
-      buttons: ['OK'],
-    });
-    await alert.present();
+  getDistanceFromLatLonInMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371e3; // Radio de la Tierra en metros
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distancia en metros
+    return distance;
   }
+
+  async isWithinAllowedRange() {
+    try {
+      // Paso 1: Obtener la posición actual del estudiante
+      const { studentLatitude, studentLongitude } = await this.getCurrentPosition();
+  
+      // Paso 2: Escanear el QR
+      const scannedQrData = await this.scan(); // Esto ya devuelve los datos del QR, no lo llames de nuevo aquí
+  
+      if (!scannedQrData) {
+        return; // Si no hay datos de QR, retorna sin hacer nada
+      }
+  
+      // Paso 3: Extraer las coordenadas del profesor desde el QR
+      const profeLatitude = scannedQrData.profeLatitude;
+      const profeLongitude = scannedQrData.profeLongitude;
+  
+      if (profeLatitude === undefined || profeLongitude === undefined) {
+        await this.presentAlert('Error', 'El QR no contiene coordenadas válidas del profesor.');
+        return;
+      }
+  
+      // Paso 4: Calcular la distancia entre el estudiante y el profesor
+      const distance = this.getDistanceFromLatLonInMeters(
+        profeLatitude,
+        profeLongitude,
+        studentLatitude,
+        studentLongitude
+      );
+  
+      // Paso 5: Verificar si está dentro del rango permitido
+      if (distance <= this.allowedRange) {
+        console.log("Estás dentro del rango permitido. Puedes registrar la asistencia.");
+        await this.saveAttendance(scannedQrData.sectionId, scannedQrData.classDate); // Llamar a saveAttendance con los datos del QR
+      } else {
+        console.log("Estás fuera del rango permitido. Acércate al profesor.");
+        await this.presentAlert('Fuera de rango', 'Estás fuera del rango permitido. Acércate al profesor.');
+      }
+    } catch (error) {
+      console.error("Error al obtener la ubicación o al escanear el QR:", error);
+      await this.presentAlert('Error', 'Ocurrió un error al intentar escanear el QR o obtener la ubicación.');
+    }
+  }
+
+  //=====ESCANEO======//
+  async scan(): Promise<any> {
+    const granted = await this.requestPermissions();
+    if (!granted) {
+      this.presentAlert('Permiso denegado', 'Para usar la aplicación autorizar los permisos de cámara');
+      return null; // Si no se obtiene permiso, retornamos null
+    }
+  
+    const { barcodes } = await BarcodeScanner.scan();
+    if (barcodes.length > 0) {
+      try {
+        const qrData = JSON.parse(barcodes[0].displayValue); // Asume que el QR contiene datos en formato JSON
+        const { sectionId, classDate, profeLatitude, profeLongitude } = qrData;
+  
+        // Verifica que la fecha de la clase sea válida
+        const currentDate = new Date();
+        const classDateParts = classDate.split('-'); // '13-11-2024' -> ['13', '11', '2024']
+        const classDateObj = new Date(Number(classDateParts[2]), Number(classDateParts[1]) - 1, Number(classDateParts[0]));
+  
+        if (classDateObj.toDateString() !== currentDate.toDateString()) {
+          console.log("La clase no está programada para hoy.");
+          await this.presentAlert('Fecha inválida', 'El código QR no corresponde a la clase de hoy.');
+          return null; // Si la fecha no es válida, retornamos null
+        }
+  
+        // Almacena los datos escaneados en scannedQrData y retorna los datos
+        return { sectionId, classDate, profeLatitude, profeLongitude };
+      } catch (error) {
+        console.error("Error al procesar el código QR:", error);
+        await this.presentAlert('Error', 'El código QR escaneado es inválido.');
+        return null; // Si hay un error, retornamos null
+      }
+    } else {
+      console.log("No se pudo escanear el QR.");
+      return null; // Si no se escaneó ningún código, retornamos null
+    }
+  }
+
+  
 }
