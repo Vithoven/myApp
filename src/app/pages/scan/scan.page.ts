@@ -22,24 +22,26 @@ export class ScanPage implements OnInit {
 
   constructor(
     private alertController: AlertController,
-    private router: Router
+    private firestore: AngularFirestore,
+    private utilService: UtilsService,
+    private navCtrl: NavController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Verificar si BarcodeScanner es compatible
+    BarcodeScanner.isSupported().then((result) => {
+      this.isSupported = result.supported;
+    });
 
-  onScanSuccess(result: string) {
-    if (!this.isScanned) {
-      console.log('Código QR escaneado:', result);
-      this.scannedResult = result;
-      this.isScanned = true;
-      this.isScanning = false; 
-      this.mostrarAlertaExito(result);
-    }
+    // Cargar los datos del estudiante logueado
+    this.studentData = this.utilService.getFromLocalStorage('user');
   }
 
-  cancelarEscaneo() {
-    this.isScanning = false;
-    console.log('Escaneo cancelado');
+  async getCurrentPosition() {
+    const position = await Geolocation.getCurrentPosition();
+    const studentLatitude = position.coords.latitude;
+    const studentLongitude = position.coords.longitude;
+    return { studentLatitude, studentLongitude };
   }
 
   async mostrarAlertaExito(codigoQR: string) {
