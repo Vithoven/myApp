@@ -1,13 +1,15 @@
-import { UtilsService } from './../../services/utils.service';
+import { UtilsService } from "src/app/services/utils.service";
 import { Component } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { inject } from '@angular/core';
 
+
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.page.html',
-  styleUrls: ['./user.page.scss'],
+  selector: 'app-modify',
+  templateUrl: './modify.page.html',
+  styleUrls: ['./modify.page.scss'],
 })
+
 export class UserPage {
   uname: string;
   ulaname: string;

@@ -77,6 +77,12 @@ private ngFirestore = inject(AngularFirestore)
     return getAuth();
   }
 
+  //=====ACUTALIZAR DATOS DE USUARIO=====//
+  async updateUser(userData: any) {
+    const currentUid = await this.ngFireAuth.currentUser.then(user => user?.uid);
+    const userRef = this.ngFirestore.doc(`usuarios/${currentUid}`);
+    return userRef.update(userData);
+  }
   constructor() { }
 }
 
