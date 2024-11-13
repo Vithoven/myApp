@@ -25,7 +25,9 @@ export class ScanPage implements OnInit {
     private firestore: AngularFirestore,
     private utilService: UtilsService,
     private navCtrl: NavController
-  ) {}
+  ) {
+    BarcodeScanner.installGoogleBarcodeScannerModule();
+  }
 
   ngOnInit() {
     // Verificar si BarcodeScanner es compatible
