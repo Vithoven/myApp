@@ -11,7 +11,7 @@ export class ScanPage implements OnInit {
   isScanning: boolean = true;
   scannedResult: string = '';
   isScanned: boolean = false;
-  qrData: string = ''; // Almacena los datos para el QR generado
+  qrData: string = '';
 
   constructor(
     private alertController: AlertController,
@@ -41,7 +41,6 @@ export class ScanPage implements OnInit {
     }
   }
 
-  // Genera el código QR con el valor específico para cada materia
   generarQR(subject: string) {
     switch (subject) {
       case 'ingles':
@@ -56,6 +55,6 @@ export class ScanPage implements OnInit {
       default:
         this.qrData = '';
     }
-    console.log('QR generado:', this.qrData);  // Verificar que qrData tiene el valor correcto
+    console.log('QR generado:', this.qrData);
   }
 }

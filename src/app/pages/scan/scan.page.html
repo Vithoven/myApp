@@ -1,7 +1,6 @@
 <app-encabezado [titulo]="'Escanear o Generar QR'" [showBackButton]="true"></app-encabezado>
 
 <ion-content class="ion-padding">
-  <!-- Contenedor para el escáner de QR -->
   <div class="qr-scanner-container">
     <h2>Escanear QR</h2>
     <div class="qr-container ion-padding">
@@ -21,7 +20,6 @@
     </div>
   </div>
 
-  <!-- Botones de generación de QR para materias -->
   <div class="qr-button-container" style="margin-top: 20px; text-align: center;">
     <h2>Generar QR para Materias</h2>
     <ion-button expand="block" (click)="generarQR('ingles')">Generar QR para Inglés</ion-button>
@@ -29,9 +27,7 @@
     <ion-button expand="block" (click)="generarQR('programacion')">Generar QR para Programación de Aplicaciones Móviles</ion-button>
   </div>
 
-  <!-- Contenedor para mostrar el código QR generado -->
   <div *ngIf="qrData" class="qr-display" style="margin-top: 20px; text-align: center;">
-    <!-- Se muestra el QR como una pestañita emergente -->
     <ion-card class="qr-card">
       <ion-card-header>
         <ion-card-title>Código QR</ion-card-title>
