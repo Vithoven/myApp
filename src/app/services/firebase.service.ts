@@ -5,6 +5,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getDoc, setDoc, doc, query, collection, collectionData, where } from "@angular/fire/firestore";
 import { User } from '../models/user.model';
 import { UtilsService } from './utils.service';
+import { Asistencia } from '../models/asistencia.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,17 @@ private ngFirestore = inject(AngularFirestore)
     const user = this.ngFireAuth.createUserWithEmailAndPassword(uemail, upassword);
     user.then( userRef => { this.setDocument(`usuarios/${userRef.user?.uid}`, {uname, ulaname, uemail, upassword, uid: userRef.user?.uid}) });
     return user;
+  }
+
+  //=====REGISTRAR ASISTENCIA=====//
+  async registerAssist(asistencia: Asistencia){
+    try {
+      // Crear la tabla en la base de datos
+      return await this.setDocument('asistencia', asistencia);
+    } catch (error) {
+      console.error('Error al crear la asistencia:', error);
+      throw error;
+    }
   }
 
   //=====RECUPERAR CONTRASEÑA EMAIL=====//

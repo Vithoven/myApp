@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { Geolocation } from '@capacitor/geolocation';
 import { AlertController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UtilsService } from 'src/app/services/utils.service';
 import { NavController } from '@ionic/angular';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { User } from 'src/app/models/user.model';
+import { Asistencia } from 'src/app/models/asistencia.model';
 
 @Component({
   selector: 'app-scan',
@@ -18,7 +21,13 @@ export class ScanPage implements OnInit {
   barcodes: Barcode[] = [];
   studentData: any; // Reemplazar el valor inicial con datos del estudiante logueado
   scannedQrData: any;
-
+  currentUser: User = { uid: '', uname: '', ulaname: '', uemail: '', upassword: '' };
+  asistencia: Asistencia = { clase: '', fecha: '', estado: 'ausente', idEstudiante: '' };
+  
+  // DEPENDENCIAS
+  private utils = inject(UtilsService);
+  private firebaseSvc = inject(FirebaseService);
+  
 
   constructor(
     private alertController: AlertController,
@@ -27,6 +36,15 @@ export class ScanPage implements OnInit {
     private navCtrl: NavController
   ) {
     BarcodeScanner.installGoogleBarcodeScannerModule();
+  }
+
+  ionViewWillEnter(){
+    this.firebaseSvc.getAuthIns().onAuthStateChanged( user => {
+      let userLocal:User = this.utils.getFromLocalStorage('user');
+      if(userLocal) {
+        this.currentUser = userLocal
+      }
+    })
   }
 
   ngOnInit() {
@@ -39,18 +57,18 @@ export class ScanPage implements OnInit {
     this.studentData = this.utilService.getFromLocalStorage('user');
   }
 
-  async getCurrentPosition() {
+  /* async getCurrentPosition() {
     const position = await Geolocation.getCurrentPosition();
     const studentLatitude = position.coords.latitude;
     const studentLongitude = position.coords.longitude;
     return { studentLatitude, studentLongitude };
-  }
+  } */
 
   goBack() {
     this.navCtrl.back();
   }
 
-  getDistanceFromLatLonInMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  /* getDistanceFromLatLonInMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371e3; // Radio de la Tierra en metros
     const dLat = (lat2 - lat1) * (Math.PI / 180);
     const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -61,9 +79,9 @@ export class ScanPage implements OnInit {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c; // Distancia en metros
     return distance;
-  }
+  } */
 
-  async isWithinAllowedRange() {
+  /* async isWithinAllowedRange() {
     try {
       // Paso 1: Obtener la posición actual del estudiante
       const { studentLatitude, studentLongitude } = await this.getCurrentPosition();
@@ -95,7 +113,7 @@ export class ScanPage implements OnInit {
       // Paso 5: Verificar si está dentro del rango permitido
       if (distance <= this.allowedRange) {
         console.log("Estás dentro del rango permitido. Puedes registrar la asistencia.");
-        await this.saveAttendance(scannedQrData.sectionId, scannedQrData.classDate); // Llamar a saveAttendance con los datos del QR
+        await this.saveAttendance(scannedQrData.clase, scannedQrData.classDate); // Llamar a saveAttendance con los datos del QR
       } else {
         console.log("Estás fuera del rango permitido. Acércate al profesor.");
         await this.presentAlert('Fuera de rango', 'Estás fuera del rango permitido. Acércate al profesor.');
@@ -104,7 +122,7 @@ export class ScanPage implements OnInit {
       console.error("Error al obtener la ubicación o al escanear el QR:", error);
       await this.presentAlert('Error', 'Ocurrió un error al intentar escanear el QR o obtener la ubicación.');
     }
-  }
+  } */
 
   //=====ESCANEO======//
 async scan(): Promise<any> {
@@ -118,25 +136,30 @@ async scan(): Promise<any> {
   if (barcodes.length > 0) {
     try {
       const qrData = JSON.parse(barcodes[0].displayValue); // Asume que el QR contiene datos en formato JSON
-      const { id, asignatura, seccion, fecha } = qrData;
+      const { clase, fecha, estado, idEstudiante } = qrData;
+      qrData.idEstudiante = this.currentUser.uname;
 
       // Verifica que la fecha de la clase sea válida
       const currentDate = new Date();
       const fechaParts = fecha.split('-'); // '13-11-2024' -> ['13', '11', '2024']
       const fechaObj = new Date(Number(fechaParts[2]), Number(fechaParts[1]) - 1, Number(fechaParts[0]));
-
-      if (fechaObj.toDateString() !== currentDate.toDateString()) {
+      console.log('llega hasta aca' + clase, fecha, estado, idEstudiante);
+      /* if (fechaObj.toDateString() !== currentDate.toDateString()) {
         console.log("La clase no está programada para hoy.");
         await this.presentAlert('Fecha inválida', 'El código QR no corresponde a la clase de hoy.');
         return null; // Si la fecha no es válida, retornamos null
-      }
+      } */
 
       // Almacena los datos escaneados en scannedQrData y retorna los datos
-      return { id, asignatura, seccion, fecha };
+      console.log('llega al return de almacenar datos')
+      this.saveAttendance(clase, fecha, estado, idEstudiante);
+      /* return { clase, fecha, estado, idEstudiante}; */
     } catch (error) {
       console.error("Error al procesar el código QR:", error);
       await this.presentAlert('Error', 'El código QR escaneado es inválido.');
+      console.log('devuelve null')
       return null; // Si hay un error, retornamos null
+      
     }
   } else {
     console.log("No se pudo escanear el QR.");
@@ -144,32 +167,50 @@ async scan(): Promise<any> {
   }
 }
 
-  async saveAttendance(sectionId: string, classDate: string) {
-    try {
-      // Definir la ruta a la subcolección de asistencia de la sección
-      const attendancePath = `sections/${sectionId}/attendance`;
+/* async saveAttendance(clase: string, fecha: string): Promise<void> */
+async saveAttendance(clase: string, fecha: string, estado: string, uid: string): Promise<void> {
+  try {
+    // Crear un ID único para el documento basado en clase, fecha y UID del estudiante
+    const documentId = `${clase}_${fecha}_${this.currentUser.uid}`;
 
-      // Usa la fecha de la clase como ID de documento
-      await this.firestore
-        .collection(attendancePath)
-        .doc(classDate)
-        .set(
-          {
-            [this.studentData.email]: {
-              ...this.studentData,
-              timestamp: new Date(), // Opcional: marca la hora de escaneo
-            }
-          },
-          { merge: true } // Combina con el documento existente si ya existe
-        );
-
-      console.log('Asistencia registrada con éxito.');
-      await this.presentAlert('Éxito', 'Asistencia registrada.');
-    } catch (error) {
-      console.error('Error al guardar la asistencia:', error);
-      await this.presentAlert('Error', 'No se pudo registrar la asistencia.');
+    // Crear el objeto de asistencia utilizando el modelo Asistencia
+    /* const asistencia: Asistencia = {
+      clase: clase,
+      fecha: fecha,
+      estado: 'presente',
+      idEstudiante: this.currentUser.uid
+    }; */
+    this.asistencia = {
+      clase: clase,
+      fecha: fecha,
+      estado: 'presente',
+      idEstudiante: this.currentUser.uid
     }
+    console.log('llega?', this.asistencia)
+    const user = await this.firebaseSvc.registerAssist(this.asistencia);
+
+    // Crear un objeto con la información del estudiante utilizando el modelo User
+    /* const estudianteData = {
+      ...this.currentUser,
+      timestamp: new Date() // Marca la hora de escaneo
+    };
+
+    // Guardar los datos en la colección principal de asistencia
+    await this.firestore
+      .collection('asistencia')
+      .doc(documentId) // Usar el ID único como identificador del documento
+      .set({
+        ...asistencia,           // Información básica de la asistencia
+        estudiante: estudianteData // Detalles del estudiante
+      }); */
+
+    console.log('Asistencia registrada con éxito.');
+    await this.presentAlert('Éxito', 'Asistencia registrada.');
+  } catch (error) {
+    console.error('Error al guardar la asistencia:', error);
+    await this.presentAlert('Error', 'No se pudo registrar la asistencia.');
   }
+}
 
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
@@ -184,4 +225,5 @@ async scan(): Promise<any> {
     });
     await alert.present();
   }
+
 }

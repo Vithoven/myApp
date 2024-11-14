@@ -6,7 +6,7 @@
     <ion-list>
       <ion-item *ngFor="let clase of clases">
         {{ clase.nombreClase }}
-        <ion-button slot="end" (click)="goToQR(clase.id)">Generar QR</ion-button>
+        <ion-button slot="end" (click)="goToQR(clase.nombreClase)">Generar QR</ion-button>
       </ion-item>
     </ion-list>
   </ion-card>
