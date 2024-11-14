@@ -6,10 +6,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from "@angular/fire/compat";
-import { firebaseConfig } from 'src/environments/environment';
+import { firebaseConfig } from 'src/environments/firebaseconfig';
 import{AngularFireStorageModule} from '@angular/fire/compat/storage';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
-
+import { QrCodeModule } from 'ng-qrcode';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -19,7 +19,8 @@ import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
     ReactiveFormsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireStorageModule,
-    AngularFirestoreModule],
+    AngularFirestoreModule,
+    QrCodeModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

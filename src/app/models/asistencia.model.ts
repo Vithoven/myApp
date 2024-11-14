@@ -1,7 +1,6 @@
-export interface asistencia{
-    id?: string;
-    asignatura: string;
-    seccion: string;
+export interface Asistencia{
+    clase: string;
     fecha: string;
     estado: 'presente' | 'ausente';
+    idEstudiante: string;
 }
