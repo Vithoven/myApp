@@ -1,23 +1,45 @@
-<app-encabezado [titulo]="'Escanear QR'" [showBackButton]="true"></app-encabezado>
+<app-encabezado [titulo]="'Escanear o Generar QR'" [showBackButton]="true"></app-encabezado>
 
-<ion-content class="camera-sim ion-padding">
-  <div class="qr-container ion-padding">
-    <div class="recording-frame">
-      <zxing-scanner 
-        (scanSuccess)="onScanSuccess($event)" 
-        [start]="isScanning">
-      </zxing-scanner>
-      <h3>Apunte con la cámara al código QR</h3>
+<ion-content class="ion-padding">
+  <!-- Contenedor para el escáner de QR -->
+  <div class="qr-scanner-container">
+    <h2>Escanear QR</h2>
+    <div class="qr-container ion-padding">
+      <div class="recording-frame">
+        <zxing-scanner 
+          (scanSuccess)="onScanSuccess($event)" 
+          [start]="isScanning">
+        </zxing-scanner>
+        <h3>Apunte con la cámara al código QR</h3>
+      </div>
+    </div>
+    
+    <div class="notification-container">
+      <ion-text color="dark">
+        <h4>Acerque la cámara al código QR</h4>
+      </ion-text>
     </div>
   </div>
 
-  <div class="notification-container">
-    <ion-text color="dark">
-      <h4>Acerque la cámara al código QR</h4>
-    </ion-text>
+  <!-- Botones de generación de QR para materias -->
+  <div class="qr-button-container" style="margin-top: 20px; text-align: center;">
+    <h2>Generar QR para Materias</h2>
+    <ion-button expand="block" (click)="generarQR('ingles')">Generar QR para Inglés</ion-button>
+    <ion-button expand="block" (click)="generarQR('arquitectura')">Generar QR para Arquitectura</ion-button>
+    <ion-button expand="block" (click)="generarQR('programacion')">Generar QR para Programación de Aplicaciones Móviles</ion-button>
   </div>
 
-  <div *ngIf="scannedResult">
-    <p>Resultado escaneado: {{ scannedResult }}</p>
+  <!-- Contenedor para mostrar el código QR generado -->
+  <div *ngIf="qrData" class="qr-display" style="margin-top: 20px; text-align: center;">
+    <!-- Se muestra el QR como una pestañita emergente -->
+    <ion-card class="qr-card">
+      <ion-card-header>
+        <ion-card-title>Código QR</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ng-qrcode [value]="qrData" errorCorrectionLevel="L"></ng-qrcode>
+        <p>Escanee este código QR con otro dispositivo para acceder a la materia seleccionada.</p>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

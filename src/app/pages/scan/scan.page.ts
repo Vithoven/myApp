@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scan',
@@ -10,32 +11,51 @@ export class ScanPage implements OnInit {
   isScanning: boolean = true;
   scannedResult: string = '';
   isScanned: boolean = false;
+  qrData: string = ''; // Almacena los datos para el QR generado
 
-  constructor(private alertController: AlertController) { }
+  constructor(
+    private alertController: AlertController,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
-  onScanSuccess(result: string) {
+  async onScanSuccess(result: string) {
     if (!this.isScanned) {
       console.log('Código QR escaneado:', result);
       this.scannedResult = result;
       this.isScanned = true;
       this.isScanning = false; 
-      this.mostrarAlertaExito(result);
+
+      const alert = await this.alertController.create({
+        header: 'Escaneo Exitoso',
+        message: `Escaneo exitoso. Redirigiendo a: ${result}`,
+        buttons: [{
+          text: 'OK',
+          handler: () => {
+            this.router.navigateByUrl(result);
+          }
+        }],
+      });
+      await alert.present();
     }
   }
 
-  async mostrarAlertaExito(codigoQR: string) {
-    const alert = await this.alertController.create({
-      header: 'Escaneo Exitoso',
-      message: `Escaneo exitoso. El código QR es: ${codigoQR}`,
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
-
-  cancelarEscaneo() {
-    this.isScanning = false;
-    console.log('Escaneo cancelado');
+  // Genera el código QR con el valor específico para cada materia
+  generarQR(subject: string) {
+    switch (subject) {
+      case 'ingles':
+        this.qrData = '/register-assistance/ingles';
+        break;
+      case 'arquitectura':
+        this.qrData = '/register-assistance/arquitectura';
+        break;
+      case 'programacion':
+        this.qrData = '/register-assistance/programacion';
+        break;
+      default:
+        this.qrData = '';
+    }
+    console.log('QR generado:', this.qrData);  // Verificar que qrData tiene el valor correcto
   }
 }
