@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, EmailAuthProvider, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { getDoc, setDoc, doc } from "@angular/fire/firestore";
+import { getDoc, setDoc, doc, query, collection, collectionData, where } from "@angular/fire/firestore";
 import { User } from '../models/user.model';
 import { UtilsService } from './utils.service';
 
@@ -68,6 +68,11 @@ private ngFirestore = inject(AngularFirestore)
     return (await getDoc(doc(this.ngFirestore.firestore, path))).data();
   }
 
+  getCollection(path: string) {
+    let q = query(collection(this.ngFirestore.firestore, path));
+    return collectionData(q, { idField: 'id' });
+  }
+
   async getCurrentUserData() {
     const currentUid = await this.ngFireAuth.currentUser.then( user => user?.uid);
     return (await this.getDocument(`usuarios/${currentUid}`)) as User;
@@ -84,6 +89,11 @@ private ngFirestore = inject(AngularFirestore)
     return userRef.update(userData);
   }
   constructor() { }
+
+  //=====Recibe firestore de la aplicación=====//
+  getFirestore(): AngularFirestore {
+    return this.ngFirestore;
+  }
 }
 
 

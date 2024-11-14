@@ -9,8 +9,7 @@ import { AngularFireModule } from "@angular/fire/compat";
 import { firebaseConfig } from 'src/environments/firebaseconfig';
 import{AngularFireStorageModule} from '@angular/fire/compat/storage';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
-import { ZXingScannerModule } from '@zxing/ngx-scanner';
-
+import { QrCodeModule } from 'ng-qrcode';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -21,7 +20,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireStorageModule,
     AngularFirestoreModule,
-    ZXingScannerModule],
+    QrCodeModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

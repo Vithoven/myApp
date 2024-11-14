@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { IonicModule } from '@ionic/angular';
-
 import { GenerarQrAsistenciaPageRoutingModule } from './generar-qr-asistencia-routing.module';
-
 import { GenerarQrAsistenciaPage } from './generar-qr-asistencia.page';
+import { QrCodeModule } from 'ng-qrcode';
 
 @NgModule({
   imports: [
@@ -14,7 +13,8 @@ import { GenerarQrAsistenciaPage } from './generar-qr-asistencia.page';
     ComponentsModule,
     FormsModule,
     IonicModule,
-    GenerarQrAsistenciaPageRoutingModule
+    GenerarQrAsistenciaPageRoutingModule,
+    QrCodeModule
   ],
   declarations: [GenerarQrAsistenciaPage]
 })

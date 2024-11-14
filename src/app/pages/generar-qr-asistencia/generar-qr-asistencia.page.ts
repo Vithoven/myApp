@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import { QrCodeModule } from 'ng-qrcode';
 @Component({
   selector: 'app-generar-qr-asistencia',
   templateUrl: './generar-qr-asistencia.page.html',
