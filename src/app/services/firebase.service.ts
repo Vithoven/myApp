@@ -38,7 +38,8 @@ private ngFirestore = inject(AngularFirestore)
   async registerAssist(asistencia: Asistencia){
     try {
       // Crear la tabla en la base de datos
-      return await this.setDocument('asistencia', asistencia);
+      const asistenciaRef = this.ngFirestore.collection('asistencia').doc();
+      return await asistenciaRef.set(asistencia);
     } catch (error) {
       console.error('Error al crear la asistencia:', error);
       throw error;
