@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { Geolocation } from '@capacitor/geolocation';
 import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scan',
@@ -8,53 +9,32 @@ import { Router } from '@angular/router';
   styleUrls: ['./scan.page.scss'],
 })
 export class ScanPage implements OnInit {
-  isScanning: boolean = true;
-  scannedResult: string = '';
-  isScanned: boolean = false;
-  qrData: string = '';
 
-  constructor(
-    private alertController: AlertController,
-    private router: Router
-  ) {}
+  constructor(private alertController: AlertController) { }
 
-  ngOnInit() {}
-
-  async onScanSuccess(result: string) {
-    if (!this.isScanned) {
-      console.log('Código QR escaneado:', result);
-      this.scannedResult = result;
-      this.isScanned = true;
-      this.isScanning = false; 
-
-      const alert = await this.alertController.create({
-        header: 'Escaneo Exitoso',
-        message: `Escaneo exitoso. Redirigiendo a: ${result}`,
-        buttons: [{
-          text: 'OK',
-          handler: () => {
-            this.router.navigateByUrl(result);
-          }
-        }],
-      });
-      await alert.present();
-    }
+  ngOnInit() {
   }
 
-  generarQR(subject: string) {
-    switch (subject) {
-      case 'ingles':
-        this.qrData = '/register-assistance/ingles';
-        break;
-      case 'arquitectura':
-        this.qrData = '/register-assistance/arquitectura';
-        break;
-      case 'programacion':
-        this.qrData = '/register-assistance/programacion';
-        break;
-      default:
-        this.qrData = '';
-    }
-    console.log('QR generado:', this.qrData);
+  /* Alerta de escaneo fallido (Temporal) */
+  async mostrarAlertaFallo() {
+    const alert = await this.alertController.create({
+      header: 'Escaneo Fallido',
+      message: 'Muy lejos de la ubicación del Código QR.',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
+
+  /* Alerta de escaneo exitoso */
+  async mostrarAlertaExito() {
+    const alert = await this.alertController.create({
+      header: 'Escaneo Exitoso',
+      message: 'Escaneo exitoso. Asistencia registrada.',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
 }

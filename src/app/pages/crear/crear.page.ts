@@ -1,75 +1,66 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UtilsService } from 'src/app/services/utils.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-crear',
   templateUrl: './crear.page.html',
   styleUrls: ['./crear.page.scss'],
 })
-export class CrearPage {
-  createUserForm: FormGroup;
+export class CrearPage implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private alertController: AlertController) {
-    this.createUserForm = this.formBuilder.group({
-      nombres: ['', [Validators.required, Validators.minLength(3)]],
-      apellidos: ['', [Validators.required, Validators.minLength(3)]],
-      correo: ['', [Validators.required, Validators.email, this.emailDomainValidator]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-    }, {
-      validator: this.matchPasswords('password', 'confirmPassword')
-    });
+  
+  //=====DEPENDENCIAS=====//
+  authSvc = inject(FirebaseService);
+  utils = inject(UtilsService);
+
+  //=====FORMULARIO=====//
+  createUserForm = new FormGroup({
+    uname: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    ulaname: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    uemail: new FormControl('', [Validators.email, Validators.required]),
+    upassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    password2: new FormControl('', [Validators.required, Validators.minLength(6)]),
+  });
+
+  ngOnInit() {
   }
 
-  // Validador personalizado para el dominio de correo
-  emailDomainValidator(control: AbstractControl): ValidationErrors | null {
-    const email = control.value as string;
-    if (email && email.indexOf('@duocuc.cl') === -1) {
-      return { emailDomain: true };
+  //===VALIDACION CONTRASEÑA===//
+  validarContraseniasIguales() {
+    const pass1 = this.createUserForm.value.upassword;
+    const pass2 = this.createUserForm.value.password2;
+
+    if (pass1 !== pass2) {
+      this.createUserForm.controls.password2.setErrors({ noIguales: true});
     }
-    return null;
   }
 
-  // Validador para comparar contraseñas
-  matchPasswords(password: string, confirmPassword: string) {
-    return (formGroup: FormGroup) => {
-      const passControl = formGroup.controls[password];
-      const confirmPassControl = formGroup.controls[confirmPassword];
-
-      if (confirmPassControl.errors && !confirmPassControl.errors['mustMatch']) {
-        return;
+  //=====REGISTRO=====//
+  async signUp() {
+    if (this.createUserForm.valid) {
+      const loading = await this.utils.presentLoading();
+      loading.present();
+      const email = this.createUserForm.value.uemail;
+      const password = this.createUserForm.value.upassword;
+      const nombre = this.createUserForm.value.uname;
+      const apellidos = this.createUserForm.value.ulaname;
+      try {
+        const user = await this.authSvc.signUp(email!, password!, nombre!, apellidos!);
+        if (user) {
+          this.utils.navigateForwardto("/login");
+        }
+      } catch (error) {
+        this.utils.presentToast({
+          icon: 'close-circle-sharp',
+          message: 'Error al registrarse',
+          color: 'danger',
+          duration: 2500
+        });
+      } finally {
+        loading.dismiss();
       }
-
-      if (passControl.value !== confirmPassControl.value) {
-        confirmPassControl.setErrors({ mustMatch: true });
-      } else {
-        confirmPassControl.setErrors(null);
-      }
-    };
-  }
-
-  // Método para enviar el formulario
-  async onSubmit() {
-    if (this.createUserForm.invalid) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Por favor, completa todos los campos correctamente.',
-        buttons: ['OK']
-      });
-      await alert.present();
-      return;
     }
-
-    const alert = await this.alertController.create({
-      header: 'Usuario Creado',
-      message: 'El usuario ha sido creado correctamente.',
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
-
-  subirFoto() {
-    console.log('Subir foto de perfil');
   }
 }

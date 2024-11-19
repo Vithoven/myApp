@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { UtilsService } from 'src/app/services/utils.service';
 import { Router } from '@angular/router';
+import { Clase } from 'src/app/models/clase.model';
 
 @Component({
   selector: 'app-asignaturas-profesor-qr',
@@ -7,14 +10,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./asignaturas-profesor-qr.page.scss'],
 })
 export class AsignaturasProfesorQrPage implements OnInit {
+  clases: Clase[] = [];
+  nombresClases: string[] = [];
 
-  constructor(private router:Router) { }
+  constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService, private router: Router) { }
+
+  ngOnInit() {
+    this.obtenerClase();
+  }
+
+  obtenerClase() {
+    this.firebaseSvc.getCollection('clase').subscribe(async clase => {
+      let nuevasClases: Clase[] = clase.map((claseDoc) => {
+        return {
+          id: claseDoc.id,
+          nombreClase: claseDoc['nombreClase'],
+          fechaClase: claseDoc['fechaClase']
+        } as Clase;
+      });
+      this.clases = nuevasClases;
+      console.log('Clase asignada:', this.clases);
+    });
+  }
 
   goToQR(asignatura: string) {
     this.router.navigate(['/generar-qr-asistencia'], { queryParams: { asignatura } });
   }
-
-  ngOnInit() {
-  }
-
 }

@@ -13,8 +13,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner'; // Importar el módulo 
     FormsModule,
     IonicModule,
     ScanPageRoutingModule,
-    ComponentsModule,
-    ZXingScannerModule // Agregar el módulo ZXing
+    ComponentsModule
   ],
   declarations: [ScanPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA] // Agregar CUSTOM_ELEMENTS_SCHEMA

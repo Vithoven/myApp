@@ -1,18 +1,13 @@
 <app-encabezado-profe [titulo]="'Asignaturas del Profesor'" [showBackButton]="true"></app-encabezado-profe>
 
 
-<ion-content class="ion-padding">
-  <ion-list>
-    <ion-item button (click)="goToQR('Programación orientada a objetos - 001D')">
-      <ion-label>Programación orientada a objetos - 001D</ion-label>
-    </ion-item>
-
-    <ion-item button (click)="goToQR('GitHub - 001D')">
-      <ion-label>GitHub - 001D</ion-label>
-    </ion-item>
-
-    <ion-item button (click)="goToQR('Programación de aplicaciones móviles - 001D')">
-      <ion-label>Programación de aplicaciones móviles - 001D</ion-label>
-    </ion-item>
-  </ion-list>
+<ion-content>
+  <ion-card >
+    <ion-list>
+      <ion-item *ngFor="let clase of clases">
+        {{ clase.nombreClase }}
+        <ion-button slot="end" (click)="goToQR(clase.nombreClase)">Generar QR</ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
 </ion-content>
