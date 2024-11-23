@@ -12,7 +12,6 @@ import { Asistencia } from '../models/asistencia.model';
 })
 export class FirebaseService {
 
-  // Inyecciones de dependencias
   private ngFireAuth = inject(AngularFireAuth);
   private utils = inject(UtilsService);
   private ngFirestore = inject(AngularFirestore);
@@ -24,7 +23,7 @@ export class FirebaseService {
     try {
       const user = await this.ngFireAuth.signInWithEmailAndPassword(email, password);
       const userData = await this.getDocument(`usuarios/${user.user?.uid}`);
-      this.utils.saveInLocalStorage('user', userData);  // Guarda los datos del usuario en el local storage
+      this.utils.saveInLocalStorage('user', userData);
       return user;
     } catch (error) {
       console.error('Error al iniciar sesión', error);
@@ -44,7 +43,6 @@ export class FirebaseService {
   //=====REGISTRAR ASISTENCIA=====//
   async registerAssist(asistencia: Asistencia) {
     try {
-      // Crear la tabla en la base de datos
       const asistenciaRef = this.ngFirestore.collection('asistencia').doc();
       return await asistenciaRef.set(asistencia);
     } catch (error) {
@@ -62,8 +60,8 @@ export class FirebaseService {
   async signOut() {
     try {
       await this.ngFireAuth.signOut();
-      localStorage.removeItem('user');  // Limpiar almacenamiento local
-      this.utils.navigateRoot('/login');  // Redirigir al login
+      localStorage.removeItem('user');
+      this.utils.navigateRoot('/login');
     } catch (error) {
       console.error('Error al cerrar sesión', error);
     }
@@ -84,24 +82,20 @@ export class FirebaseService {
     }
   }
 
-  // Función para establecer un documento en Firestore
   setDocument(path: string, data: any) {
     return setDoc(doc(this.ngFirestore.firestore, path), data);
   }
 
-  // Función para obtener un documento de Firestore
   async getDocument(path: string) {
     const docSnap = await getDoc(doc(this.ngFirestore.firestore, path));
     return docSnap.data();
   }
 
-  // Función para obtener una colección de Firestore
   getCollection(path: string) {
     let q = query(collection(this.ngFirestore.firestore, path));
     return collectionData(q, { idField: 'id' });
   }
 
-  // Obtener datos del usuario actual desde Firestore
   async getCurrentUserData() {
     try {
       const currentUid = await this.ngFireAuth.currentUser?.then(user => user?.uid);
@@ -115,7 +109,6 @@ export class FirebaseService {
     }
   }
 
-  // Obtener instancia de autenticación de Firebase
   getAuthIns() {
     return getAuth();
   }
@@ -135,11 +128,26 @@ export class FirebaseService {
     }
   }
 
-  // Constructor
   constructor() { }
 
-  //=====Recibe firestore de la aplicación=====//
   getFirestore(): AngularFirestore {
     return this.ngFirestore;
   }
+
+    //=====AGREGAR MATERIA COMO PROFESOR=====//
+async agregarAsignatura(nombre: string) {
+  try {
+    const asignaturaRef = this.ngFirestore.collection('asignaturas').doc();
+
+    await asignaturaRef.set({
+      nombre: nombre,
+      createdAt: new Date()
+    });
+
+    console.log('Asignatura agregada con éxito');
+  } catch (error) {
+    console.error('Error al agregar la asignatura:', error);
+    throw error;
+  }
+}
 }

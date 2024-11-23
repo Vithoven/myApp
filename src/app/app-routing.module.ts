@@ -63,13 +63,18 @@ const routes: Routes = [
   {
     path: 'home-profe',
     loadChildren: () => import('./pages/home-profe/home-profe.module').then( m => m.HomeProfePageModule)
-  },  {
+  },
+  {
     path: 'asignaturas-profesor-qr',
     loadChildren: () => import('./pages/asignaturas-profesor-qr/asignaturas-profesor-qr.module').then( m => m.AsignaturasProfesorQrPageModule)
   },
   {
     path: 'generar-qr-asistencia',
     loadChildren: () => import('./pages/generar-qr-asistencia/generar-qr-asistencia.module').then( m => m.GenerarQrAsistenciaPageModule)
+  },
+  {
+    path: 'agregar-asignatura',
+    loadChildren: () => import('./pages/agregar-asignatura/agregar-asignatura.module').then( m => m.AgregarAsignaturaPageModule)
   }
 
 ];

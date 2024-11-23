@@ -1,0 +1,14 @@
+<app-encabezado-profe [titulo]="'Agregar Asignatura'" [showBackButton]="true"></app-encabezado-profe>
+
+<ion-content class="ion-padding">
+  <div class="ion-text-center">
+    <p>Escriba el nombre de la asignatura:</p>
+
+    <ion-item>
+      <ion-label position="floating">Nombre de la asignatura</ion-label>
+      <ion-input [(ngModel)]="nombreAsignatura" placeholder="Ingrese nombre de la asignatura" type="text"></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" color="primary" (click)="agregarAsignatura()">Agregar</ion-button>
+  </div>
+</ion-content>
