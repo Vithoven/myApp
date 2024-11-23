@@ -1,14 +1,40 @@
-<app-encabezado-profe [titulo]="'Agregar Asignatura'" [showBackButton]="true"></app-encabezado-profe>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gestión de Asignaturas</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<ion-content class="ion-padding">
-  <div class="ion-text-center">
-    <p>Escriba el nombre de la asignatura:</p>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h2>Agregar nueva asignatura</h2>
+        <ion-item>
+          <ion-label position="floating">Nombre de la asignatura</ion-label>
+          <ion-input type="text" placeholder="Ingrese el nombre" [(ngModel)]="nuevaAsignatura"></ion-input>
+        </ion-item>
+        <ion-button expand="block" color="primary" (click)="agregarAsignatura()">
+          Agregar asignatura
+        </ion-button>
+      </ion-col>
+    </ion-row>
 
-    <ion-item>
-      <ion-label position="floating">Nombre de la asignatura</ion-label>
-      <ion-input [(ngModel)]="nombreAsignatura" placeholder="Ingrese nombre de la asignatura" type="text"></ion-input>
-    </ion-item>
+    <ion-row>
+      <ion-col size="12" class="ion-padding">
+        <ion-button expand="block" color="secondary" (click)="mostrarAsignaturas = !mostrarAsignaturas">
+          {{ mostrarAsignaturas ? 'Ocultar asignaturas agregadas' : 'Ver asignaturas agregadas' }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
 
-    <ion-button expand="full" color="primary" (click)="agregarAsignatura()">Agregar</ion-button>
-  </div>
+    <div *ngIf="mostrarAsignaturas" class="pestana-asignaturas">
+      <ion-list>
+        <ion-item *ngFor="let asignatura of asignaturas; let i = index">
+          <ion-label>{{ asignatura }}</ion-label>
+          <ion-button slot="end" color="tertiary" (click)="editarAsignatura(i)">Editar</ion-button>
+          <ion-button slot="end" color="danger" (click)="eliminarAsignatura(i)">Borrar</ion-button>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-grid>
 </ion-content>
