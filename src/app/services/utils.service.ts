@@ -69,7 +69,7 @@ export class UtilsService {
   //=====OBTENER Y VERIFICAR EL ROL DEL USUARIO=====//
   getUserRole(): string {
     const userRole = this.getFromLocalStorage('userRole');
-    return userRole ? userRole : 'alumno'; // Valor predeterminado 'alumno' si no existe el rol
+    return userRole ? userRole : 'alumno';
   }
 
   //=====NAVIGACIÓN DE REDIRECCIÓN BASADA EN EL ROL=====//
@@ -80,7 +80,7 @@ export class UtilsService {
     } else if (role === 'alumno') {
       this.navigateRoot('/home-alumno');
     } else {
-      this.navigateToLogin(); // Si no tiene rol definido, se redirige al login
+      this.navigateToLogin();
     }
   }
 

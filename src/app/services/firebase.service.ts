@@ -152,9 +152,9 @@ async agregarAsignatura(nombre: string, seccion: string, jornada: string) {
 
     await asignaturaRef.set({
       nombre: nombre,
-      seccion: seccion,      // Nuevo campo seccion
-      jornada: jornada,      // Nuevo campo jornada
-      createdAt: new Date()  // Fecha de creación
+      seccion: seccion,
+      jornada: jornada,
+      createdAt: new Date()
     });
 
     console.log('Asignatura agregada con éxito');
