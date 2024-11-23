@@ -50,7 +50,8 @@ export class UtilsService {
   }
 
   getFromLocalStorage(key: string) {
-    return JSON.parse(localStorage.getItem(key)!);
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : null;
   }
 
   retrieveRouterEvents() {
@@ -63,6 +64,29 @@ export class UtilsService {
 
   navigateToLogin() {
     this.navigateRoot('/login');
+  }
+
+  //=====OBTENER Y VERIFICAR EL ROL DEL USUARIO=====//
+  getUserRole(): string {
+    const userRole = this.getFromLocalStorage('userRole');
+    return userRole ? userRole : 'alumno'; // Valor predeterminado 'alumno' si no existe el rol
+  }
+
+  //=====NAVIGACIÓN DE REDIRECCIÓN BASADA EN EL ROL=====//
+  navigateBasedOnRole() {
+    const role = this.getUserRole();
+    if (role === 'profesor') {
+      this.navigateRoot('/home-profe');
+    } else if (role === 'alumno') {
+      this.navigateRoot('/home-alumno');
+    } else {
+      this.navigateToLogin(); // Si no tiene rol definido, se redirige al login
+    }
+  }
+
+  //=====GESTIÓN DE USUARIO=====//
+  setUserRole(role: string) {
+    this.saveInLocalStorage('userRole', role);
   }
 
   constructor() { }

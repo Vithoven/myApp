@@ -23,7 +23,10 @@ export class FirebaseService {
     try {
       const user = await this.ngFireAuth.signInWithEmailAndPassword(email, password);
       const userData = await this.getDocument(`usuarios/${user.user?.uid}`);
+
+      const userRole = userData['role'] || 'alumno';
       this.utils.saveInLocalStorage('user', userData);
+      this.utils.saveInLocalStorage('userRole', userRole);
       return user;
     } catch (error) {
       console.error('Error al iniciar sesión', error);
@@ -35,7 +38,14 @@ export class FirebaseService {
   signUp(uemail: string, upassword: string, uname: string, ulaname: string) {
     const user = this.ngFireAuth.createUserWithEmailAndPassword(uemail, upassword);
     user.then(userRef => {
-      this.setDocument(`usuarios/${userRef.user?.uid}`, { uname, ulaname, uemail, upassword, uid: userRef.user?.uid });
+      this.setDocument(`usuarios/${userRef.user?.uid}`, { 
+        uname, 
+        ulaname, 
+        uemail, 
+        upassword, 
+        uid: userRef.user?.uid,
+        role: 'alumno'
+      });
     });
     return user;
   }
@@ -61,6 +71,7 @@ export class FirebaseService {
     try {
       await this.ngFireAuth.signOut();
       localStorage.removeItem('user');
+      localStorage.removeItem('userRole');
       this.utils.navigateRoot('/login');
     } catch (error) {
       console.error('Error al cerrar sesión', error);
@@ -134,20 +145,20 @@ export class FirebaseService {
     return this.ngFirestore;
   }
 
-    //=====AGREGAR MATERIA COMO PROFESOR=====//
-async agregarAsignatura(nombre: string) {
-  try {
-    const asignaturaRef = this.ngFirestore.collection('asignaturas').doc();
+  //=====AGREGAR MATERIA COMO PROFESOR=====//
+  async agregarAsignatura(nombre: string) {
+    try {
+      const asignaturaRef = this.ngFirestore.collection('asignaturas').doc();
 
-    await asignaturaRef.set({
-      nombre: nombre,
-      createdAt: new Date()
-    });
+      await asignaturaRef.set({
+        nombre: nombre,
+        createdAt: new Date()
+      });
 
-    console.log('Asignatura agregada con éxito');
-  } catch (error) {
-    console.error('Error al agregar la asignatura:', error);
-    throw error;
+      console.log('Asignatura agregada con éxito');
+    } catch (error) {
+      console.error('Error al agregar la asignatura:', error);
+      throw error;
+    }
   }
-}
 }
