@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
     <ion-title>Gestión de Asignaturas</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,6 +16,19 @@
           <ion-label position="floating">Nombre de la asignatura</ion-label>
           <ion-input type="text" placeholder="Ingrese el nombre" [(ngModel)]="nuevaAsignatura"></ion-input>
         </ion-item>
+        <ion-item>
+          <ion-label position="floating">Sección</ion-label>
+          <ion-input type="text" placeholder="Ingrese la sección" [(ngModel)]="nuevaSeccion"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Jornada</ion-label>
+          <ion-select [(ngModel)]="nuevaJornada" placeholder="Seleccione la jornada">
+            <ion-select-option value="D">Diurno</ion-select-option>
+            <ion-select-option value="V">Vespertino</ion-select-option>
+          </ion-select>
+        </ion-item>
+
         <ion-button expand="block" color="primary" (click)="agregarAsignatura()">
           Agregar asignatura
         </ion-button>
@@ -30,7 +46,11 @@
     <div *ngIf="mostrarAsignaturas" class="pestana-asignaturas">
       <ion-list>
         <ion-item *ngFor="let asignatura of asignaturas; let i = index">
-          <ion-label>{{ asignatura }}</ion-label>
+          <ion-label>
+            <h3>{{ asignatura.nombre }}</h3>
+            <p>Sección: {{ asignatura.seccion }}</p>
+            <p>Jornada: {{ asignatura.jornada === 'D' ? 'Diurno' : 'Vespertino' }}</p>
+          </ion-label>
           <ion-button slot="end" color="tertiary" (click)="editarAsignatura(i)">Editar</ion-button>
           <ion-button slot="end" color="danger" (click)="eliminarAsignatura(i)">Borrar</ion-button>
         </ion-item>

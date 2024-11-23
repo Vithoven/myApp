@@ -145,20 +145,23 @@ export class FirebaseService {
     return this.ngFirestore;
   }
 
-  //=====AGREGAR MATERIA COMO PROFESOR=====//
-  async agregarAsignatura(nombre: string) {
-    try {
-      const asignaturaRef = this.ngFirestore.collection('asignaturas').doc();
+//=====AGREGAR MATERIA COMO PROFESOR=====//
+async agregarAsignatura(nombre: string, seccion: string, jornada: string) {
+  try {
+    const asignaturaRef = this.ngFirestore.collection('asignaturas').doc();
 
-      await asignaturaRef.set({
-        nombre: nombre,
-        createdAt: new Date()
-      });
+    await asignaturaRef.set({
+      nombre: nombre,
+      seccion: seccion,      // Nuevo campo seccion
+      jornada: jornada,      // Nuevo campo jornada
+      createdAt: new Date()  // Fecha de creación
+    });
 
-      console.log('Asignatura agregada con éxito');
-    } catch (error) {
-      console.error('Error al agregar la asignatura:', error);
-      throw error;
-    }
+    console.log('Asignatura agregada con éxito');
+  } catch (error) {
+    console.error('Error al agregar la asignatura:', error);
+    throw error;
   }
+}
+
 }
