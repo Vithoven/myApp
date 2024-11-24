@@ -6,6 +6,7 @@ import { getDoc, setDoc, doc, query, collection, collectionData, where } from "@
 import { User } from '../models/user.model';
 import { UtilsService } from './utils.service';
 import { Asistencia } from '../models/asistencia.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -66,17 +67,24 @@ export class FirebaseService {
     return this.ngFireAuth.sendPasswordResetEmail(email);
   }
 
-  //====CERRAR SESION=====//
-  async signOut() {
-    try {
-      await this.ngFireAuth.signOut();
-      localStorage.removeItem('user');
-      localStorage.removeItem('userRole');
-      this.utils.navigateRoot('/login');
-    } catch (error) {
-      console.error('Error al cerrar sesión', error);
-    }
+//====CERRAR SESION=====//
+async signOut() {
+  try {
+    // Cierra la sesión en Firebase
+    await this.ngFireAuth.signOut();
+
+    // Limpia cualquier estado persistente en localStorage
+    localStorage.removeItem('user');
+    localStorage.removeItem('userRole');
+
+    // Redirige al login usando Router directamente
+    const router = inject(Router); // Inyección manual del router
+    router.navigate(['/login']); // Redirección explícita al login
+  } catch (error) {
+    console.error('Error al cerrar sesión:', error);
   }
+}
+
 
   //=====CAMBIAR CONTRASEÑA=====//
   async changePassword(newPassword: string, currentPassword: string) {
@@ -145,23 +153,22 @@ export class FirebaseService {
     return this.ngFirestore;
   }
 
-//=====AGREGAR MATERIA COMO PROFESOR=====//
-async agregarAsignatura(nombre: string, seccion: string, jornada: string) {
-  try {
-    const asignaturaRef = this.ngFirestore.collection('asignaturas').doc();
+  //=====AGREGAR MATERIA COMO PROFESOR=====//
+  async agregarAsignatura(nombre: string, seccion: string, jornada: string) {
+    try {
+      const asignaturaRef = this.ngFirestore.collection('asignaturas').doc();
 
-    await asignaturaRef.set({
-      nombre: nombre,
-      seccion: seccion,
-      jornada: jornada,
-      createdAt: new Date()
-    });
+      await asignaturaRef.set({
+        nombre: nombre,
+        seccion: seccion,
+        jornada: jornada,
+        createdAt: new Date()
+      });
 
-    console.log('Asignatura agregada con éxito');
-  } catch (error) {
-    console.error('Error al agregar la asignatura:', error);
-    throw error;
+      console.log('Asignatura agregada con éxito');
+    } catch (error) {
+      console.error('Error al agregar la asignatura:', error);
+      throw error;
+    }
   }
-}
-
 }

@@ -89,5 +89,19 @@ export class UtilsService {
     this.saveInLocalStorage('userRole', role);
   }
 
+  //=====CERRAR SESION======//
+  async signOut() {
+    try {
+      // Limpia el almacenamiento local
+      localStorage.removeItem('user');
+      localStorage.removeItem('userRole');
+      
+      // Redirige al login
+      this.navigateToLogin();
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  }
+
   constructor() { }
 }
