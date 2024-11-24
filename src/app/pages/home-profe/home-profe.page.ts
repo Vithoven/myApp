@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-home-profe',
@@ -8,7 +9,8 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./home-profe.page.scss'],
 })
 export class HomeProfePage {
-  constructor(private router: Router, private alertController: AlertController) {}
+  firebase = inject(FirebaseService);
+  constructor(private router: Router, private alertController: AlertController) { }
 
   async confirmLogout() {
     const alert = await this.alertController.create({
@@ -32,6 +34,7 @@ export class HomeProfePage {
   }
 
   logout() {
+    this.firebase.signOut();
     this.router.navigate(['/login']);
   }
 }
