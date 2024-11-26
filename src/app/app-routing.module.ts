@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
+
 
 const routes: Routes = [
   {
@@ -17,7 +17,6 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomePageModule),
-    canActivate: [AuthGuard], // Solo si está autenticado
   },
   {
     path: 'home-profe',
@@ -25,13 +24,11 @@ const routes: Routes = [
       import('./pages/home-profe/home-profe.module').then(
         (m) => m.HomeProfePageModule
       ),
-    canActivate: [AuthGuard], // Solo si está autenticado
   },
   {
     path: 'confi',
     loadChildren: () =>
       import('./pages/confi/confi.module').then((m) => m.ConfiPageModule),
-    canActivate: [AuthGuard],
   },
   {
     path: 'user',
@@ -80,7 +77,6 @@ const routes: Routes = [
       import('./pages/teacher-assignments/teacher-assignments.module').then(
         (m) => m.TeacherAssignmentsPageModule
       ),
-    canActivate: [AuthGuard],
   },
   {
     path: 'teacher-register/:subject',
@@ -88,7 +84,6 @@ const routes: Routes = [
       import('./pages/teacher-register/teacher-register.module').then(
         (m) => m.TeacherRegisterPageModule
       ),
-    canActivate: [AuthGuard],
   },
   {
     path: 'asignaturas-profesor-qr',
@@ -96,7 +91,6 @@ const routes: Routes = [
       import(
         './pages/asignaturas-profesor-qr/asignaturas-profesor-qr.module'
       ).then((m) => m.AsignaturasProfesorQrPageModule),
-    canActivate: [AuthGuard],
   },
   {
     path: 'generar-qr-asistencia',
@@ -104,7 +98,6 @@ const routes: Routes = [
       import(
         './pages/generar-qr-asistencia/generar-qr-asistencia.module'
       ).then((m) => m.GenerarQrAsistenciaPageModule),
-    canActivate: [AuthGuard],
   },
   {
     path: 'agregar-asignatura',
@@ -112,7 +105,6 @@ const routes: Routes = [
       import('./pages/agregar-asignatura/agregar-asignatura.module').then(
         (m) => m.AgregarAsignaturaPageModule
       ),
-    canActivate: [AuthGuard],
   },
 ];
 
