@@ -31,9 +31,7 @@ export class AgregarAsignaturaPage {
   async agregarAsignatura() {
     try {
       const asignatura = this.form.value
-
       this.firebaseService.setDocument(`asignaturas/${asignatura.nombreAsignatura}+${asignatura.seccion}`, asignatura)
-
       const alert = await this.alertController.create({
         header: 'Éxito',
         message: 'La asignatura se ha agregado correctamente.',

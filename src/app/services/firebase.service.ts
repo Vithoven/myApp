@@ -70,21 +70,17 @@ export class FirebaseService {
 //====CERRAR SESION=====//
 async signOut() {
   try {
-    // Cierra la sesión en Firebase
     await this.ngFireAuth.signOut();
 
-    // Limpia cualquier estado persistente en localStorage
     localStorage.removeItem('user');
     localStorage.removeItem('userRole');
 
-    // Redirige al login usando Router directamente
-    const router = inject(Router); // Inyección manual del router
-    router.navigate(['/login']); // Redirección explícita al login
+    const router = inject(Router);
+    router.navigate(['/login']);
   } catch (error) {
     console.error('Error al cerrar sesión:', error);
   }
 }
-
 
   //=====CAMBIAR CONTRASEÑA=====//
   async changePassword(newPassword: string, currentPassword: string) {
