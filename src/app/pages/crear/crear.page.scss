@@ -15,19 +15,3 @@ ion-content {
 ion-item {
     padding-bottom: 20px;
 }
-
-.profile-pic-container {
-    display: flex;
-    align-items: center; // Alinear verticalmente
-    justify-content: center; // Centrar horizontalmente
-    margin-bottom: 20px; // Espacio inferior
-  
-    ion-avatar {
-      margin-right: 10px; // Espacio entre el avatar y el botón
-      --border-radius: 4px;
-    }
-  
-    .upload-button {
-      min-width: 120px; // Ajusta el ancho mínimo del botón si es necesario
-    }
-  }
