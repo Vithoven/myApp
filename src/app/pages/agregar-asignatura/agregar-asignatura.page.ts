@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { AlertController } from '@ionic/angular';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-agregar-asignatura',
@@ -9,6 +10,11 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./agregar-asignatura.page.scss'],
 })
 export class AgregarAsignaturaPage {
+  form = new FormGroup({
+    nombreAsignatura: new FormControl(),
+    seccion: new FormControl(),
+    jornada: new FormControl(),
+  })
   nombreAsignatura: string = '';
   nuevaAsignatura: string = '';
   nuevaSeccion: string = '';
@@ -20,35 +26,13 @@ export class AgregarAsignaturaPage {
     private router: Router,
     private firebaseService: FirebaseService,
     private alertController: AlertController
-  ) {}
+  ) { }
 
   async agregarAsignatura() {
-    if (
-      this.nuevaAsignatura.trim() === '' ||
-      this.nuevaSeccion.trim() === '' ||
-      this.nuevaJornada === ''
-    ) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Por favor, complete todos los campos antes de agregar la asignatura.',
-        buttons: ['OK'],
-      });
-      await alert.present();
-      return;
-    }
-
     try {
-      await this.firebaseService.agregarAsignatura(
-        this.nuevaAsignatura,
-        this.nuevaSeccion,
-        this.nuevaJornada
-      );
+      const asignatura = this.form.value
 
-      this.asignaturas.push({
-        nombre: this.nuevaAsignatura,
-        seccion: this.nuevaSeccion,
-        jornada: this.nuevaJornada,
-      });
+      this.firebaseService.setDocument(`asignaturas/${asignatura.nombreAsignatura}+${asignatura.seccion}`, asignatura)
 
       const alert = await this.alertController.create({
         header: 'Éxito',
@@ -61,6 +45,7 @@ export class AgregarAsignaturaPage {
       this.nuevaSeccion = '';
       this.nuevaJornada = '';
     } catch (error) {
+
       const alert = await this.alertController.create({
         header: 'Error',
         message:

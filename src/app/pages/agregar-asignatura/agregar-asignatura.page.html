@@ -9,32 +9,34 @@
 
 <ion-content>
   <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <h2>Agregar nueva asignatura</h2>
-        <ion-item>
-          <ion-label position="floating">Nombre de la asignatura</ion-label>
-          <ion-input type="text" placeholder="Ingrese el nombre" [(ngModel)]="nuevaAsignatura"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Sección</ion-label>
-          <ion-input type="text" placeholder="Ingrese la sección" [(ngModel)]="nuevaSeccion"></ion-input>
-        </ion-item>
+    <form action="" (ngSubmit)="agregarAsignatura()" [formGroup]="form">
+      <ion-row>
+        <ion-col size="12">
+          <h2>Agregar nueva asignatura</h2>
+          <ion-item>
+            <ion-label position="floating">Nombre de la asignatura</ion-label>
+            <ion-input type="text" placeholder="Ingrese el nombre"
+              [formControl]="form.controls.nombreAsignatura"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Sección</ion-label>
+            <ion-input type="text" placeholder="Ingrese la sección" [formControl]="form.controls.seccion"></ion-input>
+          </ion-item>
 
-        <ion-item>
-          <ion-label>Jornada</ion-label>
-          <ion-select [(ngModel)]="nuevaJornada" placeholder="Seleccione la jornada">
-            <ion-select-option value="D">Diurno</ion-select-option>
-            <ion-select-option value="V">Vespertino</ion-select-option>
-          </ion-select>
-        </ion-item>
+          <ion-item>
+            <ion-label>Jornada</ion-label>
+            <ion-select placeholder="Seleccione la jornada" [formControl]="form.controls.jornada">
+              <ion-select-option value="D">Diurno</ion-select-option>
+              <ion-select-option value="V">Vespertino</ion-select-option>
+            </ion-select>
+          </ion-item>
 
-        <ion-button expand="block" color="primary" (click)="agregarAsignatura()">
-          Agregar asignatura
-        </ion-button>
-      </ion-col>
-    </ion-row>
-
+          <ion-button expand="block" color="primary" type="submit">
+            Agregar asignatura
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
     <ion-row>
       <ion-col size="12" class="ion-padding">
         <ion-button expand="block" color="secondary" (click)="mostrarAsignaturas = !mostrarAsignaturas">
