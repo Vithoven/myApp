@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, input } from '@angular/core';
+import { Component, OnInit, Input, input, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-encabezado-profe',
@@ -11,9 +12,9 @@ export class EncabezadoProfeComponent  implements OnInit {
   @Input() showBackButton: boolean = false;
 
   constructor(private router: Router) { }
-
+  private utilsService: UtilsService = inject(UtilsService);
   goBack() {
-    this.router.navigate(['/home-profe']);
+    this.utilsService.navigateBack();
   }
 
   ngOnInit() {}
