@@ -1,0 +1,55 @@
+<app-encabezado-profe titulo="Registrar Asignatura" [showBackButton]="true"></app-encabezado-profe>
+
+<ion-content>
+  <ion-grid>
+    <form action="" (ngSubmit)="agregarAsignatura()" [formGroup]="form">
+      <ion-row>
+        <ion-col size="12">
+          <h2>Agregar nueva asignatura</h2>
+          <ion-item>
+            <ion-label position="floating">Nombre de la asignatura</ion-label>
+            <ion-input type="text" placeholder="Ingrese el nombre"
+              [formControl]="form.controls.nombreAsignatura"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Sección</ion-label>
+            <ion-input type="text" placeholder="Ingrese la sección" [formControl]="form.controls.seccion"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Jornada</ion-label>
+            <ion-select placeholder="Seleccione la jornada" [formControl]="form.controls.jornada">
+              <ion-select-option value="D">Diurno</ion-select-option>
+              <ion-select-option value="V">Vespertino</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-button expand="block" color="primary" type="submit">
+            Agregar asignatura
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+    <ion-row>
+      <ion-col size="12" class="ion-padding">
+        <ion-button expand="block" color="secondary" (click)="mostrarAsignaturas = !mostrarAsignaturas">
+          {{ mostrarAsignaturas ? 'Ocultar asignaturas agregadas' : 'Ver asignaturas agregadas' }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <div *ngIf="mostrarAsignaturas" class="pestana-asignaturas">
+      <ion-list>
+        <ion-item *ngFor="let asignatura of asignaturas; let i = index">
+          <ion-label>
+            <h3>{{ asignatura.nombre }}</h3>
+            <p>Sección: {{ asignatura.seccion }}</p>
+            <p>Jornada: {{ asignatura.jornada === 'D' ? 'Diurno' : 'Vespertino' }}</p>
+          </ion-label>
+          <ion-button slot="end" color="tertiary" (click)="editarAsignatura(i)">Editar</ion-button>
+          <ion-button slot="end" color="danger" (click)="eliminarAsignatura(i)">Borrar</ion-button>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-grid>
+</ion-content>

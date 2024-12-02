@@ -6,38 +6,54 @@ import { getDoc, setDoc, doc, query, collection, collectionData, where } from "@
 import { User } from '../models/user.model';
 import { UtilsService } from './utils.service';
 import { Asistencia } from '../models/asistencia.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
-// Inyecciones de dependencias
-private ngFireAuth = inject(AngularFireAuth);
-private utils = inject(UtilsService);
-private ngFirestore = inject(AngularFirestore)
+  private ngFireAuth = inject(AngularFireAuth);
+  private utils = inject(UtilsService);
+  private ngFirestore = inject(AngularFirestore);
 
-//======AUTENTICACION=========//
+  //======AUTENTICACION=========//
 
   //====ACCEDER A CUENTA=======//
-  async signIn(email:string, password:string){
-    const user = await this.ngFireAuth.signInWithEmailAndPassword(email, password); 
-    const userData = await this.getDocument(`usuarios/${user.user?.uid}`);
-    this.utils.saveInLocalStorage('user', userData);
-    return user;
+  async signIn(email: string, password: string) {
+    try {
+      const user = await this.ngFireAuth.signInWithEmailAndPassword(email, password);
+      const userData = await this.getDocument(`usuarios/${user.user?.uid}`);
+
+      const userRole = userData['role'] || 'alumno';
+      this.utils.saveInLocalStorage('user', userData);
+      this.utils.saveInLocalStorage('userRole', userRole);
+      return user;
+    } catch (error) {
+      console.error('Error al iniciar sesión', error);
+      throw error;
+    }
   }
 
   //====CREAR CUENTA DE USUARIO=======//
-  signUp(uemail:string, upassword:string, uname:string, ulaname:string){
+  signUp(uemail: string, upassword: string, uname: string, ulaname: string) {
     const user = this.ngFireAuth.createUserWithEmailAndPassword(uemail, upassword);
-    user.then( userRef => { this.setDocument(`usuarios/${userRef.user?.uid}`, {uname, ulaname, uemail, upassword, uid: userRef.user?.uid}) });
+    user.then(userRef => {
+      this.setDocument(`usuarios/${userRef.user?.uid}`, { 
+        uname, 
+        ulaname, 
+        uemail, 
+        upassword, 
+        uid: userRef.user?.uid,
+        role: 'alumno'
+      });
+    });
     return user;
   }
 
   //=====REGISTRAR ASISTENCIA=====//
-  async registerAssist(asistencia: Asistencia){
+  async registerAssist(asistencia: Asistencia) {
     try {
-      // Crear la tabla en la base de datos
       const asistenciaRef = this.ngFirestore.collection('asistencia').doc();
       return await asistenciaRef.set(asistencia);
     } catch (error) {
@@ -47,25 +63,33 @@ private ngFirestore = inject(AngularFirestore)
   }
 
   //=====RECUPERAR CONTRASEÑA EMAIL=====//
-  resetPasswordEmail(email:string) {
+  resetPasswordEmail(email: string) {
     return this.ngFireAuth.sendPasswordResetEmail(email);
   }
 
-  //====CERRAR SESION=====//
-  signOut(){
-    this.ngFireAuth.signOut();
+//====CERRAR SESION=====//
+async signOut() {
+  try {
+    await this.ngFireAuth.signOut();
+
     localStorage.removeItem('user');
-    this.utils.navigateRoot('/login');
+    localStorage.removeItem('userRole');
+
+    const router = inject(Router);
+    router.navigate(['/login']);
+  } catch (error) {
+    console.error('Error al cerrar sesión:', error);
   }
+}
 
   //=====CAMBIAR CONTRASEÑA=====//
-  async changePassword(newPassword:string, currentPassword:string){
+  async changePassword(newPassword: string, currentPassword: string) {
     try {
       const user = await this.ngFireAuth.currentUser;
-      const credential = EmailAuthProvider.credential(user?.email!, currentPassword);
-      if (credential) {
-        await user?.reauthenticateWithCredential(credential);
-        return await user?.updatePassword(newPassword);
+      if (user) {
+        const credential = EmailAuthProvider.credential(user.email!, currentPassword);
+        await user.reauthenticateWithCredential(credential);
+        return await user.updatePassword(newPassword);
       }
     } catch (error) {
       console.error('Error al cambiar la contraseña:', error);
@@ -73,12 +97,13 @@ private ngFirestore = inject(AngularFirestore)
     }
   }
 
-  setDocument(path:string, data:any) {
+  setDocument(path: string, data: any) {
     return setDoc(doc(this.ngFirestore.firestore, path), data);
   }
 
-  async getDocument(path:string) {
-    return (await getDoc(doc(this.ngFirestore.firestore, path))).data();
+  async getDocument(path: string) {
+    const docSnap = await getDoc(doc(this.ngFirestore.firestore, path));
+    return docSnap.data();
   }
 
   getCollection(path: string) {
@@ -87,27 +112,59 @@ private ngFirestore = inject(AngularFirestore)
   }
 
   async getCurrentUserData() {
-    const currentUid = await this.ngFireAuth.currentUser.then( user => user?.uid);
-    return (await this.getDocument(`usuarios/${currentUid}`)) as User;
+    try {
+      const currentUid = await this.ngFireAuth.currentUser?.then(user => user?.uid);
+      if (currentUid) {
+        return await this.getDocument(`usuarios/${currentUid}`) as User;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error al obtener datos del usuario actual', error);
+      throw error;
+    }
   }
 
   getAuthIns() {
     return getAuth();
   }
 
-  //=====ACUTALIZAR DATOS DE USUARIO=====//
+  //=====ACTUALIZAR DATOS DE USUARIO=====//
   async updateUser(userData: any) {
-    const currentUid = await this.ngFireAuth.currentUser.then(user => user?.uid);
-    const userRef = this.ngFirestore.doc(`usuarios/${currentUid}`);
-    return userRef.update(userData);
+    try {
+      const currentUid = await this.ngFireAuth.currentUser?.then(user => user?.uid);
+      if (currentUid) {
+        const userRef = this.ngFirestore.doc(`usuarios/${currentUid}`);
+        return await userRef.update(userData);
+      }
+      throw new Error('UID del usuario no encontrado');
+    } catch (error) {
+      console.error('Error al actualizar los datos del usuario', error);
+      throw error;
+    }
   }
+
   constructor() { }
 
-  //=====Recibe firestore de la aplicación=====//
   getFirestore(): AngularFirestore {
     return this.ngFirestore;
   }
+
+  //=====AGREGAR MATERIA COMO PROFESOR=====//
+  async agregarAsignatura(nombre: string, seccion: string, jornada: string) {
+    try {
+      const asignaturaRef = this.ngFirestore.collection('asignaturas').doc();
+
+      await asignaturaRef.set({
+        nombre: nombre,
+        seccion: seccion,
+        jornada: jornada,
+        createdAt: new Date()
+      });
+
+      console.log('Asignatura agregada con éxito');
+    } catch (error) {
+      console.error('Error al agregar la asignatura:', error);
+      throw error;
+    }
+  }
 }
-
-
-
