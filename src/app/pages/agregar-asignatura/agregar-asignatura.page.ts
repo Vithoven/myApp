@@ -1,9 +1,9 @@
+import { EncabezadoComponent } from './../../components/encabezado/encabezado.component';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { AlertController } from '@ionic/angular';
 import { FormControl, FormGroup } from '@angular/forms';
-import { EncabezadoProfeComponent } from 'src/app/components/encabezado-profe/encabezado-profe.component';
 
 @Component({
   selector: 'app-agregar-asignatura',
