@@ -25,11 +25,7 @@ const routes: Routes = [
         (m) => m.HomeProfePageModule
       ),
   },
-  {
-    path: 'confi',
-    loadChildren: () =>
-      import('./pages/confi/confi.module').then((m) => m.ConfiPageModule),
-  },
+  
   {
     path: 'user',
     loadChildren: () =>

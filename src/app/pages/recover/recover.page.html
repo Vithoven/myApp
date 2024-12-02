@@ -1,7 +1,7 @@
-<ion-content class="ion-padding ion-text-center" style="background-color: #012C56;"> <!-- Fondo azul -->
+<ion-content class="ion-padding ion-text-center"> <!-- Fondo azul -->
 
   <!-- Contenedor blanco -->
-  <ion-content class="ion-padding">
+  <ion-content class="ion-padding ">
     <ion-grid fixed>
       <ion-row>
         <ion-col sizeMd="4" offsetMd="4">
@@ -18,6 +18,7 @@
                   icon="mail"
                 ></app-custom-input>
                 <ion-button expand="block" type="submit" [disabled]="emailForm.invalid">Recuperar contraseña</ion-button>
+                <ion-button expand="block" fill="clear" routerLink="/login">Atrás</ion-button>
               </form>
             </ion-card-content>
           </ion-card>

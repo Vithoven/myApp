@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { AlertController } from '@ionic/angular';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Clase } from 'src/app/models/clase.model';
+import { Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-asignatura',
@@ -12,16 +15,23 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class AgregarAsignaturaPage {
   form = new FormGroup({
-    nombreAsignatura: new FormControl(),
-    seccion: new FormControl(),
-    jornada: new FormControl(),
+    nombreClase: new FormControl('', [Validators.required]),
+    seccion: new FormControl('', [Validators.required]),
+    jornada: new FormControl('', [Validators.required]),
   })
-  nombreAsignatura: string = '';
-  nuevaAsignatura: string = '';
-  nuevaSeccion: string = '';
-  nuevaJornada: string = '';
+  
+  nuevaClase = {} as Clase;
+  subAsignaturas : Subscription;
   mostrarAsignaturas: boolean = false;
-  asignaturas: { nombre: string; seccion: string; jornada: string }[] = [];
+  clases: Clase[] = [];
+
+  ionViewWillLeave(){
+    this.subAsignaturas.unsubscribe();
+  }
+
+  ionViewWillEnter(){
+    this.getAsignaturas();
+  }
 
   constructor(
     private router: Router,
@@ -31,8 +41,8 @@ export class AgregarAsignaturaPage {
 
   async agregarAsignatura() {
     try {
-      const asignatura = this.form.value
-      this.firebaseService.setDocument(`asignaturas/${asignatura.nombreAsignatura}+${asignatura.seccion}`, asignatura)
+      this.nuevaClase = this.form.value as Clase;
+      this.firebaseService.setDocument(`clase/${this.nuevaClase.nombreClase}-${this.nuevaClase.seccion}${this.nuevaClase.jornada}`, this.nuevaClase)
       const alert = await this.alertController.create({
         header: 'Éxito',
         message: 'La asignatura se ha agregado correctamente.',
@@ -40,9 +50,7 @@ export class AgregarAsignaturaPage {
       });
       await alert.present();
 
-      this.nuevaAsignatura = '';
-      this.nuevaSeccion = '';
-      this.nuevaJornada = '';
+
     } catch (error) {
 
       const alert = await this.alertController.create({
@@ -55,65 +63,10 @@ export class AgregarAsignaturaPage {
     }
   }
 
-  toggleAsignaturas() {
-    this.mostrarAsignaturas = !this.mostrarAsignaturas;
-  }
-
-  async editarAsignatura(index: number) {
-    const asignatura = this.asignaturas[index];
-    const nuevoNombre = prompt(
-      'Editar nombre de la asignatura:',
-      asignatura.nombre
-    );
-    const nuevaSeccion = prompt(
-      'Editar sección:',
-      asignatura.seccion
-    );
-    const nuevaJornada = prompt(
-      'Editar jornada (D = Diurno, V = Vespertino):',
-      asignatura.jornada
-    );
-
-    if (
-      nuevoNombre !== null &&
-      nuevoNombre.trim() !== '' &&
-      nuevaSeccion !== null &&
-      nuevaSeccion.trim() !== '' &&
-      nuevaJornada !== null &&
-      (nuevaJornada.trim() === 'D' || nuevaJornada.trim() === 'V')
-    ) {
-      this.asignaturas[index] = {
-        nombre: nuevoNombre.trim(),
-        seccion: nuevaSeccion.trim(),
-        jornada: nuevaJornada.trim(),
-      };
-    } else {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Todos los campos deben ser válidos.',
-        buttons: ['OK'],
-      });
-      await alert.present();
-    }
-  }
-
-  async eliminarAsignatura(index: number) {
-    const alert = await this.alertController.create({
-      header: 'Confirmar',
-      message: `¿Estás seguro de que deseas eliminar la asignatura "${this.asignaturas[index].nombre}"?`,
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Eliminar',
-          handler: () => {
-            this.asignaturas.splice(index, 1);
-          },
-        },
-      ],
-    });
-    await alert.present();
+  getAsignaturas(){
+    this.subAsignaturas = this.firebaseService.getCollection('clase').subscribe(clases => {
+      this.clases = clases as Clase[];
+      console.log(this.clases)
+    })
   }
 }

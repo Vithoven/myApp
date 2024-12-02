@@ -21,13 +21,9 @@ export class AsignaturasProfesorQrPage implements OnInit {
 
   obtenerClase() {
     this.firebaseSvc.getCollection('clase').subscribe(async clase => {
-      let nuevasClases: Clase[] = clase.map((claseDoc) => {
-        return {
-          id: claseDoc.id,
-          nombreClase: claseDoc['nombreClase'],
-          fechaClase: claseDoc['fechaClase']
-        } as Clase;
-      });
+      let nuevasClases = clase as Clase[];{
+        
+      }
       this.clases = nuevasClases;
       console.log('Clase asignada:', this.clases);
     });
