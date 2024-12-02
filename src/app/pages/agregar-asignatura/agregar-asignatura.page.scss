@@ -1,17 +1,37 @@
 ion-content {
-    --background: #012C56;
-    padding: 20px; // Espaciado interno
+  --background: #012C56;
+  padding: 20px; // Espaciado interno
 }
 
 .container {
-    background-color: white; // Fondo blanco
-    border-radius: 8px; // Bordes redondeados
-    border-color: gray;
-    padding: 20px; // Espaciado interno
-    margin: 40px auto; // Margen automático para centrar
-    max-width: 400px; // Ancho máximo del contenedor
-  }
+  background-color: white; // Fondo blanco
+  border-radius: 8px; // Bordes redondeados
+  border-color: gray;
+  padding: 20px; // Espaciado interno
+  margin: 40px auto; // Margen automático para centrar
+  max-width: 400px; // Ancho máximo del contenedor
+}
 
 ion-item {
-    padding-bottom: 20px;
+  padding-bottom: 20px; // Espaciado inferior de los elementos de ion-item
+  margin-bottom: 15px; // Añadir margen adicional entre ion-items
+}
+
+ion-label {
+  margin-bottom: 8px; // Separar etiquetas de los campos de entrada
+  font-weight: bold; // Hacer las etiquetas más visibles
+}
+
+ion-input {
+  --padding-start: 10px; // Ajustar el espaciado interno del input
+  --padding-end: 10px; // Ajustar el espaciado interno del input
+}
+
+button {
+  margin-top: 20px; // Separar el botón de los demás elementos
+  padding: 10px;
+  background-color: #012C56; // Color de fondo del botón
+  color: white; // Color del texto del botón
+  border-radius: 5px; // Bordes redondeados en el botón
+  width: 100%; // Asegurar que el botón ocupe el 100% del ancho
 }
