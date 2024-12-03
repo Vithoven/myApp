@@ -1,12 +1,12 @@
-<app-encabezado-profe [titulo]="'Asignaturas del Profesor'" [showBackButton]="true"></app-encabezado-profe>
+<app-encabezado [titulo]="'Asignaturas del Profesor'" [showBackButton]="true"></app-encabezado>
 
 
 <ion-content>
   <ion-card >
     <ion-list>
       <ion-item *ngFor="let clase of clases">
-        {{ clase.nombreClase }}
-        <ion-button slot="end" (click)="goToQR(clase.nombreClase)">Generar QR</ion-button>
+        {{ clase.nombreClase }} - {{ clase.seccion }}
+        <ion-button slot="end" (click)="goToQR(clase)">Generar QR</ion-button>
       </ion-item>
     </ion-list>
   </ion-card>

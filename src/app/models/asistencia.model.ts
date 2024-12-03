@@ -1,6 +1,8 @@
 export interface Asistencia{
     clase: string;
+    seccion: string;
     fecha: string;
-    estado: 'presente' | 'ausente';
+    estado: 'PRESENTE' | 'AUSENTE';
     idEstudiante: string;
+    nomEstudiante: string;
 }

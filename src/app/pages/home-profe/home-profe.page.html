@@ -1,4 +1,4 @@
-<app-encabezado-profe [titulo]="'Menú Principal'" [showBackButton]="false"></app-encabezado-profe>
+<app-encabezado [titulo]="'Menú Principal'" [showBackButton]="false"></app-encabezado>
 
 <ion-content class="ion-padding ion-text-center">
   <div class="ion-padding logo">
@@ -11,7 +11,6 @@
       <ion-item button color="dark" [routerLink]="['/asignaturas-profesor-qr']">Generar código QR</ion-item> 
       <ion-item button color="dark" [routerLink]="['/teacher-assignments']">Ver asistencias</ion-item>
       <ion-item button color="dark" [routerLink]="['/agregar-asignatura']">Agregar asignatura</ion-item> 
-      <ion-item button color="dark" [routerLink]="['/confi']">Ajustes</ion-item>
       <ion-item button color="dark" (click)="confirmLogout()">Cerrar Sesión</ion-item>
     </ion-list>
   </ion-content>

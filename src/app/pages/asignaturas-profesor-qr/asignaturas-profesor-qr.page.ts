@@ -13,27 +13,29 @@ export class AsignaturasProfesorQrPage implements OnInit {
   clases: Clase[] = [];
   nombresClases: string[] = [];
 
+
   constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService, private router: Router) { }
 
   ngOnInit() {
     this.obtenerClase();
   }
 
-  obtenerClase() {
+  async obtenerClase() {
+    const loading = await this.utilsSvc.presentLoading();
+    await loading.present();
+
     this.firebaseSvc.getCollection('clase').subscribe(async clase => {
-      let nuevasClases: Clase[] = clase.map((claseDoc) => {
-        return {
-          id: claseDoc.id,
-          nombreClase: claseDoc['nombreClase'],
-          fechaClase: claseDoc['fechaClase']
-        } as Clase;
-      });
+      let nuevasClases = clase as Clase[];
       this.clases = nuevasClases;
       console.log('Clase asignada:', this.clases);
+      await loading.dismiss();
+    }, async error => {
+      console.error('Error al obtener clases:', error);
+      await loading.dismiss();
     });
   }
 
-  goToQR(asignatura: string) {
-    this.router.navigate(['/generar-qr-asistencia'], { queryParams: { asignatura } });
+  goToQR(clase: Clase) {
+    this.router.navigate(['/generar-qr-asistencia'], { queryParams: { asignatura: clase.nombreClase, seccion: clase.seccion } });
   }
 }

@@ -1,6 +1,6 @@
-<app-encabezado-profe titulo="Registrar Asignatura" [showBackButton]="true"></app-encabezado-profe>
-
-<ion-content>
+<app-encabezado [titulo]="'Agregar Asignatura'" [showBackButton]="true"></app-encabezado>
+<ion-content class="ion-padding">
+  
   <ion-grid>
     <form action="" (ngSubmit)="agregarAsignatura()" [formGroup]="form">
       <ion-row>
@@ -9,7 +9,7 @@
           <ion-item>
             <ion-label position="floating">Nombre de la asignatura</ion-label>
             <ion-input type="text" placeholder="Ingrese el nombre"
-              [formControl]="form.controls.nombreAsignatura"></ion-input>
+              [formControl]="form.controls.nombreClase"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="floating">Sección</ion-label>
@@ -38,18 +38,18 @@
       </ion-col>
     </ion-row>
 
-    <div *ngIf="mostrarAsignaturas" class="pestana-asignaturas">
-      <ion-list>
-        <ion-item *ngFor="let asignatura of asignaturas; let i = index">
+    <ion-accordion-group *ngIf="mostrarAsignaturas" class="pestana-asignaturas">
+      <ion-accordion *ngFor="let asignatura of clases; let i = index">
+        <ion-item slot="header">
           <ion-label>
-            <h3>{{ asignatura.nombre }}</h3>
-            <p>Sección: {{ asignatura.seccion }}</p>
-            <p>Jornada: {{ asignatura.jornada === 'D' ? 'Diurno' : 'Vespertino' }}</p>
+            <h3>{{ asignatura.nombreClase }}</h3>
           </ion-label>
-          <ion-button slot="end" color="tertiary" (click)="editarAsignatura(i)">Editar</ion-button>
-          <ion-button slot="end" color="danger" (click)="eliminarAsignatura(i)">Borrar</ion-button>
         </ion-item>
-      </ion-list>
-    </div>
+        <div slot="content">
+          <p>Sección: {{ asignatura.seccion }}</p>
+          <p>Jornada: {{ asignatura.jornada === 'D' ? 'Diurno' : 'Vespertino' }}</p>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
   </ion-grid>
 </ion-content>
