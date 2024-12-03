@@ -12,6 +12,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 })
 export class GenerarQrAsistenciaPage implements OnInit {
   asignatura: string = ''; // Nombre de la clase
+  seccion: string = ''; // Sección de la clase
   qrData: string = ''; // JSON convertido a cadena para el QR
   currentUser: User = { uid: '', uname: '', ulaname: '', uemail: '', upassword: '' };
   nombre: string = '';
@@ -40,15 +41,18 @@ export class GenerarQrAsistenciaPage implements OnInit {
     // Recibe el nombre de la asignatura
     this.route.queryParams.subscribe(params => {
       this.asignatura = params['asignatura'];
-
+      this.seccion = params['seccion'];
+  
       // Crear el objeto Asistencia con los datos necesarios
       const asistencia: Asistencia = {
         clase: this.asignatura,
+        seccion: this.seccion,
         fecha: new Date().toISOString(), // Fecha actual en formato ISO
         estado: 'presente',
-        idEstudiante: ''// Id del estudiante actual
+        idEstudiante: '', // Id del estudiante actual
+        nomEstudiante: '' // Nombre del estudiante
       };
-
+  
       // Convertir el objeto Asistencia a cadena JSON y asignarlo a qrData
       this.qrData = JSON.stringify(asistencia);
     });
