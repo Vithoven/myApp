@@ -1,5 +1,5 @@
 <app-encabezado [titulo]="'Agregar Asignatura'" [showBackButton]="true"></app-encabezado>
-<ion-content>
+<ion-content class="ion-padding">
   
   <ion-grid>
     <form action="" (ngSubmit)="agregarAsignatura()" [formGroup]="form">
@@ -46,8 +46,8 @@
           </ion-label>
         </ion-item>
         <div slot="content">
-            <p>Sección: {{ asignatura.seccion }}</p>
-            <p>Jornada: {{ asignatura.jornada === 'D' ? 'Diurno' : 'Vespertino' }}</p>
+          <p>Sección: {{ asignatura.seccion }}</p>
+          <p>Jornada: {{ asignatura.jornada === 'D' ? 'Diurno' : 'Vespertino' }}</p>
         </div>
       </ion-accordion>
     </ion-accordion-group>

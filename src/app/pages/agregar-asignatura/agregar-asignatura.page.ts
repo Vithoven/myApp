@@ -68,5 +68,6 @@ export class AgregarAsignaturaPage {
       this.clases = clases as Clase[];
       console.log(this.clases)
     })
+    
   }
 }

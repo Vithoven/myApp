@@ -1,7 +1,21 @@
-ion-content {
-    padding: 50px; // Espaciado interno
-}
+.pestana-asignaturas {
+    margin-top: 20px;
+  }
+  
+  ion-item[slot="header"] {
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+  }
 
-ion-item {
-    padding-bottom: 20px;
-}
+  div[slot="content"]{
+    padding-left: 10%;
+  }
+  
+  ion-label h3 {
+    font-size: 1em;
+    font-weight: bold;
+  }
+  
+  .ion-padding p {
+    margin: 5px 0;
+  }

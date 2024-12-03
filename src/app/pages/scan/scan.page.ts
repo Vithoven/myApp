@@ -81,48 +81,65 @@ export class ScanPage implements OnInit {
     }
   }
 
-  async saveAttendance(clase: string, fecha: string, estado: string, uid: string): Promise<void> {
+async saveAttendance(clase: string, fecha: string, estado: string, uid: string): Promise<void> {
+  this.asistencia = { clase, fecha, estado : "presente", idEstudiante: uid };
+
+  if (navigator.onLine) {
     try {
-      const documentId = `${clase}_${fecha}_${this.currentUser.uid}`;
-      this.asistencia = {
-        clase: clase,
-        fecha: fecha,
-        estado: 'presente',
-        idEstudiante: this.currentUser.uid,
-      };
-
-      if (navigator.onLine) {
-        await this.firebaseSvc.registerAssist(this.asistencia);
-        console.log('Asistencia registrada en Firebase.');
-      } else {
-        this.saveToLocalStorage(this.asistencia);
-        console.log('Asistencia guardada localmente.');
-      }
-
+      await this.firebaseSvc.registerAssist(this.asistencia);
+      console.log('Asistencia registrada en Firebase.');
       await this.presentAlert('Éxito', 'Asistencia registrada.');
     } catch (error) {
-      console.error('Error al guardar la asistencia:', error);
-      await this.presentAlert('Error', 'No se pudo registrar la asistencia.');
+      console.error('Error al guardar la asistencia en Firebase:', error);
+      this.saveToLocalStorage(this.asistencia);
+      console.log('Asistencia guardada localmente.');
+      await this.presentAlert('Error', 'No se pudo registrar la asistencia en Firebase. Guardada localmente.');
     }
+  } else {
+    this.saveToLocalStorage(this.asistencia);
+    console.log('Asistencia guardada localmente.');
+    await this.presentAlert('Sin conexión', 'Asistencia guardada localmente.');
   }
+}
 
-  saveToLocalStorage(asistencia: Asistencia) {
+saveToLocalStorage(asistencia: Asistencia) {
+  const storedData = localStorage.getItem('asistencias');
+  const asistencias = storedData ? JSON.parse(storedData) : [];
+
+  const exists = asistencias.some(
+    (a: Asistencia) =>
+      a.clase === asistencia.clase && a.fecha === asistencia.fecha && a.idEstudiante === asistencia.idEstudiante
+  );
+
+  if (!exists) {
+    asistencias.push(asistencia);
+    localStorage.setItem('asistencias', JSON.stringify(asistencias));
+    console.log('Asistencia añadida al local storage:', asistencia);
+  } else {
+    console.log('La asistencia ya existe en el local storage.');
+  }
+}
+
+async syncLocalStorageWithFirebase() {
+  if (navigator.onLine) {
     const storedData = localStorage.getItem('asistencias');
     const asistencias = storedData ? JSON.parse(storedData) : [];
 
-    const exists = asistencias.some(
-      (a: Asistencia) =>
-        a.clase === asistencia.clase && a.fecha === asistencia.fecha && a.idEstudiante === asistencia.idEstudiante
-    );
-
-    if (!exists) {
-      asistencias.push(asistencia);
-      localStorage.setItem('asistencias', JSON.stringify(asistencias));
-      console.log('Asistencia añadida al local storage:', asistencia);
-    } else {
-      console.log('La asistencia ya existe en el local storage.');
+    for (const asistencia of asistencias) {
+      try {
+        await this.firebaseSvc.registerAssist(asistencia);
+        console.log('Asistencia sincronizada con Firebase:', asistencia);
+      } catch (error) {
+        console.error('Error al sincronizar la asistencia con Firebase:', error);
+      }
     }
+
+    localStorage.removeItem('asistencias');
+    console.log('Asistencias locales eliminadas después de la sincronización.');
+  } else {
+    console.log('No hay conexión a Internet. No se puede sincronizar.');
   }
+}
 
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
