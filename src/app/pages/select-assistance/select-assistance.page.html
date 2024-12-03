@@ -1,17 +1,21 @@
-<app-encabezado [titulo]="'Asignaturas'" [showBackButton]="true"></app-encabezado>
+<app-encabezado [titulo]="'Asistencias'" [showBackButton]="true"></app-encabezado>
 
 <ion-content class="ion-padding">
   <ion-list>
-    <ion-item button (click)="goToRegister('ingles')">
-      <ion-label>Inglés</ion-label>
-    </ion-item>
-
-    <ion-item button (click)="goToRegister('arquitectura')">
-      <ion-label>Arquitectura</ion-label>
-    </ion-item>
-
-    <ion-item button (click)="goToRegister('programacion')">
-      <ion-label>Programación de aplicaciones móviles</ion-label>
-    </ion-item>
+    <ion-accordion-group>
+      <ion-accordion *ngFor="let clase of clases">
+        <ion-item slot="header">
+          <ion-label>{{ clase.nombreClase }} - {{ clase.seccion }}</ion-label>
+        </ion-item>
+        <ion-list slot="content">
+          <ng-container *ngFor="let asistencia of asistencias">
+            <ion-item *ngIf="asistencia.clase === clase.nombreClase && asistencia.seccion === clase.seccion">
+              <ion-label class="padding-label">{{ asistencia.fecha | date: 'shortDate' }}</ion-label>
+              <ion-note slot="end" class="padding-note" [color]="asistencia.estado === 'presente' ? 'success' : 'danger'">{{ asistencia.estado }}</ion-note>
+            </ion-item>
+          </ng-container>
+        </ion-list>
+      </ion-accordion>
+    </ion-accordion-group>
   </ion-list>
 </ion-content>

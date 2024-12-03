@@ -69,12 +69,11 @@ export class ScanPage implements OnInit {
       const { barcodes } = await BarcodeScanner.scan();
       if (barcodes.length > 0) {
         try {
-          const qrData = JSON.parse(barcodes[0].displayValue);
-          const { clase, fecha, estado, idEstudiante, seccion } = qrData;
+          const qrData = JSON.parse(barcodes[0].displayValue) as Asistencia;
           qrData.idEstudiante = this.currentUser.uid;
           qrData.nomEstudiante = this.currentUser.uname;
   
-          await this.saveAttendance(clase, fecha, estado, idEstudiante, seccion, this.currentUser.uname);
+          await this.saveAttendance(qrData);
         } catch (error) {
           console.error('Error al procesar el código QR:', error);
           await this.presentAlert('Error', 'El código QR escaneado es inválido.');
@@ -92,8 +91,8 @@ export class ScanPage implements OnInit {
     }
   }
 
-  async saveAttendance(clase: string, fecha: string, estado: string, uid: string, seccion: string, nomEstudiante: string): Promise<void> {
-    this.asistencia = { clase, fecha, estado: "presente", idEstudiante: uid, seccion, nomEstudiante };
+  async saveAttendance(datos : Asistencia): Promise<void> {
+    this.asistencia =  datos ;
   
     if (navigator.onLine) {
       try {

@@ -52,12 +52,12 @@ export class FirebaseService {
   }
 
   //=====REGISTRAR ASISTENCIA=====//
-  async registerAssist(asistencia: Asistencia) {
+  async registerAssist(asistencia: Asistencia): Promise<void> {
     try {
-      const asistenciaRef = this.ngFirestore.collection('asistencia').doc();
-      return await asistenciaRef.set(asistencia);
+      await this.ngFirestore.collection('asistencia').add(asistencia);
+      console.log('Asistencia guardada en Firebase:', asistencia);
     } catch (error) {
-      console.error('Error al crear la asistencia:', error);
+      console.error('Error al guardar la asistencia en Firebase:', error);
       throw error;
     }
   }

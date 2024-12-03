@@ -13,6 +13,7 @@ export class AsignaturasProfesorQrPage implements OnInit {
   clases: Clase[] = [];
   nombresClases: string[] = [];
 
+
   constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService, private router: Router) { }
 
   ngOnInit() {
@@ -29,7 +30,7 @@ export class AsignaturasProfesorQrPage implements OnInit {
     });
   }
 
-  goToQR(asignatura: string) {
-    this.router.navigate(['/generar-qr-asistencia'], { queryParams: { asignatura } });
+  goToQR(clase : Clase) {
+    this.router.navigate(['/generar-qr-asistencia'], { queryParams: { asignatura : clase.nombreClase, seccion: clase.seccion } });
   }
 }
