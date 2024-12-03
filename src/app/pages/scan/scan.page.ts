@@ -19,7 +19,7 @@ export class ScanPage implements OnInit {
   studentData: any;
   scannedQrData: any;
   currentUser: User = { uid: '', uname: '', ulaname: '', uemail: '', upassword: '' };
-  asistencia: Asistencia = { clase: '', seccion:'', fecha: '', estado: 'ausente', idEstudiante: '', nomEstudiante: '' };
+  asistencia: Asistencia = { clase: '', seccion:'', fecha: '', estado: 'AUSENTE', idEstudiante: '', nomEstudiante: '' };
 
   private utils = inject(UtilsService);
   private firebaseSvc = inject(FirebaseService);
@@ -71,7 +71,7 @@ export class ScanPage implements OnInit {
         try {
           const qrData = JSON.parse(barcodes[0].displayValue) as Asistencia;
           qrData.idEstudiante = this.currentUser.uid;
-          qrData.nomEstudiante = this.currentUser.uname;
+          qrData.nomEstudiante = this.currentUser.uname + ' ' + this.currentUser.ulaname;
   
           await this.saveAttendance(qrData);
         } catch (error) {

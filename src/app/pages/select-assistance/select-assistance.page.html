@@ -19,7 +19,7 @@
               <!-- Muestra la fecha de la asistencia -->
               <ion-label class="padding-label">{{ asistencia.fecha | date: 'shortDate' }}</ion-label>
               <!-- Muestra el estado de la asistencia con color -->
-              <ion-note slot="end" class="padding-note" [color]="asistencia.estado === 'presente' ? 'success' : 'danger'">{{ asistencia.estado }}</ion-note>
+              <ion-note slot="end" class="padding-note" [color]="asistencia.estado === 'PRESENTE' ? 'success' : 'danger'">{{ asistencia.estado }}</ion-note>
             </ion-item>
           </ng-container>
         </ion-list>

@@ -48,7 +48,7 @@ export class GenerarQrAsistenciaPage implements OnInit {
         clase: this.asignatura,
         seccion: this.seccion,
         fecha: new Date().toISOString(), // Fecha actual en formato ISO
-        estado: 'presente',
+        estado: 'PRESENTE',
         idEstudiante: '', // Id del estudiante actual
         nomEstudiante: '' // Nombre del estudiante
       };
