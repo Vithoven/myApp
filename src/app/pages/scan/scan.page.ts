@@ -76,7 +76,7 @@ export class ScanPage implements OnInit {
           await this.saveAttendance(qrData);
         } catch (error) {
           console.error('Error al procesar el código QR:', error);
-          await this.presentAlert('Error', 'El código QR escaneado es inválido.');
+          await this.presentAlert(' ', 'El código QR escaneado es inválido.');
           return null;
         }
       } else {
@@ -85,7 +85,7 @@ export class ScanPage implements OnInit {
       }
     } catch (error) {
       console.error('Error durante el escaneo:', error);
-      await this.presentAlert('Error', 'Ocurrió un error durante el escaneo.');
+      await this.presentAlert(' ', 'Ocurrió un error durante el escaneo.');
     } finally {
       loading.dismiss();
     }
@@ -98,12 +98,12 @@ export class ScanPage implements OnInit {
       try {
         await this.firebaseSvc.registerAssist(this.asistencia);
         console.log('Asistencia registrada en Firebase.');
-        await this.presentAlert('Éxito', 'Asistencia registrada.');
+        await this.presentAlert(' ', 'Asistencia registrada.');
       } catch (error) {
         console.error('Error al guardar la asistencia en Firebase:', error);
         this.saveToLocalStorage(this.asistencia);
         console.log('Asistencia guardada localmente.');
-        await this.presentAlert('Error', 'No se pudo registrar la asistencia en Firebase. Guardada localmente.');
+        await this.presentAlert(' ', 'No se pudo registrar la asistencia en Firebase. Guardada localmente.');
       }
     } else {
       this.saveToLocalStorage(this.asistencia);
@@ -139,7 +139,7 @@ async syncLocalStorageWithFirebase() {
       try {
         await this.firebaseSvc.registerAssist(asistencia);
         console.log('Asistencia sincronizada con Firebase:', asistencia);
-        await this.presentAlert('Éxito', 'Asistencia local sincronizada con Firebase.');
+        await this.presentAlert(' ', 'Asistencia local sincronizada con Firebase.');
       } catch (error) {
         console.error('Error al sincronizar la asistencia con Firebase:', error);
       }
@@ -147,10 +147,8 @@ async syncLocalStorageWithFirebase() {
 
     localStorage.removeItem('asistencias');
     console.log('Asistencias locales eliminadas después de la sincronización.');
-    await this.presentAlert('Éxito', 'Asistencias locales eliminadas tras sincronización.');
   } else {
     console.log('No hay conexión a Internet. No se puede sincronizar.');
-    await this.presentAlert('Sin conexión', 'No hay conexión a Internet. No se puede sincronizar.');
   }
 }
 
