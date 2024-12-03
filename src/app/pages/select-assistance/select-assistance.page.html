@@ -1,16 +1,24 @@
+<!-- Componente de encabezado con título y botón de retroceso -->
 <app-encabezado [titulo]="'Asistencias'" [showBackButton]="true"></app-encabezado>
 
 <ion-content class="ion-padding">
   <ion-list>
     <ion-accordion-group>
+      <!-- Itera sobre cada clase en la lista de clases -->
       <ion-accordion *ngFor="let clase of clases">
+        <!-- Encabezado del acordeón -->
         <ion-item slot="header">
+          <!-- Muestra el nombre de la clase y la sección -->
           <ion-label>{{ clase.nombreClase }} - {{ clase.seccion }}</ion-label>
         </ion-item>
         <ion-list slot="content">
+          <!-- Itera sobre cada asistencia en la lista de asistencias -->
           <ng-container *ngFor="let asistencia of asistencias">
+            <!-- Muestra la asistencia si coincide con la clase y sección -->
             <ion-item *ngIf="asistencia.clase === clase.nombreClase && asistencia.seccion === clase.seccion">
+              <!-- Muestra la fecha de la asistencia -->
               <ion-label class="padding-label">{{ asistencia.fecha | date: 'shortDate' }}</ion-label>
+              <!-- Muestra el estado de la asistencia con color -->
               <ion-note slot="end" class="padding-note" [color]="asistencia.estado === 'presente' ? 'success' : 'danger'">{{ asistencia.estado }}</ion-note>
             </ion-item>
           </ng-container>

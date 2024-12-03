@@ -10,17 +10,42 @@ import { UtilsService } from 'src/app/services/utils.service';
   templateUrl: './select-assistance.page.html',
   styleUrls: ['./select-assistance.page.scss'],
 })
+
 export class SelectAssistancePage implements OnInit {
+  /**
+   * Lista de clases obtenidas desde la base de datos.
+   */
   clases: Clase[] = [];
+
+  /**
+   * Lista de asistencias filtradas por el usuario actual.
+   */
   asistencias: Asistencia[] = [];
+
+  /**
+   * Información del usuario actual.
+   */
   currentUser: User = { uid: '', uname: '', ulaname: '', uemail: '', upassword: '' };
 
+  /**
+   * Constructor de la clase.
+   * 
+   * @param firebaseService Servicio para interactuar con Firebase.
+   * @param utils Servicio de utilidades.
+   */
   constructor(private firebaseService: FirebaseService, private utils: UtilsService) {}
 
+  /**
+   * Llama al método para obtener las asignaturas.
+   */
   ngOnInit() {
     this.getAsignaturas();
   }
 
+  /**
+   * Método que se ejecuta cada vez que la vista va a entrar en primer plano.
+   * Verifica la autenticación del usuario y actualiza la información del usuario actual.
+   */
   ionViewWillEnter() {
     this.firebaseService.getAuthIns().onAuthStateChanged((user) => {
       const userLocal: User = this.utils.getFromLocalStorage('user');
@@ -32,6 +57,10 @@ export class SelectAssistancePage implements OnInit {
     });
   }
 
+  /**
+   * Obtiene la lista de asignaturas desde la colección 'clase' en Firebase.
+   * Luego llama al método para obtener las asistencias.
+   */
   getAsignaturas() {
     this.firebaseService.getCollection('clase').subscribe(clases => {
       this.clases = clases as Clase[];
@@ -40,6 +69,10 @@ export class SelectAssistancePage implements OnInit {
     });
   }
 
+  /**
+   * Obtiene la lista de asistencias desde la colección 'asistencia' en Firebase.
+   * Filtra las asistencias para obtener solo las del usuario actual.
+   */
   getAsistencias() {
     this.firebaseService.getCollection('asistencia').subscribe(asistencia => {
       this.asistencias = (asistencia as Asistencia[]).filter(asistencia => asistencia.idEstudiante === this.currentUser.uid);
