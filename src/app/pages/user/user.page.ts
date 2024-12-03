@@ -2,6 +2,7 @@ import { UtilsService } from './../../services/utils.service';
 import { Component } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { inject } from '@angular/core';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-user',
@@ -12,12 +13,34 @@ export class UserPage {
   uname: string;
   ulaname: string;
   uemail: string;
+  currentUser: User = { uid: '', uname: '', ulaname: '', uemail: '', upassword: '' };
 
   //=====DEPENDENCIAS=====//
   private utils = inject(UtilsService);
   private firebaseSvc = inject(FirebaseService);
 
   constructor() {}
+
+    //=====ION VIEW WILL ENTER=====//
+    ionViewWillEnter() {
+      this.loadUserData();
+    }
+  
+    //=====CARGAR DATOS DEL USUARIO=====//
+    async loadUserData() {
+      const loading = await this.utils.presentLoading();
+      loading.present();
+  
+      const userLocal: User = this.utils.getFromLocalStorage('user');
+      if (userLocal) {
+        this.currentUser = userLocal;
+        this.uname = this.currentUser.uname;
+        this.ulaname = this.currentUser.ulaname;
+        this.uemail = this.currentUser.uemail;
+      }
+  
+      loading.dismiss();
+    }
 
   //=====GUARDAR CAMBIOS=====//
   async guardarCambios() {

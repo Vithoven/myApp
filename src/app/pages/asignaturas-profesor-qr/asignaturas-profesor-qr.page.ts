@@ -20,17 +20,22 @@ export class AsignaturasProfesorQrPage implements OnInit {
     this.obtenerClase();
   }
 
-  obtenerClase() {
+  async obtenerClase() {
+    const loading = await this.utilsSvc.presentLoading();
+    await loading.present();
+
     this.firebaseSvc.getCollection('clase').subscribe(async clase => {
-      let nuevasClases = clase as Clase[];{
-        
-      }
+      let nuevasClases = clase as Clase[];
       this.clases = nuevasClases;
       console.log('Clase asignada:', this.clases);
+      await loading.dismiss();
+    }, async error => {
+      console.error('Error al obtener clases:', error);
+      await loading.dismiss();
     });
   }
 
-  goToQR(clase : Clase) {
-    this.router.navigate(['/generar-qr-asistencia'], { queryParams: { asignatura : clase.nombreClase, seccion: clase.seccion } });
+  goToQR(clase: Clase) {
+    this.router.navigate(['/generar-qr-asistencia'], { queryParams: { asignatura: clase.nombreClase, seccion: clase.seccion } });
   }
 }

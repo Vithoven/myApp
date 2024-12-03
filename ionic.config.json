@@ -1,5 +1,6 @@
 {
   "name": "RegistrApp",
+  "developer": "Equipo RegistrApp",
   "integrations": {
     "capacitor": {}
   },
