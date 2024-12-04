@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { ComponentsModule } from "../../components/components.module";
-import { QrCodeModule } from 'ng-qrcode';
 
 @NgModule({
   imports: [
@@ -13,9 +12,7 @@ import { QrCodeModule } from 'ng-qrcode';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    ComponentsModule,
-    QrCodeModule
-    
+    ComponentsModule
 ],
   declarations: [HomePage]
 })

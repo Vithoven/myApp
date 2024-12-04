@@ -3,14 +3,12 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { EncabezadoProfeComponent } from './encabezado-profe/encabezado-profe.component';
 import { EncabezadoComponent } from './encabezado/encabezado.component';
 import { CustomInputComponent } from './custom-input/custom-input.component';
 
 @NgModule({
   declarations: [
     EncabezadoComponent,
-    EncabezadoProfeComponent,
     CustomInputComponent,
   ],
   imports: [
@@ -21,7 +19,6 @@ import { CustomInputComponent } from './custom-input/custom-input.component';
   ],
   exports: [
     EncabezadoComponent,
-    EncabezadoProfeComponent,
     CustomInputComponent,
 
   ]

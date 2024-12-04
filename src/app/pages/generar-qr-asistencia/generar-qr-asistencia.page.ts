@@ -11,8 +11,20 @@ import { FirebaseService } from 'src/app/services/firebase.service';
   styleUrls: ['./generar-qr-asistencia.page.scss'],
 })
 export class GenerarQrAsistenciaPage implements OnInit {
+<<<<<<< HEAD
   asignatura: string = ''; // Almacena el nombre de la asignatura
   qrCodeImage: string = ''; // URL para el código QR
+=======
+  asignatura: string = ''; // Nombre de la clase
+  seccion: string = ''; // Sección de la clase
+  qrData: string = ''; // JSON convertido a cadena para el QR
+  currentUser: User = { uid: '', uname: '', ulaname: '', uemail: '', upassword: '' };
+  nombre: string = '';
+
+  // DEPENDENCIAS
+  private utils = inject(UtilsService);
+  private firebaseSvc = inject(FirebaseService);
+>>>>>>> rama-prueba-final
 
   constructor(private route: ActivatedRoute) { }
   ionViewWillEnter(){
@@ -34,10 +46,31 @@ export class GenerarQrAsistenciaPage implements OnInit {
     //Recibe el nombre de la asignatura 
     this.route.queryParams.subscribe(params => {
       this.asignatura = params['asignatura'];
+<<<<<<< HEAD
+=======
+      this.seccion = params['seccion'];
+  
+      // Crear el objeto Asistencia con los datos necesarios
+      const asistencia: Asistencia = {
+        clase: this.asignatura,
+        seccion: this.seccion,
+        fecha: new Date().toISOString().split('T')[0], // Fecha actual en formato ISO, sin la hora
+        estado: 'PRESENTE',
+        idEstudiante: '', // Id del estudiante actual
+        nomEstudiante: '' // Nombre del estudiante
+      };
+  
+      // Convertir el objeto Asistencia a cadena JSON y asignarlo a qrData
+      this.qrData = JSON.stringify(asistencia);
+>>>>>>> rama-prueba-final
     });
 
     // Se puede simular el código QR con una URL o generar uno real más adelante
     this.qrCodeImage = 'https://via.placeholder.com/200x200.png?text=QR+Code'; 
   }
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> rama-prueba-final

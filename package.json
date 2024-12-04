@@ -1,5 +1,5 @@
 {
-  "name": "myApp",
+  "name": "RegistraApp",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -24,11 +24,19 @@
     "@angular/router": "^18.0.0",
     "@capacitor/app": "6.0.1",
     "@capacitor/core": "6.1.2",
+    "@capacitor/geolocation": "^6.0.1",
+>>>>>>>>> Temporary merge branch 2
     "@capacitor/haptics": "6.0.1",
     "@capacitor/keyboard": "6.0.2",
     "@capacitor/share": "^6.0.2",
     "@capacitor/status-bar": "6.0.1",
     "@ionic/angular": "^8.0.0",
+    "@zxing/browser": "^0.1.5",
+    "@zxing/ngx-scanner": "^18.0.1",
+<<<<<<<<< Temporary merge branch 1
+    "firebase": "^11.0.1",
+=========
+>>>>>>>>> Temporary merge branch 2
     "ionicons": "^7.0.0",
     "ng-qrcode": "^18.0.0",
     "rxjs": "~7.8.0",

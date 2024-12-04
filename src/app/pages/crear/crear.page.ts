@@ -38,29 +38,35 @@ export class CrearPage implements OnInit {
   }
 
   //=====REGISTRO=====//
-  async signUp() {
-    if (this.createUserForm.valid) {
-      const loading = await this.utils.presentLoading();
-      loading.present();
-      const email = this.createUserForm.value.uemail;
-      const password = this.createUserForm.value.upassword;
-      const nombre = this.createUserForm.value.uname;
-      const apellidos = this.createUserForm.value.ulaname;
-      try {
-        const user = await this.authSvc.signUp(email!, password!, nombre!, apellidos!);
-        if (user) {
-          this.utils.navigateForwardto("/login");
-        }
-      } catch (error) {
-        this.utils.presentToast({
-          icon: 'close-circle-sharp',
-          message: 'Error al registrarse',
-          color: 'danger',
-          duration: 2500
-        });
-      } finally {
-        loading.dismiss();
+async signUp() {
+  if (this.createUserForm.valid) {
+    const loading = await this.utils.presentLoading();
+    loading.present();
+    const email = this.createUserForm.value.uemail;
+    const password = this.createUserForm.value.upassword;
+    const nombre = this.createUserForm.value.uname;
+    const apellidos = this.createUserForm.value.ulaname;
+    try {
+      const user = await this.authSvc.signUp(email!, password!, nombre!, apellidos!);
+      if (user) {
+        this.utils.navigateForwardto("/login");
       }
+    } catch (error) {
+      let errorMessage = 'Error al registrarse';
+      if (!navigator.onLine) {
+        errorMessage = 'No hay conexión a Internet. Por favor, inténtelo de nuevo más tarde.';
+      } else if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'El correo electrónico ya está registrado. Por favor, use otro correo.';
+      }
+      this.utils.presentToast({
+        icon: 'close-circle-sharp',
+        message: errorMessage,
+        color: 'danger',
+        duration: 2500
+      });
+    } finally {
+      loading.dismiss();
     }
   }
+}
 }
