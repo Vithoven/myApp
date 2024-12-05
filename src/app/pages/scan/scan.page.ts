@@ -20,6 +20,7 @@ export class ScanPage implements OnInit {
   scannedQrData: any;
   currentUser: User = { uid: '', uname: '', ulaname: '', uemail: '', upassword: '' };
   asistencia: Asistencia = { clase: '', seccion:'', fecha: '', estado: 'AUSENTE', idEstudiante: '', nomEstudiante: '' };
+  scannedQrCodes: Set<string> = new Set(); // Almacena codigos ya escaneados
 
   private utils = inject(UtilsService);
   private firebaseSvc = inject(FirebaseService);
@@ -58,22 +59,33 @@ export class ScanPage implements OnInit {
   async scan(): Promise<any> {
     const loading = await this.utils.presentLoading();
     loading.present();
-  
+
     try {
       const granted = await this.requestPermissions();
       if (!granted) {
         this.presentAlert('Permiso denegado', 'Para usar la aplicación autorizar los permisos de cámara');
         return null;
       }
-  
+
       const { barcodes } = await BarcodeScanner.scan();
       if (barcodes.length > 0) {
+        const qrCode = barcodes[0].displayValue;
+
+        // Verifica si el código QR ya ha sido escaneado
+        if (this.scannedQrCodes.has(qrCode)) {
+          await this.presentAlert('Código QR duplicado', 'Este código QR ya ha sido escaneado.');
+          return null;
+        }
+
         try {
-          const qrData = JSON.parse(barcodes[0].displayValue) as Asistencia;
+          const qrData = JSON.parse(qrCode) as Asistencia;
           qrData.idEstudiante = this.currentUser.uid;
           qrData.nomEstudiante = this.currentUser.uname + ' ' + this.currentUser.ulaname;
-  
+
           await this.saveAttendance(qrData);
+
+          // Agrega el código QR a la lista de escaneados
+          this.scannedQrCodes.add(qrCode);
         } catch (error) {
           console.error('Error al procesar el código QR:', error);
           await this.presentAlert(' ', 'El código QR escaneado es inválido.');
