@@ -15,7 +15,7 @@ export class HomePage implements OnInit {
   apellidos!: string;
   nombreCompleto!: string;
 
-  // Inyección de dependencias usando el nuevo patrón de inyección con `inject()`
+  // Dependencias
   private alertController = inject(AlertController);
   private firebaseSvc = inject(FirebaseService);
   private utils = inject(UtilsService);
@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
     if (userLocal) {
       this.nombre = userLocal.uname;
       this.apellidos = userLocal.ulaname;
-      this.nombreCompleto = `${this.nombre} ${this.apellidos}`; // Concatenar nombre y apellido
+      this.nombreCompleto = `${this.nombre} ${this.apellidos}`;
     } else {
       this.firebaseSvc.getAuthIns().onAuthStateChanged((user) => {
         if (user) {
@@ -42,7 +42,7 @@ export class HomePage implements OnInit {
             if (usr) {
               this.nombre = usr.uname;
               this.apellidos = usr.ulaname;
-              this.nombreCompleto = `${this.nombre} ${this.apellidos}`; // Concatenar nombre y apellido
+              this.nombreCompleto = `${this.nombre} ${this.apellidos}`; 
             } else {
               this.nombre = '';
               this.apellidos = '';
@@ -84,7 +84,6 @@ export class HomePage implements OnInit {
   //=====FUNCIÓN PARA CERRAR SESIÓN=====//
   private async logoutUser() {
     try {
-      // No eliminar los datos del usuario del localStorage
       await this.firebaseSvc.signOut();
 
       const currentUser = await this.firebaseSvc.getAuthIns().currentUser;
