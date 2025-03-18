@@ -42,7 +42,7 @@ export class LoginPage implements OnInit {
       if (navigator.onLine) {
         const user = await this.firebaseSvc.signIn(uemail!, upassword!);
         if (user) {
-          const role = uemail!.includes('@.cosl.cl') ? 'Profesor' : 'Alumno';
+          const role = uemail!.includes('@cosl.cl') ? 'Profesor' : 'Alumno';
 
           const userData = {
             email: uemail,
