@@ -45,7 +45,7 @@ export class AgregarAsignaturaPage {
       this.firebaseService.setDocument(`clase/${this.nuevaClase.nombreClase}-${this.nuevaClase.seccion}${this.nuevaClase.jornada}`, this.nuevaClase)
       const alert = await this.alertController.create({
         header: 'Éxito',
-        message: 'La asignatura se ha agregado correctamente.',
+        message: 'El taller se ha agregado correctamente.',
         buttons: ['OK'],
       });
       await alert.present();
@@ -56,7 +56,7 @@ export class AgregarAsignaturaPage {
       const alert = await this.alertController.create({
         header: 'Error',
         message:
-          'Hubo un problema al agregar la asignatura. Inténtalo de nuevo más tarde.',
+          'Hubo un problema al agregar el taller. Inténtalo de nuevo más tarde.',
         buttons: ['OK'],
       });
       await alert.present();

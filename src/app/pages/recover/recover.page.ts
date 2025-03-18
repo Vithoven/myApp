@@ -49,5 +49,4 @@ export class RecoverPage implements OnInit {
       });
     }
   }
-
 }

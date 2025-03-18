@@ -53,12 +53,10 @@ export class HomePage implements OnInit {
       });
     }
   }
-
   // Función que se ejecuta cuando la vista va a entrar
   ionViewWillEnter() {
     this.loadUserData();
   }
-
   // Confirmar logout
   async confirmLogout() {
     const alert = await this.alertController.create({
@@ -80,8 +78,7 @@ export class HomePage implements OnInit {
     });
     await alert.present();
   }
-
-  //=====FUNCIÓN PARA CERRAR SESIÓN=====//
+  // Funcion para cerrar sesion
   private async logoutUser() {
     try {
       await this.firebaseSvc.signOut();

@@ -11,11 +11,11 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 export class CrearPage implements OnInit {
 
   
-  //=====DEPENDENCIAS=====//
+  // Dependencias
   authSvc = inject(FirebaseService);
   utils = inject(UtilsService);
 
-  //=====FORMULARIO=====//
+  // Formulario
   createUserForm = new FormGroup({
     uname: new FormControl('', [Validators.required, Validators.minLength(4)]),
     ulaname: new FormControl('', [Validators.required, Validators.minLength(4)]),
@@ -27,7 +27,7 @@ export class CrearPage implements OnInit {
   ngOnInit() {
   }
 
-  //===VALIDACION CONTRASEÑA===//
+  // Validacion de contraseña
   validarContraseniasIguales() {
     const pass1 = this.createUserForm.value.upassword;
     const pass2 = this.createUserForm.value.password2;
@@ -37,7 +37,7 @@ export class CrearPage implements OnInit {
     }
   }
 
-  //=====REGISTRO=====//
+  // Registro
 async signUp() {
   if (this.createUserForm.valid) {
     const loading = await this.utils.presentLoading();

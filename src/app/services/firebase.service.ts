@@ -17,9 +17,9 @@ export class FirebaseService {
   private utils = inject(UtilsService);
   private ngFirestore = inject(AngularFirestore);
 
-  //======AUTENTICACION=========//
+  // Autenticacion
 
-  //====ACCEDER A CUENTA=======//
+  // Acceder a cuenta
   async signIn(email: string, password: string) {
     try {
       const user = await this.ngFireAuth.signInWithEmailAndPassword(email, password);
@@ -35,7 +35,7 @@ export class FirebaseService {
     }
   }
 
-  //====CREAR CUENTA DE USUARIO=======//
+  // Crear cuenta de usuario
   signUp(uemail: string, upassword: string, uname: string, ulaname: string) {
     const user = this.ngFireAuth.createUserWithEmailAndPassword(uemail, upassword);
     user.then(userRef => {
@@ -51,7 +51,7 @@ export class FirebaseService {
     return user;
   }
 
-  //=====REGISTRAR ASISTENCIA=====//
+  // Registrar asistencia
   async registerAssist(asistencia: Asistencia): Promise<void> {
     try {
       await this.ngFirestore.collection('asistencia').add(asistencia);
@@ -62,12 +62,12 @@ export class FirebaseService {
     }
   }
 
-  //=====RECUPERAR CONTRASEÑA EMAIL=====//
+  // Recuperar contraseña de email
   resetPasswordEmail(email: string) {
     return this.ngFireAuth.sendPasswordResetEmail(email);
   }
 
-//====CERRAR SESION=====//
+// Cerrar sesión
 async signOut() {
   try {
     await this.ngFireAuth.signOut();
@@ -82,7 +82,7 @@ async signOut() {
   }
 }
 
-  //=====CAMBIAR CONTRASEÑA=====//
+  // Cambiar contraseña
   async changePassword(newPassword: string, currentPassword: string) {
     try {
       const user = await this.ngFireAuth.currentUser;
@@ -128,7 +128,7 @@ async signOut() {
     return getAuth();
   }
 
-  //=====ACTUALIZAR DATOS DE USUARIO=====//
+  // Actualizar datos del usuario
   async updateUser(userData: any) {
     try {
       const currentUid = await this.ngFireAuth.currentUser?.then(user => user?.uid);
@@ -149,7 +149,7 @@ async signOut() {
     return this.ngFirestore;
   }
 
-  //=====AGREGAR MATERIA COMO PROFESOR=====//
+  //Agregar taller como profesor
   async agregarAsignatura(nombre: string, seccion: string, jornada: string) {
     try {
       const asignaturaRef = this.ngFirestore.collection('asignaturas').doc();

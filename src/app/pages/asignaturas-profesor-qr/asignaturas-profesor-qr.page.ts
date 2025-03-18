@@ -27,10 +27,10 @@ export class AsignaturasProfesorQrPage implements OnInit {
     this.firebaseSvc.getCollection('clase').subscribe(async clase => {
       let nuevasClases = clase as Clase[];
       this.clases = nuevasClases;
-      console.log('Clase asignada:', this.clases);
+      console.log('Taller asignado:', this.clases);
       await loading.dismiss();
     }, async error => {
-      console.error('Error al obtener clases:', error);
+      console.error('Error al obtener talleres:', error);
       await loading.dismiss();
     });
   }

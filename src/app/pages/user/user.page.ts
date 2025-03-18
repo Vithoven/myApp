@@ -15,18 +15,18 @@ export class UserPage {
   uemail: string;
   currentUser: User = { uid: '', uname: '', ulaname: '', uemail: '', upassword: '' };
 
-  //=====DEPENDENCIAS=====//
+  // Dependencias
   private utils = inject(UtilsService);
   private firebaseSvc = inject(FirebaseService);
 
   constructor() {}
 
-    //=====ION VIEW WILL ENTER=====//
+    // Vista de ion al entrar
     ionViewWillEnter() {
       this.loadUserData();
     }
   
-    //=====CARGAR DATOS DEL USUARIO=====//
+    // Cargar datos del usuario
     async loadUserData() {
       const loading = await this.utils.presentLoading();
       loading.present();
@@ -42,7 +42,7 @@ export class UserPage {
       loading.dismiss();
     }
 
-  //=====GUARDAR CAMBIOS=====//
+  // Guardar cambios
   async guardarCambios() {
     const userData = {
       uname: this.uname,
@@ -71,5 +71,4 @@ export class UserPage {
       loading.dismiss();
     }
   }
-
 }

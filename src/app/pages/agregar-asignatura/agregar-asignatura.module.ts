@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AgregarAsignaturaPageRoutingModule } from './agregar-asignatura-routing.module';
 import { AgregarAsignaturaPage } from './agregar-asignatura.page';
-import { ComponentsModule } from 'src/app/components/components.module'; // Si estás usando componentes reutilizables
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -13,7 +13,7 @@ import { ComponentsModule } from 'src/app/components/components.module'; // Si e
     FormsModule,
     IonicModule,
     AgregarAsignaturaPageRoutingModule,
-    ComponentsModule,  // Asegúrate de que ComponentsModule esté correctamente importado si usas componentes comunes
+    ComponentsModule,
     ReactiveFormsModule
   ],
   declarations: [AgregarAsignaturaPage]

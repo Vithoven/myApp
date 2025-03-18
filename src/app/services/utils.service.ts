@@ -7,7 +7,7 @@ import { ToastController, ToastOptions, LoadingController, AlertController, Aler
 })
 export class UtilsService {
 
-  //=====DEPENDENCIAS=====//
+  // Dependencias
   private toastCtrl = inject(ToastController);
   private loadingCtrl = inject(LoadingController);
   private alertCtrl = inject(AlertController);
@@ -66,13 +66,13 @@ export class UtilsService {
     this.navigateRoot('/login');
   }
 
-  //=====OBTENER Y VERIFICAR EL ROL DEL USUARIO=====//
+  // Obtener y verificar el rol del usuario
   getUserRole(): string {
     const userRole = this.getFromLocalStorage('userRole');
     return userRole ? userRole : 'alumno';
   }
 
-  //=====NAVIGACIÓN DE REDIRECCIÓN BASADA EN EL ROL=====//
+  // Navigacion de redireccion del usuario
   navigateBasedOnRole() {
     const role = this.getUserRole();
     if (role === 'profesor') {
@@ -84,12 +84,12 @@ export class UtilsService {
     }
   }
 
-  //=====GESTIÓN DE USUARIO=====//
+  // Gestion de usuario
   setUserRole(role: string) {
     this.saveInLocalStorage('userRole', role);
   }
 
-  //=====CERRAR SESION======//
+  // Cerrar sesion
   async signOut() {
     try {
       localStorage.removeItem('user');

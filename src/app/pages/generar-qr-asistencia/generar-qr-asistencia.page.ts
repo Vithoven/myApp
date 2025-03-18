@@ -1,6 +1,6 @@
 import { Component, OnInit, inject} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Asistencia } from 'src/app/models/asistencia.model'; // Asegúrate de tener la ruta correcta
+import { Asistencia } from 'src/app/models/asistencia.model';
 import { User } from 'src/app/models/user.model';
 import { UtilsService } from 'src/app/services/utils.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -11,13 +11,13 @@ import { FirebaseService } from 'src/app/services/firebase.service';
   styleUrls: ['./generar-qr-asistencia.page.scss'],
 })
 export class GenerarQrAsistenciaPage implements OnInit {
-  asignatura: string = ''; // Nombre de la clase
-  seccion: string = ''; // Sección de la clase
-  qrData: string = ''; // JSON convertido a cadena para el QR
+  asignatura: string = '';
+  seccion: string = '';
+  qrData: string = '';
   currentUser: User = { uid: '', uname: '', ulaname: '', uemail: '', upassword: '' };
   nombre: string = '';
 
-  // DEPENDENCIAS
+  // Dependencias
   private utils = inject(UtilsService);
   private firebaseSvc = inject(FirebaseService);
 
@@ -47,10 +47,10 @@ export class GenerarQrAsistenciaPage implements OnInit {
       const asistencia: Asistencia = {
         clase: this.asignatura,
         seccion: this.seccion,
-        fecha: new Date().toISOString().split('T')[0], // Fecha actual en formato ISO, sin la hora
+        fecha: new Date().toISOString().split('T')[0],
         estado: 'PRESENTE',
-        idEstudiante: '', // Id del estudiante actual
-        nomEstudiante: '' // Nombre del estudiante
+        idEstudiante: '',
+        nomEstudiante: ''
       };
   
       // Convertir el objeto Asistencia a cadena JSON y asignarlo a qrData

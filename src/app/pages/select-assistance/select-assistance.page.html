@@ -4,11 +4,11 @@
 <ion-content class="ion-padding">
   <ion-list>
     <ion-accordion-group>
-      <!-- Itera sobre cada clase en la lista de clases -->
+      <!-- Itera sobre cada taller en la lista de clases -->
       <ion-accordion *ngFor="let clase of clases">
         <!-- Encabezado del acordeón -->
         <ion-item slot="header">
-          <!-- Muestra el nombre de la clase y la sección -->
+          <!-- Muestra el nombre del taller y la sección -->
           <ion-label>{{ clase.nombreClase }} - {{ clase.seccion }}</ion-label>
         </ion-item>
         <ion-list slot="content">

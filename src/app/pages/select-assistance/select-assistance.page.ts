@@ -36,7 +36,7 @@ export class SelectAssistancePage implements OnInit {
   constructor(private firebaseService: FirebaseService, private utils: UtilsService) {}
 
   /**
-   * Llama al método para obtener las asignaturas.
+   * Llama al método para obtener los talleres.
    */
   ngOnInit() {
     this.getAsignaturas();

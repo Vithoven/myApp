@@ -5,27 +5,27 @@
     <form action="" (ngSubmit)="agregarAsignatura()" [formGroup]="form">
       <ion-row>
         <ion-col size="12">
-          <h2>Agregar nueva asignatura</h2>
+          <h2>Agregar nuevo taller</h2>
           <ion-item>
-            <ion-label position="floating">Nombre de la asignatura</ion-label>
+            <ion-label position="floating">Nombre del taller</ion-label>
             <ion-input type="text" placeholder="Ingrese el nombre"
               [formControl]="form.controls.nombreClase"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Sección</ion-label>
+            <ion-label position="floating">Nivel de enseñanza</ion-label>
             <ion-input type="text" placeholder="Ingrese la sección" [formControl]="form.controls.seccion"></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label>Jornada</ion-label>
             <ion-select placeholder="Seleccione la jornada" [formControl]="form.controls.jornada">
-              <ion-select-option value="D">Diurno</ion-select-option>
-              <ion-select-option value="V">Vespertino</ion-select-option>
+              <ion-select-option value="D">Basica</ion-select-option>
+              <ion-select-option value="V">Media</ion-select-option>
             </ion-select>
           </ion-item>
 
           <ion-button expand="block" color="primary" type="submit">
-            Agregar asignatura
+            Agregar taller
           </ion-button>
         </ion-col>
       </ion-row>
@@ -33,7 +33,7 @@
     <ion-row>
       <ion-col size="12" class="ion-padding">
         <ion-button expand="block" color="secondary" (click)="mostrarAsignaturas = !mostrarAsignaturas">
-          {{ mostrarAsignaturas ? 'Ocultar asignaturas agregadas' : 'Ver asignaturas agregadas' }}
+          {{ mostrarAsignaturas ? 'Ocultar talleres agregados' : 'Ver talleres agregados' }}
         </ion-button>
       </ion-col>
     </ion-row>
@@ -47,7 +47,5 @@
         </ion-item>
       </ion-list>
     </div>
-
   </ion-grid>
-
 </ion-content>

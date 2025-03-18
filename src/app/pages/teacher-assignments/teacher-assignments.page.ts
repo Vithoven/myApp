@@ -21,7 +21,7 @@ export class TeacherAssignmentsPage implements OnInit {
   getAsignaturas() {
     this.firebaseService.getCollection('clase').subscribe(clases => {
       this.clases = clases as Clase[];
-      console.log('Clases obtenidas:', this.clases);
+      console.log('Talleres obtenidos:', this.clases);
       this.getAsistencias();
     });
   }
