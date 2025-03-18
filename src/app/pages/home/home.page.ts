@@ -13,8 +13,9 @@ import { User } from 'src/app/models/user.model';
 export class HomePage implements OnInit {
   nombre!: string;
   apellidos!: string;
+  nombreCompleto!: string;
 
-  // Inyección de dependencias usando el nuevo patrón de inyección con `inject()`
+  // Dependencias
   private alertController = inject(AlertController);
   private firebaseSvc = inject(FirebaseService);
   private utils = inject(UtilsService);
@@ -28,23 +29,29 @@ export class HomePage implements OnInit {
 
   // Cargar los datos del usuario
   loadUserData() {
-    this.firebaseSvc.getAuthIns().onAuthStateChanged((user) => {
-      const userLocal: User = this.utils.getFromLocalStorage('user');
+    const userLocal: User = this.utils.getFromLocalStorage('user');
 
-      if (userLocal) {
-        this.nombre = userLocal.uname;
-        this.apellidos = userLocal.ulaname;
-      } else {
-        this.firebaseSvc.getCurrentUserData().then((usr) => {
-          if (usr) {
-            this.nombre = usr.uname;
-            this.apellidos = usr.ulaname;
-          } else {
-            this.nombre = '';
-          }
-        });
-      }
-    });
+    if (userLocal) {
+      this.nombre = userLocal.uname;
+      this.apellidos = userLocal.ulaname;
+      this.nombreCompleto = `${this.nombre} ${this.apellidos}`;
+    } else {
+      this.firebaseSvc.getAuthIns().onAuthStateChanged((user) => {
+        if (user) {
+          this.firebaseSvc.getCurrentUserData().then((usr) => {
+            if (usr) {
+              this.nombre = usr.uname;
+              this.apellidos = usr.ulaname;
+              this.nombreCompleto = `${this.nombre} ${this.apellidos}`; 
+            } else {
+              this.nombre = '';
+              this.apellidos = '';
+              this.nombreCompleto = '';
+            }
+          });
+        }
+      });
+    }
   }
 
   // Función que se ejecuta cuando la vista va a entrar
@@ -77,18 +84,12 @@ export class HomePage implements OnInit {
   //=====FUNCIÓN PARA CERRAR SESIÓN=====//
   private async logoutUser() {
     try {
-      // Limpia los datos de almacenamiento local usando el método estándar
-      localStorage.clear();  // Usando directamente localStorage.clear()
-
-      // Cierra sesión en Firebase
       await this.firebaseSvc.signOut();
 
-      // Verifica si el usuario está correctamente desconectado antes de redirigir
       const currentUser = await this.firebaseSvc.getAuthIns().currentUser;
       if (!currentUser) {
         console.log('Usuario desconectado correctamente');
-        // Redirige al login
-        this.router.navigate(['/login']);  // Redirigir al login
+        this.router.navigate(['/login']);
       } else {
         console.error('Error al desconectar al usuario');
       }

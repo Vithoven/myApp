@@ -20,7 +20,8 @@ export class ScanPage implements OnInit {
   scannedQrData: any;
   currentUser: User = { uid: '', uname: '', ulaname: '', uemail: '', upassword: '' };
   asistencia: Asistencia = { clase: '', seccion:'', fecha: '', estado: 'AUSENTE', idEstudiante: '', nomEstudiante: '' };
-  scannedQrCodes: Set<string> = new Set(); // Almacena codigos ya escaneados
+  scannedQrCodes: Set<string> = new Set();
+  hasLocalStorageData: boolean = false;
 
   private utils = inject(UtilsService);
   private firebaseSvc = inject(FirebaseService);
@@ -40,7 +41,7 @@ export class ScanPage implements OnInit {
       if (userLocal) {
         this.currentUser = userLocal;
       }
-      this.checkConnectionAndSync();
+      this.checkLocalStorageData();
     });
   }
 
@@ -71,7 +72,7 @@ export class ScanPage implements OnInit {
       if (barcodes.length > 0) {
         const qrCode = barcodes[0].displayValue;
 
-        // Verifica si el código QR ya ha sido escaneado
+        // Verificar si el código QR ya ha sido escaneado
         if (this.scannedQrCodes.has(qrCode)) {
           await this.presentAlert('Código QR duplicado', 'Este código QR ya ha sido escaneado.');
           return null;
@@ -84,7 +85,7 @@ export class ScanPage implements OnInit {
 
           await this.saveAttendance(qrData);
 
-          // Agrega el código QR a la lista de escaneados
+          // Agregar el código QR a la lista de escaneados
           this.scannedQrCodes.add(qrCode);
         } catch (error) {
           console.error('Error al procesar el código QR:', error);
@@ -124,45 +125,47 @@ export class ScanPage implements OnInit {
     }
   }
 
-saveToLocalStorage(asistencia: Asistencia) {
-  const storedData = localStorage.getItem('asistencias');
-  const asistencias = storedData ? JSON.parse(storedData) : [];
-
-  const exists = asistencias.some(
-    (a: Asistencia) =>
-      a.clase === asistencia.clase && a.fecha === asistencia.fecha && a.idEstudiante === asistencia.idEstudiante
-  );
-
-  if (!exists) {
-    asistencias.push(asistencia);
-    localStorage.setItem('asistencias', JSON.stringify(asistencias));
-    console.log('Asistencia añadida al local storage:', asistencia);
-  } else {
-    console.log('La asistencia ya existe en el local storage.');
-  }
-}
-
-async syncLocalStorageWithFirebase() {
-  if (navigator.onLine) {
+  saveToLocalStorage(asistencia: Asistencia) {
     const storedData = localStorage.getItem('asistencias');
     const asistencias = storedData ? JSON.parse(storedData) : [];
 
-    for (const asistencia of asistencias) {
-      try {
-        await this.firebaseSvc.registerAssist(asistencia);
-        console.log('Asistencia sincronizada con Firebase:', asistencia);
-        await this.presentAlert(' ', 'Asistencia local sincronizada con Firebase.');
-      } catch (error) {
-        console.error('Error al sincronizar la asistencia con Firebase:', error);
-      }
-    }
+    const exists = asistencias.some(
+      (a: Asistencia) =>
+        a.clase === asistencia.clase && a.fecha === asistencia.fecha && a.idEstudiante === asistencia.idEstudiante
+    );
 
-    localStorage.removeItem('asistencias');
-    console.log('Asistencias locales eliminadas después de la sincronización.');
-  } else {
-    console.log('No hay conexión a Internet. No se puede sincronizar.');
+    if (!exists) {
+      asistencias.push(asistencia);
+      localStorage.setItem('asistencias', JSON.stringify(asistencias));
+      console.log('Asistencia añadida al local storage:', asistencia);
+      this.checkLocalStorageData(); // Actualizar el estado del botón
+    } else {
+      console.log('La asistencia ya existe en el local storage.');
+    }
   }
-}
+
+  async syncLocalStorageWithFirebase() {
+    if (navigator.onLine) {
+      const storedData = localStorage.getItem('asistencias');
+      const asistencias = storedData ? JSON.parse(storedData) : [];
+
+      for (const asistencia of asistencias) {
+        try {
+          await this.firebaseSvc.registerAssist(asistencia);
+          console.log('Asistencia sincronizada con Firebase:', asistencia);
+        } catch (error) {
+          console.error('Error al sincronizar la asistencia con Firebase:', error);
+        }
+      }
+
+      // Limpiar el localStorage después de la sincronización
+      localStorage.removeItem('asistencias');
+      console.log('Asistencias locales eliminadas después de la sincronización.');
+      this.checkLocalStorageData(); // Actualizar el estado del botón
+    } else {
+      console.log('No hay conexión a Internet. No se puede sincronizar.');
+    }
+  }
 
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
@@ -178,8 +181,8 @@ async syncLocalStorageWithFirebase() {
     await alert.present();
   }
 
-  checkConnectionAndSync() {
-    window.addEventListener('online', () => this.syncLocalStorageWithFirebase());
-    this.syncLocalStorageWithFirebase(); // Intentar sincronizar al iniciar la página
+  checkLocalStorageData() {
+    const storedData = localStorage.getItem('asistencias');
+    this.hasLocalStorageData = storedData ? JSON.parse(storedData).length > 0 : false;
   }
 }

@@ -19,3 +19,10 @@
   .ion-padding p {
     margin: 5px 0;
   }
+
+  .asignaturas-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }

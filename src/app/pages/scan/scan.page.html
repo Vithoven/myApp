@@ -12,4 +12,9 @@
       <ion-icon name="scan"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+    <ion-fab-button color="dark" *ngIf="hasLocalStorageData" (click)="syncLocalStorageWithFirebase()">
+      <ion-icon name="cloud-upload"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
