@@ -12,15 +12,16 @@
               [formControl]="form.controls.nombreClase"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Nivel de enseñanza</ion-label>
-            <ion-input type="text" placeholder="Ingrese la sección" [formControl]="form.controls.seccion"></ion-input>
+            <ion-label position="floating">Cursos</ion-label>
+            <ion-input type="text" placeholder="Ingrese cursos" [formControl]="form.controls.seccion"></ion-input>
           </ion-item>
 
           <ion-item>
-            <ion-label>Jornada</ion-label>
-            <ion-select placeholder="Seleccione la jornada" [formControl]="form.controls.jornada">
-              <ion-select-option value="D">Basica</ion-select-option>
-              <ion-select-option value="V">Media</ion-select-option>
+            <ion-label>Nivel de ciclo</ion-label>
+            <ion-select placeholder="Seleccione el ciclo" [formControl]="form.controls.jornada">
+              <ion-select-option value="I">Inicial</ion-select-option>
+              <ion-select-option value="B">Básico</ion-select-option>
+              <ion-select-option value="M">Medio</ion-select-option>
             </ion-select>
           </ion-item>
 
@@ -33,19 +34,23 @@
     <ion-row>
       <ion-col size="12" class="ion-padding">
         <ion-button expand="block" color="secondary" (click)="mostrarAsignaturas = !mostrarAsignaturas">
-          {{ mostrarAsignaturas ? 'Ocultar talleres agregados' : 'Ver talleres agregados' }}
+          {{ mostrarAsignaturas ? 'Ocultar asignaturas agregadas' : 'Ver asignaturas agregadas' }}
         </ion-button>
       </ion-col>
     </ion-row>
 
-    <div class="ion-padding" *ngIf="mostrarAsignaturas" class="asignaturas-container">
-      <ion-list>
-        <ion-item *ngFor="let asignatura of clases; let i = index">
+    <ion-accordion-group *ngIf="mostrarAsignaturas" class="pestana-asignaturas">
+      <ion-accordion *ngFor="let asignatura of clases; let i = index">
+        <ion-item slot="header">
           <ion-label>
-            <p>{{ asignatura.nombreClase }}-{{ asignatura.seccion }}-{{ asignatura.jornada.charAt(0) }}</p>
+            <h3>{{ asignatura.nombreClase }}</h3>
           </ion-label>
         </ion-item>
-      </ion-list>
-    </div>
+        <div slot="content">
+          <p>Sección: {{ asignatura.seccion }}</p>
+          <p>Jornada: {{ asignatura.jornada === 'I' ? 'Inicial' : (asignatura.jornada === 'B' ? 'Básico' : 'Medio') }}</p>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
   </ion-grid>
 </ion-content>
