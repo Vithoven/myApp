@@ -3,7 +3,7 @@
   <div class="container">
     <!-- Logo de la aplicación -->
     <div class="logo">
-      <img class="ion-padding" src="src/assets/img/icon.png" title="logo">
+      <img class="ion-padding" src="assets/img/titulo.png" title="logo">
     </div>
 
     <!-- Formulario de inicio de sesión -->
@@ -14,7 +14,7 @@
         <!-- Campo de correo -->
         <app-custom-input
         icon="mail"
-        label="Correo Electrónico"
+        label="Correo institucional"
         type="email"
         [control]="loginForm.controls.uemail"
         placeholder="Correo institucional"
@@ -49,9 +49,9 @@
 
       <!-- Contenedor para el enlace de registro -->
       <div class="contenedor-registro">
-        <span>¿Usuario nuevo? </span>
-        <!-- Enlace para registrar un nuevo usuario -->
-        <ion-button fill="clear" routerLink="/crear" color="tertiary">Regístrate</ion-button>
+        <ion-button fill="clear" expand="block" routerLink="/crear" color="tertiary">
+          Regístrate si no tienes cuenta
+        </ion-button>
       </div>
     </form>
   </div>
