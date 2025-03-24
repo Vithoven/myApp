@@ -39,38 +39,19 @@ export class LoginPage implements OnInit {
     loading.present();
 
     try {
-      if (navigator.onLine) {
-        const user = await this.firebaseSvc.signIn(uemail!, upassword!);
-        if (user) {
-          const role = uemail!.includes('cosl.cl') ? 'Profesor' : 'Alumno';
+      const user = await this.firebaseSvc.signIn(uemail!, upassword!);
+      if (user) {
+        const role = uemail!.includes('profesor.duocuc.cl') ? 'Profesor' : 'Alumno';
 
-          const userData = {
-            email: uemail,
-            role: role,
-            uname: user.user?.displayName || '', 
-            ulaname: user.user?.displayName || '', 
-            timestamp: new Date().toISOString(),
-          };
-          this.guardarUsuarioEnLocalStorage(userData);
-          console.log('Usuario guardado en local storage');
+        const userData = {
+          email: uemail,
+          role: role,
+          timestamp: new Date().toISOString(),
+        };
+        localStorage.setItem('currentUser', JSON.stringify(userData));
 
-          const route = role === 'Profesor' ? '/home-profe' : '/home';
-          this.utils.navigateRoot(route);
-        }
-      } else {
-        const userData = this.obtenerUsuarioDeLocalStorage(uemail);
-        if (userData) {
-          const route = userData.role === 'Profesor' ? '/home-profe' : '/home';
-          this.utils.navigateRoot(route);
-          console.log('Usuario obtenido de local storage');
-        } else {
-          this.utils.presentToast({
-            icon: 'close-circle-sharp',
-            message: 'No hay conexión a Internet y no se encontraron datos de usuario.',
-            color: 'danger',
-            duration: 2500,
-          });
-        }
+        const route = role === 'Profesor' ? '/home-profe' : '/home';
+        this.utils.navigateRoot(route);
       }
     } catch (error) {
       console.log(error);
@@ -86,22 +67,7 @@ export class LoginPage implements OnInit {
   }
 
   cerrarSesion() {
+    localStorage.removeItem('currentUser');
     this.router.navigateByUrl('/login');
-  }
-
-  private guardarUsuarioEnLocalStorage(userData: any) {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const existingUserIndex = users.findIndex((user: any) => user.email === userData.email);
-    if (existingUserIndex !== -1) {
-      users[existingUserIndex] = userData;
-    } else {
-      users.push(userData);
-    }
-    localStorage.setItem('users', JSON.stringify(users));
-  }
-
-  private obtenerUsuarioDeLocalStorage(email: string) {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    return users.find((user: any) => user.email === email);
   }
 }
